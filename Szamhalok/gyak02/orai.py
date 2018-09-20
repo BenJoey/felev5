@@ -11,24 +11,26 @@ def isValinObjArr(arrtosearch, key, val):
 def isRouteAvailable(linksArr, Route, demand):
 	for i in xrange(0, len(Route)-1):
 		Curr = [Route[i], Route[i+1]].sort()
-		for i in linksArr:
-			if i["points"] == Curr and i["capacity"] < demand:
+		for j in linksArr:
+			if j["points"] == Curr and j["capacity"] < demand:
 				return False
 	return True
 
 def SetRouteOccup(linksArr, Route, demand):
 	for i in xrange(0, len(Route)-1):
 		Curr = [Route[i], Route[i+1]].sort()
-		for i in linksArr:
-			if i["points"] == Curr:
-				i["capacity"] -= demand
+		for j in linksArr:
+			if j["points"] == Curr:
+				j["capacity"] -= demand
+	return linksArr
 
 def FreeRoute(linksArr, Route, cap):
 	for i in xrange(0, len(Route)-1):
 		Curr = [Route[i], Route[i+1]].sort()
-		for i in linksArr:
-			if i["points"] == Curr:
-				i["capacity"] += cap
+		for j in linksArr:
+			if j["points"] == Curr:
+				j["capacity"] += cap
+	return linksArr
 
 def FindRoute(demandObj, linksArr, RoutesArr):
 	for i in RoutesArr:
