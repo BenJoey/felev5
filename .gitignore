@@ -5,3 +5,5 @@
 *.aux
 *.gz
 *.pdf
+*bin/
+*obj/
