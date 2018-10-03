@@ -2,7 +2,6 @@
 \usepackage[textwidth=170mm, textheight=230mm, inner=20mm, top=5mm, bottom=20mm]{geometry}
 \usepackage[normalem]{ulem}
 \usepackage[utf8]{inputenc}
-%\usepackage[T1]{fontenc}
 \usepackage{physics}
 \usepackage{scrextend}
 \KOMAoption{fontsize}{11pt}
@@ -12,13 +11,34 @@
 
 \begin{document}
 \renewcommand{\labelitemi}{\textbullet}
+\def\R{\mathbb{R}}
+\def\br{\\[0.1cm]}
+\def\folytdifh{folytonosan differenciálható }
 \begin{center}
-	{\Large\textbf{Modellek és algoritmusok B szakirány}}\\[0.2cm]	
+	{\Large\textbf{Modellek és algoritmusok B szakirány}}\\[0.2cm]
 	Tételkimondások és definíciók az 1. ZH-ra
 \end{center}
-{\small A kidolgozást \textsc{Bauer Bence} készítette \textsc{Dr. Weisz Ferenc} előadásai alapján.}
+{\small A kidolgozást \textsc{Bauer Bence} készítette \textsc{Dr. Weisz Ferenc} előadásai alapján.}\\{\footnotesize Külön köszönet \textsc{Korponai Károlynak} és \textsc{Horváth Milánnak} a jegyzetekért}
 
 \begin{enumerate}
-	\item 
+	\item\textbf{Inverz függvény tétel:}\br
+	Legyen $\Omega\subset\R^n$ nyílt halmaz és $f:\Omega\rightarrow\R^n$\br
+	Tfh: $f$ \folytdifh és $\exists a\in\Omega:\text{ det}f'(a)\neq0$\br
+	Ekkor: $\exists U\subset\Omega, V\subset\R^n$ nyílt halmazok, $a\in U, f(a)\in V,
+	f|_U:U\rightarrow V$ bijektív,\br
+	$(f|_U)^{-1}$ differenciálható és $(f^{-1})'(y)=[f'(f^{-1}(y))]^{-1},\quad (y\in V)$
+	\item\textbf{Implicit függvény tétel} (speciális eset):\br
+	Legyen $\Omega\subset\R^2$ nyílt, $f:\Omega\rightarrow\R$\br
+	Tfh: $f$ folytonosan differenciálható $\Omega$-n és $\exists(a,b)\in\Omega:
+	f(a,b)=0\text{ és }\delta_2f(a,b)\neq0$\br
+	Ekkor:
+	\begin{itemize}
+		\item $\exists u_1, u_2\subset\R$ nyílt, $a\in u_1, b\in u_2\text{ és }\exists!\varphi:
+		u_1\rightarrow u_2$ bijekció:$\varphi(a)=b\text{ és }f(x, \varphi(x))=0$
+		\item $\varphi:u_1\rightarrow u_2$ \folytdifh és $\varphi'(x)=$
+		\LARGE{$-\frac{\delta_1f(x, \varphi(x))}{\delta_2f(x, \varphi(x))}$}
+	\end{itemize}
+	Mindkét esetben $x\in u_1$
+	\item\textbf{Implicit függvény tétel} (általános eset):\br
 \end{enumerate}
 \end{document}
