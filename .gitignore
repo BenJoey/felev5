@@ -4,6 +4,8 @@
 *.log
 *.aux
 *.gz
+*.fdb_latexmk
+*.fls
 *.pdf
 *bin/
 *obj/
