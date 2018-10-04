@@ -18,7 +18,8 @@
 	{\Large\textbf{Modellek és algoritmusok B szakirány}}\\[0.2cm]
 	Tételkimondások és definíciók az 1. ZH-ra
 \end{center}
-{\small A kidolgozást \textsc{Bauer Bence} készítette \textsc{Dr. Weisz Ferenc} előadásai alapján.}\\{\footnotesize Külön köszönet \textsc{Korponai Károlynak} és \textsc{Horváth Milánnak} a jegyzetekért}
+{\small A kidolgozást \textsc{Bauer Bence} készítette \textsc{Dr. Weisz Ferenc} előadásai alapján.}\\
+{\footnotesize Külön köszönet \textsc{Korponai Károlynak} és \textsc{Horváth Milánnak} a jegyzetekért.}
 
 \begin{enumerate}
 	\item\textbf{Inverz függvény tétel:}\br
@@ -40,5 +41,73 @@
 	\end{itemize}
 	Mindkét esetben $x\in u_1$
 	\item\textbf{Implicit függvény tétel} (általános eset):\br
+	Legyen $\Omega_1\subset\R^{n_1},\Omega_2\subset\R^{n_2}$ nyílt, 
+	$f:\Omega_1\times\Omega_2\rightarrow\R^{n_2}$\br
+	Tfh: $f$ \folytdifh $\Omega_1\times\Omega_2$-n és $\exists a\in\Omega_1, b\in\Omega_2:
+	f(a,b)=0\text{ és }\delta_2f(a,b)\neq0$\br
+	Ekkor:
+	\begin{itemize}
+		\item $\exists u_1\subset\Omega_1, u_2\subset\Omega_2$ nyílt, $a\in u_1, b\in u_2\text{ és }\exists!\varphi:
+		u_1\rightarrow u_2:\varphi(a)=b\text{ és }f(x, \varphi(x))=0$
+		\item $\varphi:u_1\rightarrow u_2$ \folytdifh és $\varphi'(x)=$
+		\Large{$-[\delta_2f(x,\varphi(x))]^{-1}\cdot\delta_1f(x,\varphi(x))$}
+	\end{itemize}
+	Mindkét esetben $x\in u_1$
+	\item\textbf{Unknown defs No.1}
+	\begin{itemize}
+		\item $\delta_2f(a,b):=(y\mapsto f(a,y))'|_{y=b}\in\R^{n_2\times n_2}$
+		\item $\delta_1f(a,b):=(x\mapsto f(x,b))'|_{x=a}\in\R^{n_1\times n_1}$
+	\end{itemize}
+	\item\textbf{Unknown def No.2}\br
+	Az $f$ függvénynek a $c\in H$-ban feltételes lokális minimuma (maximuma) van, ha\br
+	$\exists K(c):\forall x\in K(c)\cap H:f(x)\geq f(c),\quad(f(x)\leq f(c))$
+	\item\textbf{Feltételes lokális szélsőérték szükséges feltétel:}\br
+	Legyen $U\subset\R^n$ nyílt, $f,g_i:U\rightarrow\R,\quad i=1,...,m\quad$\br Tfh:
+	\begin{itemize}
+		\item $f,g_i$ \folytdifh\quad $i=1,...,m$
+		\item $f$-nek feltételes lokális szélsőértéke van $c\in H$-ban
+		\item $g'_i(c)$ vektorok lineárisan függetlenek
+	\end{itemize}
+	Ekkor: $\exists\lambda_1,...,\lambda_m\in\R$, hogy $L'(c)=0$, ahol
+	$L=f+\lambda_1g_1+...+\lambda_mg_m$
+	\newpage
+	\item\textbf{Feltételes lokális szélsőérték elégséges feltétel:}\br
+	Legyen $U\subset\R^n$ nyílt, $f,g_i:U\rightarrow\R,\quad i=1,...,m\quad$\br Tfh:
+	\begin{itemize}
+		\item $f,g_i$ \folytdifh\quad $i=1,...,m$
+		\item $\exists\lambda_1,...,\lambda_m:L'(c)=0,\quad c\in H$
+		\item $g_i(c)$ lineárisan független, $i=1,...,m$
+		\item $L''(c)$ feltételesen pozitív definit
+	\end{itemize}
+	Ekkor $f$-nek $c$-ben feltételes lokális minimuma van.
+	\item\textbf{Unknown def No.3}\br
+	Feltételes pozitív definit, ha $A$ szimmetrikus mátrix $<A\cdot h,h>>0\quad
+	\forall h\in\R^n\backslash\{0\}$\br amelyre $g'(c)\cdot h=0$, ahol $g=
+	\begin{bmatrix}
+		g_1 \\ . \\ . \\ g_m
+	\end{bmatrix}$
+	\item\textbf{Unknown def No.4}\br
+	$\varphi:[\alpha,\beta]\rightarrow\R^n$ szakaszonként \folytdifh, ha $\varphi$
+	folytonos és\br $\exists\alpha=t_0<t_1<...<t_n=\beta$, hogy
+	{\Large $f|_{(t_i-1, t_i)}$} \folytdifh\quad $i=1,...,m-1$
+	\item\textbf{Összefüggő halmaz}\br
+	$U\subset\R^n$ összefüggő, ha $\forall x,y\in U:\exists\varphi:
+	[\alpha,\beta]\rightarrow U$ szakaszonsan \folytdifh, $\varphi(\alpha)=x\text{ és }
+	\varphi(\beta)=y$
+	\item\textbf{Tartomány}\br
+	$D\subset\R^n$ tartomány, ha nyílt és összefüggő.
+	\item\textbf{Tartomány 2}\br
+	$D\subset\R^{n+1}$ tartományon, ha $f:D\rightarrow\R^n$ folytonos
+	\item\textbf{Elsőrendű explicit differenciál egyenlet:}\br
+	Az $x'(t)=f(t,x(t))$ egyenletet elsőrendű explicit differenciál egyenletnek (DE) nevezzük, ahol\br
+	$x:I\rightarrow\R^n$ \folytdifh, $I\subset\R$ nyílt intervallum.
+	\item\textbf{Unknown def No.5}\br
+	$D\subset\R^{n+1}, f:D\rightarrow\R^n$ folytonos, $(\tau, \xi)\in D,\quad
+	\xi\in\R^n, \tau\in\R$
+	\item\textbf{Kezdeti érték probléma}\br
+	Az $x'(t)=f(t,x(t)),\quad x(t)=\xi$ feladatot kezdeti érték problémának (KÉP) nevezzük.
+	\item\textbf{Peano tétel:}\br
+	Ha $D\subset\R^{n+1}, f:D\rightarrow\R^n$ folytonos,  $(\tau, \xi)\in D$, akkor az\br
+	$x'(t)=f(t,x(t)),\quad x(t)=\xi$ KÉP-nek $\exists$ megoldása.
 \end{enumerate}
 \end{document}
