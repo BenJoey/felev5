@@ -60,11 +60,12 @@
             this.groupBox1.Controls.Add(this._GenButton);
             this.groupBox1.Controls.Add(this._tableSize);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(88, 12);
+            this.groupBox1.Location = new System.Drawing.Point(91, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(348, 47);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Game Settings";
             // 
             // _GenButton
             // 
@@ -256,10 +257,10 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this._PauseButton);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this._gameDisplayTable);
             this.Controls.Add(this._ButtonRow);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "GameForm";
             this.Text = "Potyogós Amőba";

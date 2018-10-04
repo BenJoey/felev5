@@ -1,4 +1,5 @@
 ﻿using System;
+using PotyogosAmoba.Persistence;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace PotyogosAmoba.Model
     {
         #region Fields
 
+        private IAmobaDataAccess _dataAccess;
         private Int32 gameSize;
         private Player _currentPlayer;
         private Player[,] gameTable;
@@ -22,7 +24,10 @@ namespace PotyogosAmoba.Model
 
         #region Constructors
 
-        public PAmobaModel() { }
+        public PAmobaModel(IAmobaDataAccess dataA)
+        {
+            _dataAccess = dataA;
+        }
         public PAmobaModel(Int32 size, Int32 xTime, Int32 OTime, Player _curr, Player[,] table)
         {
             gameSize = size;
@@ -107,6 +112,27 @@ namespace PotyogosAmoba.Model
             }
             gameTable[Column, RowInd] = _currentPlayer;
             _currentPlayer = _currentPlayer == Player.PlayerX ? Player.Player0 : Player.PlayerX;
+        }
+
+        public async Task LoadGame(String path)
+        {
+            if (_dataAccess == null)
+                throw new InvalidOperationException("No data access is provided.");
+
+            Tuple<Int32, Int32, Int32, Player, Player[,]> Loaded_data = await _dataAccess.LoadAsync(path);
+            gameSize = Loaded_data.Item1;
+            playerXTime = Loaded_data.Item2;
+            player0Time = Loaded_data.Item3;
+            _currentPlayer = Loaded_data.Item4;
+            gameTable = Loaded_data.Item5;
+        }
+
+        public async Task SaveGame(String path)
+        {
+            if (_dataAccess == null)
+                throw new InvalidOperationException("No data access is provided.");
+
+            await _dataAccess.SaveAsync(path, Tuple.Create(gameSize, playerXTime, player0Time, _currentPlayer, gameTable));
         }
 
         /// <summary>

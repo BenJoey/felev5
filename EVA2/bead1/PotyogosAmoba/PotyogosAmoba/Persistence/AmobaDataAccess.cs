@@ -11,13 +11,13 @@ namespace PotyogosAmoba.Persistence
         /// </summary>
         /// <param name="path">Elérési útvonal.</param>
         /// <returns>A fájlból beolvasott játéktábla.</returns>
-        Task<PAmobaModel> LoadAsync(String path);
+        Task<Tuple<Int32, Int32, Int32, Player, Player[,]>> LoadAsync(String path);
 
         /// <summary>
         /// Fájl mentése.
         /// </summary>
         /// <param name="path">Elérési útvonal.</param>
         /// <param name="input">A fájlba kiírandó játéktábla.</param>
-        Task SaveAsync(String path, PAmobaModel input);
+        Task SaveAsync(String path, Tuple<Int32, Int32, Int32, Player, Player[,]> input);
     }
 }
