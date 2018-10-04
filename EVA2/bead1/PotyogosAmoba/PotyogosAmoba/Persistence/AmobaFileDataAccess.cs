@@ -14,12 +14,12 @@ namespace PotyogosAmoba.Persistence
         /// Fájl betöltése.
         /// </summary>
         /// <param name="path">Elérési útvonal.</param>
-        /// <returns>A fájlból beolvasott játékmodell.</returns>
+        /// <returns>A fájlból beolvasott játékadatok.</returns>
         public async Task<Tuple<Int32, Int32, Int32, Player, Player[,]>> LoadAsync(String path)
         {
             try
             {
-                using (StreamReader reader = new StreamReader(path)) // fájl megnyitása
+                using (StreamReader reader = new StreamReader(path))
                 {
                     String line = await reader.ReadLineAsync();
                     String[] numbers = line.Split(' ');
@@ -51,21 +51,23 @@ namespace PotyogosAmoba.Persistence
         /// Fájl mentése.
         /// </summary>
         /// <param name="path">Elérési útvonal.</param>
-        /// <param name="OutPut">A fájlba kiírandó játékmodell.</param>
+        /// <param name="OutPut">A fájlba kiírandó játékadatok.</param>
         public async Task SaveAsync(String path, Tuple<Int32, Int32, Int32, Player, Player[,]> OutPut)
         {
             try
             {
                 using (StreamWriter writer = new StreamWriter(path)) // fájl megnyitása
                 {
+                    //A mentés fájl első sorába rakjuk a pályamérete, a két játékos idejét valamint az éppen soron lévő játékost
                     writer.Write(OutPut.Item1); // kiírjuk a méreteket
                     await writer.WriteLineAsync(" " + OutPut.Item2 + " " + OutPut.Item3 + (OutPut.Item4 == Player.PlayerX ? " X" : " O"));
                     for (Int32 i = 0; i < OutPut.Item1; i++)
                     {
                         for (Int32 j = 0; j < OutPut.Item1; j++)
                         {
+                            // A fájlba X-el jelöljük az X játékos mezőit, O-val az O kátékosét és E-vel az üres mezőket
                             String ToWri = OutPut.Item5[i, j] == Player.PlayerX ? "X " : OutPut.Item5[i, j] == Player.Player0 ? "O " : "E ";
-                            await writer.WriteAsync(ToWri); // kiírjuk az értékeket
+                            await writer.WriteAsync(ToWri);
                         }
                         await writer.WriteLineAsync();
                     }

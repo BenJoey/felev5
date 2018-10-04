@@ -243,6 +243,7 @@
             this.kilépésToolStripMenuItem.Name = "kilépésToolStripMenuItem";
             this.kilépésToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.kilépésToolStripMenuItem.Text = "Kilépés";
+            this.kilépésToolStripMenuItem.Click += new System.EventHandler(this.Exit_Click);
             // 
             // _openFileDialog
             // 

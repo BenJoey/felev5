@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using PotyogosAmoba.Persistence;
 using PotyogosAmoba.Model;
@@ -26,6 +20,9 @@ namespace PotyogosAmoba
 
         #region Constructors
 
+        /// <summary>
+        /// Játékablak betöltése.
+        /// </summary>
         public GameForm()
         {
             InitializeComponent();
@@ -33,6 +30,7 @@ namespace PotyogosAmoba
             _dataaccess = new AmobaFileDataAccess();
             _model = new PAmobaModel(_dataaccess);
             _model.GameOver += new EventHandler<AmobaEvent>(Game_gameover);
+            _model.RefreshBoard += new EventHandler(Refresh);
 
 
             _timer = new Timer();
@@ -45,9 +43,16 @@ namespace PotyogosAmoba
 
         #region Game event handlers
 
+        /// <summary>
+        /// Játék befejezésének eseménykezelője.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Game_gameover(Object sender, AmobaEvent e)
         {
             _timer.Stop();
+
+            _menuFileSaveGame.Enabled = false;
 
             foreach (Button b in gameButtons)
                 b.Enabled = false;
@@ -58,15 +63,22 @@ namespace PotyogosAmoba
                 String WinnerPlayer = e.WhoWon == Player.PlayerX ? "X" : "O";
                 MessageBox.Show("Játék vége!" + Environment.NewLine + WinnerPlayer + " nyerte a játékot!" + Environment.NewLine +
                                 "X játékos ideje: " + TimeSpan.FromSeconds(e.GetXTime).ToString("g") + Environment.NewLine +
-                                "O játékos ideje: " + TimeSpan.FromSeconds(e.Get0Time).ToString("g"), "PA", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                "O játékos ideje: " + TimeSpan.FromSeconds(e.Get0Time).ToString("g"), "Potyogós Amőba", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             else
             {
                 MessageBox.Show("Játék vége!" + Environment.NewLine + "A játék döntetlen lett!" + Environment.NewLine +
                                 "X játékos ideje: " + TimeSpan.FromSeconds(e.GetXTime).ToString("g") + Environment.NewLine +
-                                "O játékos ideje: " + TimeSpan.FromSeconds(e.Get0Time).ToString("g"), "PA", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                                "O játékos ideje: " + TimeSpan.FromSeconds(e.Get0Time).ToString("g"), "Potyogós Amőba", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
+
+        /// <summary>
+        /// Játékmező frissítésének eseménykezelője.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Refresh(Object sender, EventArgs e){ SetupTable(); }
 
         #endregion
 
@@ -75,9 +87,10 @@ namespace PotyogosAmoba
         /// <summary>
         /// Játék betöltésének eseménykezelője.
         /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void LoadGame_Click(Object sender, EventArgs e)
         {
-            Boolean restartTimer = _timer.Enabled;
             _timer.Stop();
 
             if (_openFileDialog.ShowDialog() == DialogResult.OK) // ha kiválasztottunk egy fájlt
@@ -93,19 +106,20 @@ namespace PotyogosAmoba
                     MessageBox.Show("Játék betöltése sikertelen!" + Environment.NewLine + "Hibás az elérési út, vagy a fájlformátum.", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     _model.NewGame(10);
-                    _menuFileSaveGame.Enabled = true;
                 }
                 GenerateTable();
                 SetupTable();
             }
-
-            if (restartTimer)
-                _timer.Start();
+            _timer.Start();
         }
 
+        /// <summary>
+        /// Játék mentésének eseménykezelője.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void SaveGame_Click(Object sender, EventArgs e)
         {
-            Boolean restartTimer = _timer.Enabled;
             _timer.Stop();
 
             if (_saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -120,15 +134,39 @@ namespace PotyogosAmoba
                     MessageBox.Show("Játék mentése sikertelen!" + Environment.NewLine + "Hibás az elérési út, vagy a könyvtár nem írható.", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            _timer.Start();
+        }
 
-            if (restartTimer)
+        /// <summary>
+        /// Kilépés eseménykezelője.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Exit_Click(Object sender, EventArgs e)
+        {
+            _timer.Stop();
+
+            // megkérdezzük, hogy biztos ki szeretne-e lépni
+            if (MessageBox.Show("Biztosan ki szeretne lépni?", "Sudoku játék", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                // ha igennel válaszol
+                Close();
+            }
+            else
+            {
                 _timer.Start();
+            }
         }
 
         #endregion
 
         #region Form event handlers
 
+        /// <summary>
+        /// Játék indításának eseménykezelője.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Table_Gen_Click(object sender, EventArgs e)
         {
             _model.NewGame(Convert.ToInt32(_tableSize.Value));
@@ -138,6 +176,11 @@ namespace PotyogosAmoba
             _timer.Start();
         }
 
+        /// <summary>
+        /// Játék megállításának eseménykezelője.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PauseButtonHandler(Object sender, EventArgs e)
         {
             if (_timer.Enabled)
@@ -151,13 +194,15 @@ namespace PotyogosAmoba
                 _PauseButton.Text = "Pause";
             }
         }
-            #endregion
+        #endregion
 
         #region Timer event handlers
 
         /// <summary>
         /// Időzítő eseménykeztelője.
         /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Timer_Tick(Object sender, EventArgs e)
         {
             _model.AdvanceTime();
@@ -169,14 +214,15 @@ namespace PotyogosAmoba
 
         #region Button Row event handlers
 
+        /// <summary>
+        /// Játék oszlopra kattintás eseménykezelője.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonRow_Click(Object sender, MouseEventArgs e)
         {
             if (_timer.Enabled)
-            {
                 _model.Step((sender as Button).TabIndex);
-                SetupTable();
-                _model.GameCheck();
-            }
         }
 
         #endregion
@@ -189,6 +235,7 @@ namespace PotyogosAmoba
         private void GenerateTable()
         {
             DeleteBoard();
+            _menuFileSaveGame.Enabled = true;
 
             _ButtonRow.ColumnCount = _model.GetSize;
             _gameDisplayTable.RowCount = _gameDisplayTable.ColumnCount = _model.GetSize;

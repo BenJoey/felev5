@@ -1,40 +1,33 @@
 ﻿using System;
 using PotyogosAmoba.Persistence;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PotyogosAmoba.Model
 {
     public enum Player { PlayerX, Player0, NoPlayer}
 
-    public class PAmobaModel
+    class PAmobaModel
     {
         #region Fields
 
-        private IAmobaDataAccess _dataAccess;
-        private Int32 gameSize;
-        private Player _currentPlayer;
-        private Player[,] gameTable;
-        private Int32 playerXTime;
-        private Int32 player0Time;
+        private IAmobaDataAccess _dataAccess; //adatelérés
+        private Int32 gameSize; //pályaméret
+        private Player _currentPlayer; //soron lévő játékos
+        private Player[,] gameTable; //játéktábla
+        private Int32 playerXTime; //X játékos ideje
+        private Int32 player0Time; //0 játékos ideje
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Amőba modell játék példányosítása.
+        /// </summary>
+        /// <param name="dataA">Az adatelérés.</param>
         public PAmobaModel(IAmobaDataAccess dataA)
         {
             _dataAccess = dataA;
-        }
-        public PAmobaModel(Int32 size, Int32 xTime, Int32 OTime, Player _curr, Player[,] table)
-        {
-            gameSize = size;
-            playerXTime = xTime;
-            player0Time = OTime;
-            _currentPlayer = _curr;
-            gameTable = table;
         }
 
         #endregion
@@ -42,22 +35,41 @@ namespace PotyogosAmoba.Model
         #region Events
 
         public event EventHandler<AmobaEvent> GameOver;
+        public event EventHandler RefreshBoard;
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Pályaméret lekérdezése.
+        /// </summary>
         public Int32 GetSize { get { return gameSize; } }
 
+        /// <summary>
+        /// X játékos játékidejének lekérdezése.
+        /// </summary>
         public Int32 PlXTime { get { return playerXTime; } }
 
+        /// <summary>
+        /// 0 játékos játékidejének lekérdezése.
+        /// </summary>
         public Int32 Pl0Time { get { return player0Time; } }
 
+        /// <summary>
+        /// Soron lévő játékos lekérdezése.
+        /// </summary>
         public Player CurrentPlayer { get { return _currentPlayer; } }
 
+        /// <summary>
+        /// Játéktábla egy mezőjének lekérdezése.
+        /// </summary>
+        /// <param name="x">Vízszintes koordináta.</param>
+        /// <param name="y">Függőleges koordináta.</param>
         public Player GetFieldValue(Int32 x, Int32 y)
         {
-            if (x < 0 || x > gameSize - 1 || y < 0 || y > gameSize - 1) return Player.NoPlayer; //Érvénytelen mező lekérés esetén üres playert adunk vissza
+            //Érvénytelen mező lekérés esetén üres playert adunk vissza (GameOver ellenőrzést teszi egyszerűbbé)
+            if (x < 0 || x > gameSize - 1 || y < 0 || y > gameSize - 1) return Player.NoPlayer;
             return gameTable[x, y];
         }
 
@@ -68,6 +80,7 @@ namespace PotyogosAmoba.Model
         /// <summary>
         /// Új játék kezdése.
         /// </summary>
+        /// <param name="size">Kiválasztott pályaméret.</param>
         public void NewGame(Int32 size)
         {
             playerXTime = 0;
@@ -103,6 +116,7 @@ namespace PotyogosAmoba.Model
         /// <summary>
         /// Játékos karakterének elhelyezése a kattintott oszlopba.
         /// </summary>
+        /// <param name="Column">A kattintott oszlop indexe.</param>
         public void Step(Int32 Column)
         {
             Int32 RowInd;
@@ -112,8 +126,14 @@ namespace PotyogosAmoba.Model
             }
             gameTable[Column, RowInd] = _currentPlayer;
             _currentPlayer = _currentPlayer == Player.PlayerX ? Player.Player0 : Player.PlayerX;
+            RefreshBoard(this, new EventArgs());
+            GameCheck();
         }
 
+        /// <summary>
+        /// Játék betöltése.
+        /// </summary>
+        /// <param name="path">Elérési útvonal.</param>
         public async Task LoadGame(String path)
         {
             if (_dataAccess == null)
@@ -127,6 +147,10 @@ namespace PotyogosAmoba.Model
             gameTable = Loaded_data.Item5;
         }
 
+        /// <summary>
+        /// Játék mentése.
+        /// </summary>
+        /// <param name="path">Elérési útvonal.</param>
         public async Task SaveGame(String path)
         {
             if (_dataAccess == null)
@@ -135,10 +159,14 @@ namespace PotyogosAmoba.Model
             await _dataAccess.SaveAsync(path, Tuple.Create(gameSize, playerXTime, player0Time, _currentPlayer, gameTable));
         }
 
+        #endregion
+
+        #region Private methods
+
         /// <summary>
         /// Játék vége ellenőrzés.
         /// </summary>
-        public void GameCheck()
+        private void GameCheck()
         {
             bool tie = true;
             for (Int32 i = 0; i < gameSize; i++)
@@ -161,7 +189,8 @@ namespace PotyogosAmoba.Model
                         Tuple<Int32, Int32>[] WinningPlace = { Tuple.Create(i, j), Tuple.Create(i + 1, j - 1), Tuple.Create(i + 2, j - 2), Tuple.Create(i + 3, j - 3) };
                         GameOver(this, new AmobaEvent(GetFieldValue(i, j), playerXTime, player0Time, WinningPlace));
                     }
-                    tie = tie && GetFieldValue(i, j) != Player.NoPlayer; //Ha egyik mező se üres és nincs nyertes akkor a játék döntetlen
+                    //Ha egyik mező se üres és nincs nyertes akkor a játék döntetlen és a NoPlayer-t adjuk meg nyertesként
+                    tie = tie && GetFieldValue(i, j) != Player.NoPlayer;
                 }
             }
             if (tie) GameOver(this, new AmobaEvent(Player.NoPlayer, playerXTime, player0Time, new Tuple<Int32, Int32>[0]));

@@ -3,12 +3,12 @@
 namespace PotyogosAmoba.Persistence
 {
     /// <summary>
-    /// Amoba adatelérés kivétel típusa.
+    /// Amőba adatelérés kivétel típusa.
     /// </summary>
     public class AmobaDataException : Exception
     {
         /// <summary>
-        /// Amoba adatelérés kivétel példányosítása.
+        /// Amőba adatelérés kivétel példányosítása.
         /// </summary>
         public AmobaDataException() { }
     }
