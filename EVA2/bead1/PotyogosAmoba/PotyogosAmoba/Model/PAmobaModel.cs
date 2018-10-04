@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+//using System.ValueTuple;
 using System.Threading.Tasks;
 
 namespace PotyogosAmoba.Model
@@ -20,6 +21,12 @@ namespace PotyogosAmoba.Model
 
         #endregion
 
+        #region Events
+
+        public event EventHandler<AmobaEvent> GameOver;
+
+        #endregion
+
         #region Properties
 
         public Int32 GetSize { get { return gameSize; } }
@@ -30,11 +37,15 @@ namespace PotyogosAmoba.Model
 
         public Player CurrentPlayer { get { return _currentPlayer; } }
 
-        public Player GetFieldValue(Int32 x, Int32 y) { return gameTable[x, y]; }
+        public Player GetFieldValue(Int32 x, Int32 y)
+        {
+            if (x < 0 || x > gameSize - 1 || y < 0 || y > gameSize - 1) return Player.NoPlayer; //Érvénytelen mező lekérés esetén üres playert adunk vissza
+            return gameTable[x, y];
+        }
 
         #endregion
 
-        #region Public game methods
+        #region Public methods
 
         /// <summary>
         /// Új játék kezdése.
@@ -71,6 +82,9 @@ namespace PotyogosAmoba.Model
             }
         }
 
+        /// <summary>
+        /// Játékos karakterének elhelyezése a kattintott oszlopba.
+        /// </summary>
         public void Step(Int32 Column)
         {
             Int32 RowInd;
@@ -80,6 +94,41 @@ namespace PotyogosAmoba.Model
             }
             gameTable[Column, RowInd] = _currentPlayer;
             _currentPlayer = _currentPlayer == Player.PlayerX ? Player.Player0 : Player.PlayerX;
+            GameCheck();
+        }
+
+        #endregion
+
+        #region Private methods
+        /// <summary>
+        /// Játék vége ellenőrzés.
+        /// </summary>
+        private void GameCheck()
+        {
+            bool tie = true;
+            for (Int32 i = 0; i < gameSize; i++)
+            {
+                for (Int32 j = 0; j < gameSize; j++)
+                {
+                    if (GetFieldValue(i, j) != Player.NoPlayer && GetFieldValue(i, j) == GetFieldValue(i, j + 1) && GetFieldValue(i, j + 1) == GetFieldValue(i, j + 2) && GetFieldValue(i, j + 2) == GetFieldValue(i, j + 3))
+                    {
+                        Tuple<Int32, Int32>[] WinningPlace = { Tuple.Create(i, j), Tuple.Create(i, j + 1), Tuple.Create(i, j + 2), Tuple.Create(i, j + 3) };
+                        GameOver(this, new AmobaEvent(GetFieldValue(i, j), playerXTime, player0Time, WinningPlace));
+                    }
+                    if (GetFieldValue(i, j) != Player.NoPlayer && GetFieldValue(i, j) == GetFieldValue(i + 1, j + 1) && GetFieldValue(i + 2, j + 2) == GetFieldValue(i + 3, j + 3) && GetFieldValue(i, j) == GetFieldValue(i + 2, j + 2))
+                    {
+                        Tuple<Int32, Int32>[] WinningPlace = { Tuple.Create(i, j), Tuple.Create(i + 1, j + 1), Tuple.Create(i + 2, j + 2), Tuple.Create(i + 3, j + 3) };
+                        GameOver(this, new AmobaEvent(GetFieldValue(i, j), playerXTime, player0Time, WinningPlace));
+                    }
+                    if (GetFieldValue(i, j) != Player.NoPlayer && GetFieldValue(i, j) == GetFieldValue(i + 1, j - 1) && GetFieldValue(i + 2, j - 2) == GetFieldValue(i + 3, j - 3) && GetFieldValue(i, j) == GetFieldValue(i + 2, j - 2))
+                    {
+                        Tuple<Int32, Int32>[] WinningPlace = { Tuple.Create(i, j), Tuple.Create(i + 1, j - 1), Tuple.Create(i + 2, j - 2), Tuple.Create(i + 3, j - 3) };
+                        GameOver(this, new AmobaEvent(GetFieldValue(i, j), playerXTime, player0Time, WinningPlace));
+                    }
+                    tie = tie && GetFieldValue(i, j) != Player.NoPlayer; //Ha egyik mező se üres és nincs nyertes akkor a játék döntetlen
+                }
+            }
+            if (tie) GameOver(this, new AmobaEvent(Player.NoPlayer, playerXTime, player0Time, new Tuple<Int32, Int32>[0]));
         }
 
         #endregion

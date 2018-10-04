@@ -29,11 +29,20 @@ namespace PotyogosAmoba
             InitializeComponent();
 
             _model = new PAmobaModel();
+            _model.GameOver += new EventHandler<AmobaEvent>(Game_gameover);
 
             _timer = new Timer();
             _timer.Interval = 1000;
 
             _timer.Tick += new EventHandler(Timer_Tick);
+        }
+
+        #endregion
+
+        #region Game event handlers
+
+        private void Game_gameover(Object sender, AmobaEvent e)
+        {
         }
 
         #endregion
@@ -47,10 +56,24 @@ namespace PotyogosAmoba
             _model.NewGame(Convert.ToInt32(_tableSize.Value));
             GenerateTable();
             if (_timer.Enabled) _timer.Stop();
+            _PauseButton.Visible = true;
             _timer.Start();
         }
 
-        #endregion
+        private void PauseButtonHandler(Object sender, EventArgs e)
+        {
+            if (_timer.Enabled)
+            {
+                _timer.Stop();
+                _PauseButton.Text = "Start";
+            }
+            else
+            {
+                _timer.Start();
+                _PauseButton.Text = "Pause";
+            }
+        }
+            #endregion
 
         #region Timer event handlers
 
@@ -70,8 +93,11 @@ namespace PotyogosAmoba
 
         private void ButtonRow_Click(Object sender, MouseEventArgs e)
         {
-            _model.Step((sender as Button).TabIndex);
-            SetupTable();
+            if (_timer.Enabled)
+            {
+                _model.Step((sender as Button).TabIndex);
+                SetupTable();
+            }
         }
 
         #endregion
@@ -141,6 +167,7 @@ namespace PotyogosAmoba
                     }
                 }
             }
+            CurrentPlayerDisplay.Text = _model.CurrentPlayer == Player.PlayerX ? "X" : "O";
         }
 
         /// <summary>

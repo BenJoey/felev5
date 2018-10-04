@@ -39,6 +39,9 @@
             this._XTIMEDISPLAY = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this._0TIMEDISPLAY = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.CurrentPlayerDisplay = new System.Windows.Forms.ToolStripStatusLabel();
+            this._PauseButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._tableSize)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -49,9 +52,9 @@
             this.groupBox1.Controls.Add(this._GenButton);
             this.groupBox1.Controls.Add(this._tableSize);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(102, 12);
+            this.groupBox1.Location = new System.Drawing.Point(84, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(261, 47);
+            this.groupBox1.Size = new System.Drawing.Size(348, 47);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "GameSettings";
@@ -137,7 +140,9 @@
             this.toolStripStatusLabel1,
             this._XTIMEDISPLAY,
             this.toolStripStatusLabel2,
-            this._0TIMEDISPLAY});
+            this._0TIMEDISPLAY,
+            this.toolStripStatusLabel3,
+            this.CurrentPlayerDisplay});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
@@ -158,7 +163,7 @@
             // 
             // toolStripStatusLabel2
             // 
-            this.toolStripStatusLabel2.Margin = new System.Windows.Forms.Padding(40, 3, 0, 2);
+            this.toolStripStatusLabel2.Margin = new System.Windows.Forms.Padding(7, 3, 0, 2);
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(87, 17);
             this.toolStripStatusLabel2.Text = "O játékos ideje:";
@@ -169,6 +174,28 @@
             this._0TIMEDISPLAY.Size = new System.Drawing.Size(43, 17);
             this._0TIMEDISPLAY.Text = "0:00:00";
             // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(106, 17);
+            this.toolStripStatusLabel3.Text = "Soron lévő játékos:";
+            // 
+            // CurrentPlayerDisplay
+            // 
+            this.CurrentPlayerDisplay.Name = "CurrentPlayerDisplay";
+            this.CurrentPlayerDisplay.Size = new System.Drawing.Size(0, 17);
+            // 
+            // _PauseButton
+            // 
+            this._PauseButton.Location = new System.Drawing.Point(351, 27);
+            this._PauseButton.Name = "_PauseButton";
+            this._PauseButton.Size = new System.Drawing.Size(75, 23);
+            this._PauseButton.TabIndex = 5;
+            this._PauseButton.Text = "Pause";
+            this._PauseButton.UseVisualStyleBackColor = true;
+            this._PauseButton.Visible = false;
+            this._PauseButton.Click += new System.EventHandler(this.PauseButtonHandler);
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -176,6 +203,7 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this._PauseButton);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this._gameDisplayTable);
             this.Controls.Add(this._ButtonRow2);
@@ -205,6 +233,9 @@
         private System.Windows.Forms.ToolStripStatusLabel _XTIMEDISPLAY;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel _0TIMEDISPLAY;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private System.Windows.Forms.ToolStripStatusLabel CurrentPlayerDisplay;
+        private System.Windows.Forms.Button _PauseButton;
     }
 }
 

@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\AmobaEvent.cs" />
     <Compile Include="Model\PAmobaModel.cs" />
     <Compile Include="View\GameForm.cs">
       <SubType>Form</SubType>
