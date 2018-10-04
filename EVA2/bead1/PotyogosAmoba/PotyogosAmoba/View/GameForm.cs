@@ -16,7 +16,7 @@ namespace PotyogosAmoba
     {
         #region Fields
 
-        private AmobaDataAccess _dataaccess;
+        private IAmobaDataAccess _dataaccess;
         private PAmobaModel _model;
         private Label[,] gameBoard;
         private Button[] gameButtons;
@@ -32,6 +32,8 @@ namespace PotyogosAmoba
 
             _model = new PAmobaModel();
             _model.GameOver += new EventHandler<AmobaEvent>(Game_gameover);
+
+            _dataaccess = new AmobaFileDataAccess();
 
             _timer = new Timer();
             _timer.Interval = 1000;
@@ -73,7 +75,7 @@ namespace PotyogosAmoba
         /// <summary>
         /// Játék betöltésének eseménykezelője.
         /// </summary>
-        private async void MenuFileLoadGame_Click(Object sender, EventArgs e)
+        private async void LoadGame_Click(Object sender, EventArgs e)
         {
             Boolean restartTimer = _timer.Enabled;
             _timer.Stop();
@@ -101,7 +103,7 @@ namespace PotyogosAmoba
                 _timer.Start();
         }
 
-        private async void MenuFileSaveGame_Click(Object sender, EventArgs e)
+        private async void SaveGame_Click(Object sender, EventArgs e)
         {
             Boolean restartTimer = _timer.Enabled;
             _timer.Stop();
@@ -111,7 +113,7 @@ namespace PotyogosAmoba
                 try
                 {
                     // játé mentése
-                    await _dataaccess.SaveGameAsync(_saveFileDialog.FileName, _model);
+                    await _dataaccess.SaveAsync(_saveFileDialog.FileName, _model);
                 }
                 catch (AmobaDataException)
                 {

@@ -60,12 +60,11 @@
             this.groupBox1.Controls.Add(this._GenButton);
             this.groupBox1.Controls.Add(this._tableSize);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(84, 12);
+            this.groupBox1.Location = new System.Drawing.Point(88, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(348, 47);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "GameSettings";
             // 
             // _GenButton
             // 
@@ -102,7 +101,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 20);
+            this.label1.Location = new System.Drawing.Point(6, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(90, 13);
             this.label1.TabIndex = 0;
@@ -229,12 +228,14 @@
             this._menuFileSaveGame.Name = "_menuFileSaveGame";
             this._menuFileSaveGame.Size = new System.Drawing.Size(180, 22);
             this._menuFileSaveGame.Text = "Játék mentése";
+            this._menuFileSaveGame.Click += new System.EventHandler(this.SaveGame_Click);
             // 
             // játékBetöltéseToolStripMenuItem
             // 
             this.játékBetöltéseToolStripMenuItem.Name = "játékBetöltéseToolStripMenuItem";
             this.játékBetöltéseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.játékBetöltéseToolStripMenuItem.Text = "Játék betöltése";
+            this.játékBetöltéseToolStripMenuItem.Click += new System.EventHandler(this.LoadGame_Click);
             // 
             // kilépésToolStripMenuItem
             // 

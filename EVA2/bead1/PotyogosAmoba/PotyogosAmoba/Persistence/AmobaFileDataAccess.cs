@@ -8,7 +8,7 @@ namespace PotyogosAmoba.Persistence
     /// <summary>
     /// Amőba fájlkezelő típusa.
     /// </summary>
-    public class AmobaFileDataAccess : AmobaDataAccess
+    public class AmobaFileDataAccess : IAmobaDataAccess
     {
         /// <summary>
         /// Fájl betöltése.
@@ -39,6 +39,36 @@ namespace PotyogosAmoba.Persistence
                     }
                     PAmobaModel ToRet = new PAmobaModel(tableSize, xTime, OTime, _curr, gametable);
                     return ToRet;
+                }
+            }
+            catch
+            {
+                throw new AmobaDataException();
+            }
+        }
+
+        /// <summary>
+        /// Fájl mentése.
+        /// </summary>
+        /// <param name="path">Elérési útvonal.</param>
+        /// <param name="table">A fájlba kiírandó játékmodell.</param>
+        public async Task SaveAsync(String path, PAmobaModel table)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(path)) // fájl megnyitása
+                {
+                    writer.Write(table.GetSize); // kiírjuk a méreteket
+                    await writer.WriteLineAsync(" " + table.PlXTime + " " + table.Pl0Time + (table.CurrentPlayer == Player.PlayerX ? " X" : " O"));
+                    for (Int32 i = 0; i < table.GetSize; i++)
+                    {
+                        for (Int32 j = 0; j < table.GetSize; j++)
+                        {
+                            String ToWri = table.GetFieldValue(i, j) == Player.PlayerX ? "X " : table.GetFieldValue(i, j) == Player.Player0 ? "O " : "E ";
+                            await writer.WriteAsync(ToWri); // kiírjuk az értékeket
+                        }
+                        await writer.WriteLineAsync();
+                    }
                 }
             }
             catch

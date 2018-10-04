@@ -8,7 +8,7 @@ namespace PotyogosAmoba.Model
 {
     public enum Player { PlayerX, Player0, NoPlayer}
 
-    class PAmobaModel
+    public class PAmobaModel
     {
         #region Fields
 

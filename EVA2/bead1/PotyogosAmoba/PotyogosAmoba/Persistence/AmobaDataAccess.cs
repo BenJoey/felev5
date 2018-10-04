@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace PotyogosAmoba.Persistence
 {
-    public interface AmobaDataAccess
+    public interface IAmobaDataAccess
     {
         /// <summary>
         /// Fájl betöltése.
