@@ -43,6 +43,17 @@ namespace PotyogosAmoba
 
         private void Game_gameover(Object sender, AmobaEvent e)
         {
+            _timer.Stop();
+
+            foreach (Button b in gameButtons)
+                b.Enabled = false;
+            if (e.WhoWon != Player.NoPlayer)
+            {
+                Console.WriteLine("SD");
+                foreach (Tuple<Int32, Int32> a in e.WinPlace)
+                    gameBoard[a.Item1, a.Item2].BackColor = Color.Yellow;
+                MessageBox.Show("Vége!","PA" ,MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
         }
 
         #endregion
@@ -97,6 +108,7 @@ namespace PotyogosAmoba
             {
                 _model.Step((sender as Button).TabIndex);
                 SetupTable();
+                _model.GameCheck();
             }
         }
 

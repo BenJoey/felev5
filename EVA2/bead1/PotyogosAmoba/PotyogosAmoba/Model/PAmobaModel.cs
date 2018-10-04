@@ -94,25 +94,22 @@ namespace PotyogosAmoba.Model
             }
             gameTable[Column, RowInd] = _currentPlayer;
             _currentPlayer = _currentPlayer == Player.PlayerX ? Player.Player0 : Player.PlayerX;
-            GameCheck();
         }
 
-        #endregion
-
-        #region Private methods
         /// <summary>
         /// Játék vége ellenőrzés.
         /// </summary>
-        private void GameCheck()
+        public void GameCheck()
         {
             bool tie = true;
             for (Int32 i = 0; i < gameSize; i++)
             {
                 for (Int32 j = 0; j < gameSize; j++)
                 {
-                    if (GetFieldValue(i, j) != Player.NoPlayer && GetFieldValue(i, j) == GetFieldValue(i, j + 1) && GetFieldValue(i, j + 1) == GetFieldValue(i, j + 2) && GetFieldValue(i, j + 2) == GetFieldValue(i, j + 3))
+                    if (GetFieldValue(i, j) != Player.NoPlayer && GetFieldValue(i, j) == GetFieldValue(i + 1, j) && GetFieldValue(i + 1, j) == GetFieldValue(i + 2, j) && GetFieldValue(i + 2, j) == GetFieldValue(i + 3, j))
                     {
-                        Tuple<Int32, Int32>[] WinningPlace = { Tuple.Create(i, j), Tuple.Create(i, j + 1), Tuple.Create(i, j + 2), Tuple.Create(i, j + 3) };
+                        Tuple<Int32, Int32>[] WinningPlace = { Tuple.Create(i, j), Tuple.Create(i + 1, j), Tuple.Create(i + 2, j), Tuple.Create(i + 3, j) };
+                        Console.WriteLine("TEST");
                         GameOver(this, new AmobaEvent(GetFieldValue(i, j), playerXTime, player0Time, WinningPlace));
                     }
                     if (GetFieldValue(i, j) != Player.NoPlayer && GetFieldValue(i, j) == GetFieldValue(i + 1, j + 1) && GetFieldValue(i + 2, j + 2) == GetFieldValue(i + 3, j + 3) && GetFieldValue(i, j) == GetFieldValue(i + 2, j + 2))
