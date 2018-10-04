@@ -30,6 +30,8 @@ namespace PotyogosAmoba.Model
 
         public Player CurrentPlayer { get { return _currentPlayer; } }
 
+        public Player GetFieldValue(Int32 x, Int32 y) { return gameTable[x, y]; }
+
         #endregion
 
         #region Public game methods
@@ -69,10 +71,15 @@ namespace PotyogosAmoba.Model
             }
         }
 
-        public void Step(Int32 x, Int32 y)
+        public void Step(Int32 Column)
         {
-            gameTable[x, y] = _currentPlayer;
-            _currentPlayer = (Player)((int)(_currentPlayer++) % 2);
+            Int32 RowInd;
+            for (RowInd = 0; RowInd < (gameSize - 1); RowInd++)
+            {
+                if (gameTable[Column, RowInd + 1] != Player.NoPlayer) break;
+            }
+            gameTable[Column, RowInd] = _currentPlayer;
+            _currentPlayer = _currentPlayer == Player.PlayerX ? Player.Player0 : Player.PlayerX;
         }
 
         #endregion
