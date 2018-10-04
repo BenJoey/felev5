@@ -33,9 +33,9 @@
             this._tableSize = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this._ButtonRow2 = new System.Windows.Forms.TableLayoutPanel();
+            this._gameDisplayTable = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._tableSize)).BeginInit();
-            this._ButtonRow2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -101,11 +101,29 @@
             this._ButtonRow2.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.AddColumns;
             this._ButtonRow2.Location = new System.Drawing.Point(12, 58);
             this._ButtonRow2.Name = "_ButtonRow2";
+            this._ButtonRow2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 20);
             this._ButtonRow2.RowCount = 1;
             this._ButtonRow2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this._ButtonRow2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this._ButtonRow2.Size = new System.Drawing.Size(6, 6);
+            this._ButtonRow2.Size = new System.Drawing.Size(0, 20);
             this._ButtonRow2.TabIndex = 2;
+            // 
+            // _gameDisplayTable
+            // 
+            this._gameDisplayTable.AutoSize = true;
+            this._gameDisplayTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._gameDisplayTable.ColumnCount = 2;
+            this._gameDisplayTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._gameDisplayTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._gameDisplayTable.Location = new System.Drawing.Point(12, 102);
+            this._gameDisplayTable.Margin = new System.Windows.Forms.Padding(3, 30, 3, 3);
+            this._gameDisplayTable.Name = "_gameDisplayTable";
+            this._gameDisplayTable.Padding = new System.Windows.Forms.Padding(0, 20, 0, 0);
+            this._gameDisplayTable.RowCount = 2;
+            this._gameDisplayTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._gameDisplayTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this._gameDisplayTable.Size = new System.Drawing.Size(0, 20);
+            this._gameDisplayTable.TabIndex = 3;
             // 
             // GameForm
             // 
@@ -114,6 +132,7 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this._gameDisplayTable);
             this.Controls.Add(this._ButtonRow2);
             this.Controls.Add(this.groupBox1);
             this.Name = "GameForm";
@@ -121,8 +140,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._tableSize)).EndInit();
-            this._ButtonRow2.ResumeLayout(false);
-            this._ButtonRow2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -135,6 +152,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button _GenButton;
         private System.Windows.Forms.TableLayoutPanel _ButtonRow2;
+        private System.Windows.Forms.TableLayoutPanel _gameDisplayTable;
     }
 }
 
