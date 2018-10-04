@@ -49,10 +49,18 @@ namespace PotyogosAmoba
                 b.Enabled = false;
             if (e.WhoWon != Player.NoPlayer)
             {
-                Console.WriteLine("SD");
                 foreach (Tuple<Int32, Int32> a in e.WinPlace)
                     gameBoard[a.Item1, a.Item2].BackColor = Color.Yellow;
-                MessageBox.Show("Vége!","PA" ,MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                String WinnerPlayer = e.WhoWon == Player.PlayerX ? "X" : "O";
+                MessageBox.Show("Játék vége!" + Environment.NewLine + WinnerPlayer + " nyerte a játékot!" + Environment.NewLine +
+                                "X játékos ideje: " + TimeSpan.FromSeconds(e.GetXTime).ToString("g") + Environment.NewLine +
+                                "O játékos ideje: " + TimeSpan.FromSeconds(e.Get0Time).ToString("g"), "PA", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            else
+            {
+                MessageBox.Show("Játék vége!" + Environment.NewLine + "A játék döntetlen lett!" + Environment.NewLine +
+                                "X játékos ideje: " + TimeSpan.FromSeconds(e.GetXTime).ToString("g") + Environment.NewLine +
+                                "O játékos ideje: " + TimeSpan.FromSeconds(e.Get0Time).ToString("g"), "PA", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 
