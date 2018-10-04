@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-//using System.ValueTuple;
 using System.Threading.Tasks;
 
 namespace PotyogosAmoba.Model
@@ -18,6 +17,20 @@ namespace PotyogosAmoba.Model
         private Player[,] gameTable;
         private Int32 playerXTime;
         private Int32 player0Time;
+
+        #endregion
+
+        #region Constructors
+
+        public PAmobaModel() { }
+        public PAmobaModel(Int32 size, Int32 xTime, Int32 OTime, Player _curr, Player[,] table)
+        {
+            gameSize = size;
+            playerXTime = xTime;
+            player0Time = OTime;
+            _currentPlayer = _curr;
+            gameTable = table;
+        }
 
         #endregion
 

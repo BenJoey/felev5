@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PotyogosAmoba.Persistence;
 using PotyogosAmoba.Model;
 
 namespace PotyogosAmoba
@@ -15,6 +16,7 @@ namespace PotyogosAmoba
     {
         #region Fields
 
+        private AmobaDataAccess _dataaccess;
         private PAmobaModel _model;
         private Label[,] gameBoard;
         private Button[] gameButtons;
@@ -66,12 +68,67 @@ namespace PotyogosAmoba
 
         #endregion
 
+        #region Menu event handlers
+
+        /// <summary>
+        /// Játék betöltésének eseménykezelője.
+        /// </summary>
+        private async void MenuFileLoadGame_Click(Object sender, EventArgs e)
+        {
+            Boolean restartTimer = _timer.Enabled;
+            _timer.Stop();
+
+            if (_openFileDialog.ShowDialog() == DialogResult.OK) // ha kiválasztottunk egy fájlt
+            {
+                try
+                {
+                    // játék betöltése
+                    _model = await _dataaccess.LoadAsync(_openFileDialog.FileName);
+                    _menuFileSaveGame.Enabled = true;
+                }
+                catch (AmobaDataException)
+                {
+                    MessageBox.Show("Játék betöltése sikertelen!" + Environment.NewLine + "Hibás az elérési út, vagy a fájlformátum.", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    _model.NewGame(10);
+                    _menuFileSaveGame.Enabled = true;
+                }
+                GenerateTable();
+                SetupTable();
+            }
+
+            if (restartTimer)
+                _timer.Start();
+        }
+
+        private async void MenuFileSaveGame_Click(Object sender, EventArgs e)
+        {
+            Boolean restartTimer = _timer.Enabled;
+            _timer.Stop();
+
+            if (_saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    // játé mentése
+                    await _dataaccess.SaveGameAsync(_saveFileDialog.FileName, _model);
+                }
+                catch (AmobaDataException)
+                {
+                    MessageBox.Show("Játék mentése sikertelen!" + Environment.NewLine + "Hibás az elérési út, vagy a könyvtár nem írható.", "Hiba!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            if (restartTimer)
+                _timer.Start();
+        }
+
+        #endregion
+
         #region Form event handlers
 
         private void Table_Gen_Click(object sender, EventArgs e)
         {
-            DeleteBoard();
-
             _model.NewGame(Convert.ToInt32(_tableSize.Value));
             GenerateTable();
             if (_timer.Enabled) _timer.Stop();
@@ -129,7 +186,9 @@ namespace PotyogosAmoba
         /// </summary>
         private void GenerateTable()
         {
-            _ButtonRow2.ColumnCount = _model.GetSize;
+            DeleteBoard();
+
+            _ButtonRow.ColumnCount = _model.GetSize;
             _gameDisplayTable.RowCount = _gameDisplayTable.ColumnCount = _model.GetSize;
             gameButtons = new Button[_model.GetSize];
             gameBoard = new Label[_model.GetSize, _model.GetSize];
@@ -140,7 +199,7 @@ namespace PotyogosAmoba
                 gameButtons[i].TabIndex = i;
                 gameButtons[i].Size = new Size(30, 30);
                 gameButtons[i].MouseClick += new MouseEventHandler(ButtonRow_Click);
-                _ButtonRow2.Controls.Add(gameButtons[i], i, 1);
+                _ButtonRow.Controls.Add(gameButtons[i], i, 1);
                 for (Int32 j = 0; j < _model.GetSize; j++)
                 {
                     gameBoard[j, i] = new Label();
@@ -198,7 +257,7 @@ namespace PotyogosAmoba
             if (gameButtons != null)
             {
                 foreach (Button a in gameButtons)
-                    _ButtonRow2.Controls.Remove(a);
+                    _ButtonRow.Controls.Remove(a);
                 foreach (Label l in gameBoard)
                     _gameDisplayTable.Controls.Remove(l);
             }

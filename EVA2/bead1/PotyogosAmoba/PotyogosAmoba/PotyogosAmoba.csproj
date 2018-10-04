@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="Model\AmobaEvent.cs" />
     <Compile Include="Model\PAmobaModel.cs" />
+    <Compile Include="Persistence\AmobaDataAccess.cs" />
+    <Compile Include="Persistence\AmobaException.cs" />
+    <Compile Include="Persistence\AmobaFileDataAccess.cs" />
     <Compile Include="View\GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,5 +84,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
