@@ -1,5 +1,6 @@
 ﻿using System;
 using PotyogosAmoba.Model;
+using PotyogosAmoba.Persistence;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PotyogosAmoba.Test
@@ -12,12 +13,13 @@ namespace PotyogosAmoba.Test
         [TestInitialize]
         public void Initialize()
         {
-            _model = new PAmobaModel(null);
+            _model = new PAmobaModel(new AmobaFileDataAccess());
 
             _model.RefreshBoard += new EventHandler(Model_RefreshEvent);
             _model.GameOver += new EventHandler<AmobaEvent>(Model_GameOverEvent);
         }
 
+        #region Model Tests
 
         [TestMethod]
         public void AmobaModel_NewGameTest()
@@ -93,6 +95,10 @@ namespace PotyogosAmoba.Test
             }
         }
 
+        #endregion
+
+        #region Model Event handlers
+
         private void Model_RefreshEvent(Object sender, EventArgs e)
         {
             Assert.IsTrue((_model.Pl0Time > 0 || _model.PlXTime > 0)); //valamelyik játékosnak telt már az ideje
@@ -105,5 +111,7 @@ namespace PotyogosAmoba.Test
             foreach (Tuple<Int32, Int32> a in e.WinPlace) //tényleg a nyertes karaktere van-e az átadott nyertes mezőkön
                 Assert.AreEqual(e.WhoWon, _model.GetFieldValue(a.Item1, a.Item2));
         }
+
+        #endregion
     }
 }
