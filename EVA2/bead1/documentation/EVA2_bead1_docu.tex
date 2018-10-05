@@ -10,17 +10,77 @@
 \usepackage{framed, fancyhdr, wasysym, graphicx, multirow}
 
 \begin{document}
-	\thispagestyle{empty}
-	\begin{center}
-		\colorbox{lightgray}{{\large JPSMA3} \hspace{3cm} {\large Eseményvezérelt alkalmazások 2 1. beadandó} \hspace{5cm} \thepage}
-	\end{center}
-	\begin{framed}
-		\begin{flushleft}
-			{\large \textbf{Bauer Bence}}
-			\hspace{3cm}{\large \textbf{1.Beadandó/19.Feladat}}
-			\hspace{4cm}{\large 2018.10.06.}\\[0.1cm]
-			{\large JPSMA3}\\[0.1cm]
-			{\large bauerbence5@gmail.com}
-		\end{flushleft}
-	\end{framed}
+\renewcommand{\labelitemi}{\textbullet}
+\def\br{\\[0.1cm]}
+\def\OldalKezdes{
+\thispagestyle{empty}
+\begin{center}
+	\colorbox{lightgray}{{\large JPSMA3} \hspace{3cm} {\large Eseményvezérelt alkalmazások 2 1. beadandó} \hspace{5cm} \thepage}
+\end{center}}
+\OldalKezdes
+\begin{framed}
+	\begin{flushleft}
+		{\large \textbf{Bauer Bence}}
+		\hspace{3cm}{\large \textbf{1.Beadandó/19.Feladat}}
+		\hspace{5.4cm}{\large 2018.10.06.}\br
+		{\large JPSMA3}\br
+		{\large bauerbence5@gmail.com}
+	\end{flushleft}
+\end{framed}
+\section{Feladat}
+Készítsünk programot, amellyel a potyogós amőba játékot lehet játszani, vagyis
+az amőba azon változatát, ahol a jeleket felülről lefelé lehet beejteni a
+játékmezőre. A játékmező itt is $nxn$-es tábla, és ugyanúgy X, illetve O jeleket
+potyogtathatunk a mezőre. A játék akkor ér véget, ha betelik a tábla (döntetlen),
+vagy valamelyik játékos kirak 4 egymás melletti jelet (vízszintesen, vagy átlósan).
+A program minden lépésnél jelezze, hogy melyik játékos következik, és a tábla
+egy üres mezőjére kattintva helyezhessük el a megfelelő jelet. Természetesen
+csak a szabályos lépéseket engedje meg a program.
+A program biztosítson lehetőséget új játék kezdésére a táblaméret megadásával
+$(10 x 10, 20 x 20, 30 x 30)$, játék szüneteltetésére, valamint játék mentésére és
+betöltésére. Ismerje fel, ha vége a játéknak, és jelenítse meg, melyik játékos
+győzött (a táblán jelölje meg a győztes 4 karaktert). A program folyamatosan
+jelezze külön-külön a két játékos gondolkodási idejét (azon idők összessége, ami
+az előző játékos lépésétől a saját lépéséig tart, ezt is mentsük el és töltsük be).
+\section{Elemzés}
+\begin{itemize}
+	\item A játékot tetszőleges méretű pályán játszhatjuk, melyet az ablak tetjén lévő
+	mezővel tudunk beállítani, a "Generate Board" gomb lenyomásával új játék indul az
+	éppen a mezőben lévő pályamérettel.
+	\item A feladatot egyablakos asztali alkalmazásként Windows Forms grafikus felülettel
+	valósítjuk meg.
+	\item Az ablakon elhelyezünk egy File menüt (Mentés, Betöltés, Kilépés), Új játék
+	beállítására szolgáló vezérlőt valamint egy státuszsort, mely a játékosok idejét és
+	az éppen soron lévő játékost jelzi.
+	\item A játéktáblát egy $nxn$-es megjelenítőkből álló rács és egy $n$ db nyomógombból
+	álló sor reprezentálja. A egy nyomógombra való kattintás hatására a kattintott oszlop
+	legalsó üres mezőjében megjelenik az éppen soron lévő játékos karaktere. Amint egy
+	oszlop megtelt a nyomógombja inaktív lesz.
+	\item A játék automatikusan feldob egy ablakot ha véget ért Döntetlen/Nyertes játékos
+	nevével, valamint a két játékos idejével. Mentés/Betöltés esetén is dialógus ablakban
+	történik a fájl kiválasztása.
+	\item Felhasználói esetek:
+\end{itemize}
+\section{Tervezés}
+\begin{itemize}
+	\item Programszerkezet: A programot háromrétegű architektúrában valósítjuk meg:
+	\begin{itemize}
+		\item Megjelenítés: \textbf{View}
+		\item Modell: \textbf{Model}
+		\item Perzisztencia: \textbf{Persistence}
+	\end{itemize}
+	\item Perzisztencia:
+	\begin{itemize}
+		\item Feladata a mentés és betöltés biztosítása.
+		\item Az adattárolást az \textbf{IAmobaDataAccess} interfész biztosítja, továbba
+		lehetőséget ad a játék állapotának mentésére(\textbf{SaveAsync})/
+		betöltésére(\textbf{LoadAsync})	melyeket aszinkron módon végzünk.
+		\item A szöveges fájl kezelésére az \textbf{AmobaFileDataAccess} osztályt vezetjük be.
+		Ha hiba lépett fel a\\fájlkezelés során akkor azt \textbf{AmobaDataException}-el jelezzük.
+		\item A fájl első sorában eltároljuk a pálya méretét, a játékosok idejét, valamint
+		a soron lévő játékost. A fájl többi része izomorf leképezése a játéktáblának, azaz
+		$n$ sorban $n$ oszlop van szóközzel elválasztva, ahol rendre "X", "O", "E" jelöli
+		az X játékos és az O játékos mezőit valamint az üres mezőket.
+	\end{itemize}
+\end{itemize}
 \end{document}
