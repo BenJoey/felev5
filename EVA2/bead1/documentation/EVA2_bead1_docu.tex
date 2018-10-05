@@ -82,5 +82,21 @@ az előző játékos lépésétől a saját lépéséig tart, ezt is mentsük el
 		$n$ sorban $n$ oszlop van szóközzel elválasztva, ahol rendre "X", "O", "E" jelöli
 		az X játékos és az O játékos mezőit valamint az üres mezőket.
 	\end{itemize}
+	\item Modell:
+	\begin{itemize}
+		\item A játék modelljét a \textbf{PAmobaModel} osztály valósítsa meg, ami figyeli
+		a játékosok idejét\\(\textbf{playerXTime/player0Time}), a játék állását (\textbf{gameTable}),
+		a lépések kezelését (\textbf{Step}),\\új játék kezdését (\textbf{NewGame})
+		valamint az idő telését is követi (\textbf{AdvanceTime}).
+		\item Ha lépés történt akkor a model egy argumentum nélküli \textbf{RefreshBoard}
+		eseménnyel jelzi a \textit{Nézet}-nek, hogy a játék állapota megváltozott.
+		Ha a játék véget ért akkor azt egy \textbf{GameOver} eseménnyel jelzi, mely egy
+		4 db \textit{Tuple}-ből álló tömböt (győztes mezők koordinátái), a 2 játékos
+		idejét valamint a nyertes játékost adja át paraméterül.
+		\item Példányosításkor megkapja az adatkezelés felületét, amellyel el tudja végezni
+		\\ a játék mentését (\textbf{SaveGame})/betöltését (\textbf{LoadGame}).
+		\item A játékosokat egy \textbf{Player} felsorolási típussal kezeljük, mely
+		3 értéket vehet fel:\\ \textit{PlayerX, Player0, NoPlayer}.
+	\end{itemize}
 \end{itemize}
 \end{document}
