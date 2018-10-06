@@ -246,14 +246,14 @@ namespace PotyogosAmoba
             for (Int32 i = 0; i < _model.GetSize; i++)
                 for (Int32 j = 0; j < _model.GetSize; j++)
                 {
-                    gameBoard[i,j] = new Button();
+                    gameBoard[i, j] = new Button();
                     gameBoard[i, j].TextAlign = ContentAlignment.MiddleCenter;
                     gameBoard[i, j].Size = new Size(30, 30);
                     gameBoard[i, j].TabIndex = i * _model.GetSize + j;
                     gameBoard[i, j].Font = new Font(FontFamily.GenericSansSerif, 12, FontStyle.Bold);
                     gameBoard[i, j].MouseClick += new MouseEventHandler(ButtonGrid_Click);
                     gameBoard[i, j].FlatStyle = FlatStyle.Flat;
-                    if (i == _model.GetSize - 1)
+                    if (i == _model.GetSize - 1 || (_model.GetFieldValue(i, j) == Player.NoPlayer && _model.GetFieldValue(i + 1, j) != Player.NoPlayer))
                         gameBoard[i, j].Enabled = true;
                     else
                         gameBoard[i, j].Enabled = false;
