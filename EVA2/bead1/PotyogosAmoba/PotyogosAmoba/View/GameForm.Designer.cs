@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this._GenButton = new System.Windows.Forms.Button();
             this._tableSize = new System.Windows.Forms.NumericUpDown();
@@ -243,6 +244,7 @@
             this.Controls.Add(this._gameDisplayTable);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "GameForm";
             this.Text = "Potyogós Amőba";

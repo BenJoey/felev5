@@ -223,7 +223,7 @@ namespace PotyogosAmoba
             {
                 Int32 RowInd = (sender as Button).TabIndex / _model.GetSize;
                 Int32 ColumnInd = (sender as Button).TabIndex % _model.GetSize;
-                if (RowInd != 0)
+                if (RowInd != 0) // Ha nem az oszlop legfelső gombja akkor bekapcsoljuk a felette l.évő gombot
                     gameBoard[RowInd - 1, ColumnInd].Enabled = true;
                 _model.Step(RowInd, ColumnInd);
             }
@@ -267,27 +267,6 @@ namespace PotyogosAmoba
         /// </summary>
         private void SetupTable()
         {
-            /*for (Int32 i = 0; i < _model.GetSize; i++)
-            {
-                for (Int32 j = 0; j < _model.GetSize; j++)
-                {
-                    switch (_model.GetFieldValue(i, j))
-                    {
-                        case Player.PlayerX:
-                            gameBoard[i, j].Text = "X";
-                            gameBoard[i, j].BackColor = Color.Pink;
-                            break;
-                        case Player.Player0:
-                            gameBoard[i, j].Text = "O";
-                            gameBoard[i, j].BackColor = Color.LightGreen;
-                            break;
-                        default:
-                            gameBoard[i, j].Text = "";
-                            gameBoard[i, j].BackColor = Color.White;
-                            break;
-                    }
-                }
-            }*/
             foreach(Button b in gameBoard)
             {
                 Int32 x = b.TabIndex / _model.GetSize;
