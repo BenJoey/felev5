@@ -4,7 +4,7 @@
 \usepackage{amsmath}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 \usepackage[normalem]{ulem}
-\usepackage[left=1.00cm, right=1.00cm, top=0.40cm, bottom=1.0cm]{geometry}
+\usepackage[left=1.00cm, right=1.00cm, top=0.40cm, bottom=0.4cm]{geometry}
 \PassOptionsToPackage{defaults=hu-min}{magyar.ldf}
 \usepackage[magyar]{babel}
 \usepackage{framed, fancyhdr, wasysym, graphicx, multirow}
@@ -55,11 +55,12 @@ az előző játékos lépésétől a saját lépéséig tart, ezt is mentsük el
 	\item A játék automatikusan feldob egy ablakot ha véget ért Döntetlen/Nyertes játékos
 	nevével, valamint a két játékos idejével. Mentés/Betöltés esetén is dialógus ablakban
 	történik a fájl kiválasztása.
+	\item Felhasználói esetek:
 \end{itemize}
 \begin{figure}[h]
 	\centering
 	  \includegraphics[width=12cm]{UMLs/UseCase.png}
-	\caption{Felhasználói esetek}
+	\caption{Felhasználói eset diagram}
 \end{figure}
 \newpage
 \thispagestyle{empty}
@@ -90,7 +91,7 @@ az előző játékos lépésétől a saját lépéséig tart, ezt is mentsük el
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=10cm]{UMLs/Package.png}
-		\caption{Csomagdiagramm}
+		\caption{Csomagdiagram}
 	\end{figure}
 	\item Modell:
 	\begin{itemize}
@@ -131,7 +132,7 @@ az előző játékos lépésétől a saját lépéséig tart, ezt is mentsük el
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=17cm]{UMLs/Class.png}
-		\caption{Osztálydiagramm}
+		\caption{Osztálydiagram}
 	\end{figure}
 \end{itemize}
 \newpage
@@ -153,6 +154,8 @@ az előző játékos lépésétől a saját lépéséig tart, ezt is mentsük el
 		az éppen soron lévő \\ játékos ideje telik-e.
 		\item\textbf{AmobaModel\_GameOverTest:} Meghívódik-e a \textbf{GameOver} esemény
 		ha egy játékos kirakja a \\ szükséges 4 karaktert.
+		\item\textbf{LoadGameTest:} Játék betöltés tesztelése az interfészből
+		származtatott mock objektummal.
 	\end{itemize}
 \end{itemize}
 \end{document}
