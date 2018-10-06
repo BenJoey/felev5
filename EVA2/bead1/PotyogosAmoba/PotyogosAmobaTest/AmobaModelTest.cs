@@ -13,7 +13,7 @@ namespace PotyogosAmoba.Test
         [TestInitialize]
         public void Initialize()
         {
-            _model = new PAmobaModel(new AmobaFileDataAccess());
+            _model = new PAmobaModel(new AmobaMockData()); //A mock adatelérés objektummal inicializáljuk a modelt
 
             _model.RefreshBoard += new EventHandler(Model_RefreshEvent);
             _model.GameOver += new EventHandler<AmobaEvent>(Model_GameOverEvent);
@@ -93,6 +93,33 @@ namespace PotyogosAmoba.Test
                 _model.Step(i);
                 _model.Step(i);
             }
+        }
+
+        #endregion
+
+        #region Persistence Test
+
+        [TestMethod]
+        public void LoadGameTest()
+        {
+            _model.LoadGame("");
+            //Megnézzük, hogy a MockData-ban lévő adatok kerültek-e a modellbe
+            Assert.AreEqual(11, _model.GetSize);
+            Assert.AreEqual(Player.Player0, _model.CurrentPlayer);
+            Assert.AreEqual(3, _model.Pl0Time);
+            Assert.AreEqual(5, _model.PlXTime);
+            Int32 XFields = 0, OFields = 0;
+            for (Int32 i = 0; i < _model.GetSize; i++)
+                for (Int32 j = 0; j < _model.GetSize; j++)
+                    switch(_model.GetFieldValue(i,j))
+                    {
+                        case Player.PlayerX:
+                            XFields++;break;
+                        case Player.Player0:
+                            OFields++;break;
+                    }
+            Assert.AreEqual(2, XFields);
+            Assert.AreEqual(1, OFields);
         }
 
         #endregion
