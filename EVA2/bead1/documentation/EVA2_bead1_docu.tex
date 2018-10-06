@@ -12,12 +12,10 @@
 \begin{document}
 \renewcommand{\labelitemi}{\textbullet}
 \def\br{\\[0.1cm]}
-\def\OldalKezdes{
 \thispagestyle{empty}
 \begin{center}
 	\colorbox{lightgray}{{\large JPSMA3} \hspace{3cm} {\large Eseményvezérelt alkalmazások 2 1. beadandó} \hspace{5cm} \thepage}
-\end{center}}
-\OldalKezdes
+\end{center}
 \begin{framed}
 	\begin{flushleft}
 		{\large \textbf{Bauer Bence}}
@@ -52,15 +50,22 @@ az előző játékos lépésétől a saját lépéséig tart, ezt is mentsük el
 	\item Az ablakon elhelyezünk egy File menüt (Mentés, Betöltés, Kilépés), Új játék
 	beállítására szolgáló vezérlőt valamint egy státuszsort, mely a játékosok idejét és
 	az éppen soron lévő játékost jelzi.
-	\item A játéktáblát egy $nxn$-es megjelenítőkből álló rács és egy $n$ db nyomógombból
-	álló sor reprezentálja. A egy nyomógombra való kattintás hatására a kattintott oszlop
-	legalsó üres mezőjében megjelenik az éppen soron lévő játékos karaktere. Amint egy
-	oszlop megtelt a nyomógombja inaktív lesz.
+	\item A játéktáblát egy $nxn$-es nyomógombokból álló rács reprezentálja. Egy
+	nyomógombra való kattintás hatására a kattintott mezőben megjelenik az éppen soron lévő játékos karaktere.
 	\item A játék automatikusan feldob egy ablakot ha véget ért Döntetlen/Nyertes játékos
 	nevével, valamint a két játékos idejével. Mentés/Betöltés esetén is dialógus ablakban
 	történik a fájl kiválasztása.
-	\item Felhasználói esetek:
 \end{itemize}
+\begin{figure}[h]
+	\centering
+	  \includegraphics[width=12cm]{UMLs/UseCase.png}
+	\caption{Felhasználói esetek}
+\end{figure}
+\newpage
+\thispagestyle{empty}
+\begin{center}
+	\colorbox{lightgray}{{\large JPSMA3} \hspace{3cm} {\large Eseményvezérelt alkalmazások 2 1. beadandó} \hspace{5cm} \thepage}
+\end{center}
 \section{Tervezés}
 \begin{itemize}
 	\item Programszerkezet: A programot háromrétegű architektúrában valósítjuk meg:
@@ -82,11 +87,17 @@ az előző játékos lépésétől a saját lépéséig tart, ezt is mentsük el
 		$n$ sorban $n$ oszlop van szóközzel elválasztva, ahol rendre "X", "O", "E" jelöli
 		az X játékos és az O játékos mezőit valamint az üres mezőket.
 	\end{itemize}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=10cm]{UMLs/Package.png}
+		\caption{Csomagdiagramm}
+	\end{figure}
 	\item Modell:
 	\begin{itemize}
 		\item A játék modelljét a \textbf{PAmobaModel} osztály valósítsa meg, ami figyeli
-		a játékosok idejét\\(\textbf{playerXTime/player0Time}), a játék állását (\textbf{gameTable}),
-		a lépések kezelését (\textbf{Step}),\\új játék kezdését (\textbf{NewGame})
+		a játékosok idejét\\(\textbf{playerXTime/player0Time}), a játék állását
+		(\textbf{gameTable}), a soron lévő játékost (\textbf{\_currentPlayer})
+		a lépések kezelését (\textbf{Step}), új játék kezdését (\textbf{NewGame})
 		valamint az idő telését is követi (\textbf{AdvanceTime}).
 		\item Ha lépés történt akkor a model egy argumentum nélküli \textbf{RefreshBoard}
 		eseménnyel jelzi a \textit{Nézet}-nek, hogy a játék állapota megváltozott.
@@ -97,6 +108,51 @@ az előző játékos lépésétől a saját lépéséig tart, ezt is mentsük el
 		\\ a játék mentését (\textbf{SaveGame})/betöltését (\textbf{LoadGame}).
 		\item A játékosokat egy \textbf{Player} felsorolási típussal kezeljük, mely
 		3 értéket vehet fel:\\ \textit{PlayerX, Player0, NoPlayer}.
+	\end{itemize}
+	\newpage
+	\thispagestyle{empty}
+	\begin{center}
+	\colorbox{lightgray}{{\large JPSMA3} \hspace{3cm} {\large Eseményvezérelt alkalmazások 2 1. beadandó} \hspace{5cm} \thepage}
+	\end{center}
+	\item Nézet:
+	\begin{itemize}
+		\item A nézetet a \textbf{GameForm} osztály biztosítja, mely rendelkezik a modell
+		egy példányával (\textbf{\_model}), valamint az adatelérés konkrét példányával
+		(\textbf{\_dataaccess}).
+		\item A játéktáble egy dinamikusan létrehozott nyomógombokból álló rács
+		(\textbf{gameBoard}), továbba a felületen elhelyezzük a File menüt és a hozzájuk
+		tartozó dialógus ablakokat, a státuszsort valamint a tábla generáló gombot.
+		\item A tábla generálását (\textbf{GenerateTable}) és a mezők beállítását
+		(\textbf{SetupTable}) privát metódusok végzik.
+		\item A nézet továbbá rendelkezik egy időzítővel (\textbf{\_timer}), amely
+		másodpercenként frissíti a játékosok megjelenített idejét.
+	\end{itemize}
+	\item A program teljes szerkezete:
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=17cm]{UMLs/Class.png}
+		\caption{Osztálydiagramm}
+	\end{figure}
+\end{itemize}
+\newpage
+\thispagestyle{empty}
+\begin{center}
+\colorbox{lightgray}{{\large JPSMA3} \hspace{3cm} {\large Eseményvezérelt alkalmazások 2 1. beadandó} \hspace{5cm} \thepage}
+\end{center}
+\section{Tesztelés}
+\begin{itemize}
+	\item A modell funkcionalitását egységtesztekkel vizsgáljuk az
+	(\textbf{AmobaModelTest}) osztályban.
+	\item Vizsgált esetek:
+	\begin{itemize}
+		\item\textbf{AmobaModel\_NewGameTest:} Új játék indításának tesztelése, mezők
+		feltöltése.
+		\item\textbf{AmobaModel\_StepTest:} Több lépés tesztelése, játékosváltás, illetve
+		megfelelő karakterek \\ elhelyezése.
+		\item\textbf{AmobaModel\_AdvanceTimeTest:} idő múlásának tesztelése, illetve, hogy
+		az éppen soron lévő \\ játékos ideje telik-e.
+		\item\textbf{AmobaModel\_GameOverTest:} Meghívódik-e a \textbf{GameOver} esemény
+		ha egy játékos kirakja a \\ szükséges 4 karaktert.
 	\end{itemize}
 \end{itemize}
 \end{document}
