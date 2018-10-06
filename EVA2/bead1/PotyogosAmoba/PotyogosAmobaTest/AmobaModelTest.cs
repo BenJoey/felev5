@@ -45,7 +45,7 @@ namespace PotyogosAmoba.Test
             _model.Step(3); //a harmadik oszlopra "kattintunk"
 
             Assert.AreEqual(Player.Player0, _model.CurrentPlayer);  //megnézzük, hogy váltott-e a másik játékosra
-            Assert.AreEqual(Player.PlayerX, _model.GetFieldValue(3, 9)); //elhelyezte-e az X-et a 3. oszlop aljára
+            Assert.AreEqual(Player.PlayerX, _model.GetFieldValue(9, 3)); //elhelyezte-e az X-et a 3. oszlop aljára
 
             Random r = new Random();
             // csinálunk még 4 random lépést

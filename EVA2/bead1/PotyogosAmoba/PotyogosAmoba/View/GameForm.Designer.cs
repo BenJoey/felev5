@@ -32,7 +32,6 @@
             this._GenButton = new System.Windows.Forms.Button();
             this._tableSize = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this._ButtonRow = new System.Windows.Forms.TableLayoutPanel();
             this._gameDisplayTable = new System.Windows.Forms.TableLayoutPanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -108,23 +107,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "A pálya n*n-es n=";
             // 
-            // _ButtonRow
-            // 
-            this._ButtonRow.AutoSize = true;
-            this._ButtonRow.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._ButtonRow.ColumnCount = 1;
-            this._ButtonRow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this._ButtonRow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this._ButtonRow.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.AddColumns;
-            this._ButtonRow.Location = new System.Drawing.Point(12, 58);
-            this._ButtonRow.Name = "_ButtonRow";
-            this._ButtonRow.Padding = new System.Windows.Forms.Padding(0, 0, 0, 20);
-            this._ButtonRow.RowCount = 1;
-            this._ButtonRow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this._ButtonRow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this._ButtonRow.Size = new System.Drawing.Size(0, 20);
-            this._ButtonRow.TabIndex = 2;
-            // 
             // _gameDisplayTable
             // 
             this._gameDisplayTable.AutoSize = true;
@@ -132,7 +114,7 @@
             this._gameDisplayTable.ColumnCount = 2;
             this._gameDisplayTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this._gameDisplayTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this._gameDisplayTable.Location = new System.Drawing.Point(12, 102);
+            this._gameDisplayTable.Location = new System.Drawing.Point(12, 63);
             this._gameDisplayTable.Margin = new System.Windows.Forms.Padding(3, 30, 3, 3);
             this._gameDisplayTable.Name = "_gameDisplayTable";
             this._gameDisplayTable.Padding = new System.Windows.Forms.Padding(0, 10, 0, 40);
@@ -227,21 +209,21 @@
             // _menuFileSaveGame
             // 
             this._menuFileSaveGame.Name = "_menuFileSaveGame";
-            this._menuFileSaveGame.Size = new System.Drawing.Size(180, 22);
+            this._menuFileSaveGame.Size = new System.Drawing.Size(151, 22);
             this._menuFileSaveGame.Text = "Játék mentése";
             this._menuFileSaveGame.Click += new System.EventHandler(this.SaveGame_Click);
             // 
             // játékBetöltéseToolStripMenuItem
             // 
             this.játékBetöltéseToolStripMenuItem.Name = "játékBetöltéseToolStripMenuItem";
-            this.játékBetöltéseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.játékBetöltéseToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.játékBetöltéseToolStripMenuItem.Text = "Játék betöltése";
             this.játékBetöltéseToolStripMenuItem.Click += new System.EventHandler(this.LoadGame_Click);
             // 
             // kilépésToolStripMenuItem
             // 
             this.kilépésToolStripMenuItem.Name = "kilépésToolStripMenuItem";
-            this.kilépésToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.kilépésToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.kilépésToolStripMenuItem.Text = "Kilépés";
             this.kilépésToolStripMenuItem.Click += new System.EventHandler(this.Exit_Click);
             // 
@@ -259,7 +241,6 @@
             this.Controls.Add(this._PauseButton);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this._gameDisplayTable);
-            this.Controls.Add(this._ButtonRow);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -283,7 +264,6 @@
         private System.Windows.Forms.NumericUpDown _tableSize;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button _GenButton;
-        private System.Windows.Forms.TableLayoutPanel _ButtonRow;
         private System.Windows.Forms.TableLayoutPanel _gameDisplayTable;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;

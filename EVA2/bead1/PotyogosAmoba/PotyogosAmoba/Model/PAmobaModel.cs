@@ -89,12 +89,8 @@ namespace PotyogosAmoba.Model
             gameSize = size;
             gameTable = new Player[gameSize, gameSize];
             for (int i = 0; i < gameSize; i++)
-            {
                 for (int j = 0; j < gameSize; j++)
-                {
                     gameTable[i, j] = Player.NoPlayer;
-                }
-            }
         }
 
         /// <summary>
@@ -122,9 +118,9 @@ namespace PotyogosAmoba.Model
             Int32 RowInd;
             for (RowInd = 0; RowInd < (gameSize - 1); RowInd++)
             {
-                if (gameTable[Column, RowInd + 1] != Player.NoPlayer) break;
+                if (gameTable[RowInd + 1, Column] != Player.NoPlayer) break;
             }
-            gameTable[Column, RowInd] = _currentPlayer;
+            gameTable[RowInd, Column] = _currentPlayer;
             _currentPlayer = _currentPlayer == Player.PlayerX ? Player.Player0 : Player.PlayerX;
             Refresh_Signal();
             GameCheck();

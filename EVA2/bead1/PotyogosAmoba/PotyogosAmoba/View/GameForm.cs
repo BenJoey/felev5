@@ -12,8 +12,7 @@ namespace PotyogosAmoba
 
         private IAmobaDataAccess _dataaccess;
         private PAmobaModel _model;
-        private Label[,] gameBoard;
-        private Button[] gameButtons;
+        private Button[,] gameBoard;
         private Timer _timer;
 
         #endregion
@@ -54,7 +53,7 @@ namespace PotyogosAmoba
 
             _menuFileSaveGame.Enabled = false;
 
-            foreach (Button b in gameButtons)
+            foreach (Button b in gameBoard)
                 b.Enabled = false;
             if (e.WhoWon != Player.NoPlayer)
             {
@@ -108,7 +107,6 @@ namespace PotyogosAmoba
                     _model.NewGame(10);
                 }
                 GenerateTable();
-                SetupTable();
             }
             _timer.Start();
         }
@@ -212,7 +210,7 @@ namespace PotyogosAmoba
 
         #endregion
 
-        #region Button Row event handlers
+        #region Button Grid event handlers
 
         /// <summary>
         /// Játék oszlopra kattintás eseménykezelője.
@@ -222,7 +220,13 @@ namespace PotyogosAmoba
         private void ButtonRow_Click(Object sender, MouseEventArgs e)
         {
             if (_timer.Enabled)
-                _model.Step((sender as Button).TabIndex);
+            {
+                Int32 RowInd = (sender as Button).TabIndex / _model.GetSize;
+                Int32 ColumnInd = (sender as Button).TabIndex % _model.GetSize;
+                if (RowInd != 0)
+                    gameBoard[RowInd - 1, ColumnInd].Enabled = true;
+                _model.Step(ColumnInd);
+            }
         }
 
         #endregion
@@ -237,29 +241,24 @@ namespace PotyogosAmoba
             DeleteBoard();
             _menuFileSaveGame.Enabled = true;
 
-            _ButtonRow.ColumnCount = _model.GetSize;
             _gameDisplayTable.RowCount = _gameDisplayTable.ColumnCount = _model.GetSize;
-            gameButtons = new Button[_model.GetSize];
-            gameBoard = new Label[_model.GetSize, _model.GetSize];
+            gameBoard = new Button[_model.GetSize, _model.GetSize];
             for (Int32 i = 0; i < _model.GetSize; i++)
-            {
-                gameButtons[i] = new Button();
-                gameButtons[i].FlatStyle = FlatStyle.Flat;
-                gameButtons[i].TabIndex = i;
-                gameButtons[i].Size = new Size(30, 30);
-                gameButtons[i].MouseClick += new MouseEventHandler(ButtonRow_Click);
-                _ButtonRow.Controls.Add(gameButtons[i], i, 1);
                 for (Int32 j = 0; j < _model.GetSize; j++)
                 {
-                    gameBoard[j, i] = new Label();
-                    gameBoard[j, i].BorderStyle = BorderStyle.FixedSingle;
-                    gameBoard[j, i].TextAlign = ContentAlignment.MiddleCenter;
-                    gameBoard[j, i].Size = new Size(30, 30);
-                    gameBoard[j, i].Font = new Font(FontFamily.GenericSansSerif, 12, FontStyle.Bold);
-                    gameBoard[j, i].FlatStyle = FlatStyle.Flat;
-                    _gameDisplayTable.Controls.Add(gameBoard[j, i], j, i);
+                    gameBoard[i,j] = new Button();
+                    gameBoard[i, j].TextAlign = ContentAlignment.MiddleCenter;
+                    gameBoard[i, j].Size = new Size(30, 30);
+                    gameBoard[i, j].TabIndex = i * _model.GetSize + j;
+                    gameBoard[i, j].Font = new Font(FontFamily.GenericSansSerif, 12, FontStyle.Bold);
+                    gameBoard[i, j].MouseClick += new MouseEventHandler(ButtonRow_Click);
+                    gameBoard[i, j].FlatStyle = FlatStyle.Flat;
+                    if (i == _model.GetSize - 1)
+                        gameBoard[i, j].Enabled = true;
+                    else
+                        gameBoard[i, j].Enabled = false;
+                    _gameDisplayTable.Controls.Add(gameBoard[i, j], j, i);
                 }
-            }
             SetupTable();
         }
 
@@ -268,14 +267,8 @@ namespace PotyogosAmoba
         /// </summary>
         private void SetupTable()
         {
-            for (Int32 i = 0; i < _model.GetSize; i++)
+            /*for (Int32 i = 0; i < _model.GetSize; i++)
             {
-                if (_model.GetFieldValue(i, 0) != Player.NoPlayer)
-                {
-                    gameButtons[i].Enabled = false; //Ha egy oszlop megtelt akkor már nem lehet a gombjára kattintani
-                    gameButtons[i].BackColor = Color.Black;
-                }
-                else gameButtons[i].BackColor = Color.Cyan;
                 for (Int32 j = 0; j < _model.GetSize; j++)
                 {
                     switch (_model.GetFieldValue(i, j))
@@ -294,6 +287,30 @@ namespace PotyogosAmoba
                             break;
                     }
                 }
+            }*/
+            foreach(Button b in gameBoard)
+            {
+                Int32 x = b.TabIndex / _model.GetSize;
+                Int32 y = b.TabIndex % _model.GetSize;
+                switch(_model.GetFieldValue(x,y))
+                {
+                    case Player.PlayerX:
+                        b.Text = "X";
+                        b.BackColor = Color.Pink;
+                        b.Enabled = false;
+                        break;
+                    case Player.Player0:
+                        b.Text = "O";
+                        b.BackColor = Color.LightGreen;
+                        b.Enabled = false;
+                        break;
+                    default:
+                        b.Text = "";
+                        b.BackColor = Color.White;
+                        break;
+                }
+                if (b.Enabled)
+                    b.BackColor = Color.Cyan;
             }
             CurrentPlayerDisplay.Text = _model.CurrentPlayer == Player.PlayerX ? "X" : "O";
         }
@@ -303,12 +320,10 @@ namespace PotyogosAmoba
         /// </summary>
         private void DeleteBoard()
         {
-            if (gameButtons != null)
+            if (gameBoard != null)
             {
-                foreach (Button a in gameButtons)
-                    _ButtonRow.Controls.Remove(a);
-                foreach (Label l in gameBoard)
-                    _gameDisplayTable.Controls.Remove(l);
+                foreach (Button b in gameBoard)
+                    _gameDisplayTable.Controls.Remove(b);
             }
         }
 
