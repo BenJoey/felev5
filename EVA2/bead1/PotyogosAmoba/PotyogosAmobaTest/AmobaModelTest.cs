@@ -42,19 +42,17 @@ namespace PotyogosAmoba.Test
             Assert.AreEqual(Player.PlayerX, _model.CurrentPlayer);
 
             _model.AdvanceTime();
-            _model.Step(3); //a harmadik oszlopra "kattintunk"
+            _model.Step(7, 9); //a hetedik oszlop, utolsó elemére "kattintunk"
 
             Assert.AreEqual(Player.Player0, _model.CurrentPlayer);  //megnézzük, hogy váltott-e a másik játékosra
-            Assert.AreEqual(Player.PlayerX, _model.GetFieldValue(9, 3)); //elhelyezte-e az X-et a 3. oszlop aljára
+            Assert.AreEqual(Player.PlayerX, _model.GetFieldValue(7, 9)); //elhelyezte-e az X-et a 7. oszlop aljára
 
-            Random r = new Random();
             // csinálunk még 4 random lépést
             //a játék itt még nem érhet véget mert 5 lépés alatt 3 X és 2 0 volt
             for (Int32 i = 0; i < 4; i++)
             {
                 _model.AdvanceTime();
-                Int32 newStep = r.Next(0, 10);
-                _model.Step(newStep);
+                _model.Step(i, 9);
             }
             Int32 filled = 0;
             for (Int32 i = 0; i < 10; i++)
@@ -72,7 +70,7 @@ namespace PotyogosAmoba.Test
                 _model.AdvanceTime(); //5-ször léptetjük X idejét
 
             //majd lépünk egyet, hogy játékost váltsunk
-            _model.Step(2);
+            _model.Step(2, 9);
             for (Int32 i = 0; i < 8; i++)
                 _model.AdvanceTime(); //8-szor léptetjük 0 idejét
 
@@ -90,8 +88,8 @@ namespace PotyogosAmoba.Test
             for (Int32 i = 0; i < 4; i++)
             {
                 _model.AdvanceTime();
-                _model.Step(i);
-                _model.Step(i);
+                _model.Step(i, 9);
+                _model.Step(i, 9);
             }
         }
 

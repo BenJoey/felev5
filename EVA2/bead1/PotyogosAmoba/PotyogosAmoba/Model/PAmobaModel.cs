@@ -24,7 +24,7 @@ namespace PotyogosAmoba.Model
         /// <summary>
         /// Amőba modell játék példányosítása.
         /// </summary>
-        /// <param name="dataA">Az adatelérés.</param>
+        /// <param name="dataA">Példányosított adatelérés.</param>
         public PAmobaModel(IAmobaDataAccess dataA)
         {
             _dataAccess = dataA;
@@ -112,15 +112,10 @@ namespace PotyogosAmoba.Model
         /// <summary>
         /// Játékos karakterének elhelyezése a kattintott oszlopba.
         /// </summary>
-        /// <param name="Column">A kattintott oszlop indexe.</param>
-        public void Step(Int32 Column)
+        /// <param name="Column">A kattintott gomb oszlopjának indexe.</param>
+        public void Step(Int32 Row, Int32 Column)
         {
-            Int32 RowInd;
-            for (RowInd = 0; RowInd < (gameSize - 1); RowInd++)
-            {
-                if (gameTable[RowInd + 1, Column] != Player.NoPlayer) break;
-            }
-            gameTable[RowInd, Column] = _currentPlayer;
+            gameTable[Row, Column] = _currentPlayer;
             _currentPlayer = _currentPlayer == Player.PlayerX ? Player.Player0 : Player.PlayerX;
             Refresh_Signal();
             GameCheck();

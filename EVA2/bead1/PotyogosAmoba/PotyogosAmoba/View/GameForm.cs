@@ -225,7 +225,7 @@ namespace PotyogosAmoba
                 Int32 ColumnInd = (sender as Button).TabIndex % _model.GetSize;
                 if (RowInd != 0)
                     gameBoard[RowInd - 1, ColumnInd].Enabled = true;
-                _model.Step(ColumnInd);
+                _model.Step(RowInd, ColumnInd);
             }
         }
 
