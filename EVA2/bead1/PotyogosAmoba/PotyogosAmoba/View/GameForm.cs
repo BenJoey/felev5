@@ -217,7 +217,7 @@ namespace PotyogosAmoba
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonRow_Click(Object sender, MouseEventArgs e)
+        private void ButtonGrid_Click(Object sender, MouseEventArgs e)
         {
             if (_timer.Enabled)
             {
@@ -251,7 +251,7 @@ namespace PotyogosAmoba
                     gameBoard[i, j].Size = new Size(30, 30);
                     gameBoard[i, j].TabIndex = i * _model.GetSize + j;
                     gameBoard[i, j].Font = new Font(FontFamily.GenericSansSerif, 12, FontStyle.Bold);
-                    gameBoard[i, j].MouseClick += new MouseEventHandler(ButtonRow_Click);
+                    gameBoard[i, j].MouseClick += new MouseEventHandler(ButtonGrid_Click);
                     gameBoard[i, j].FlatStyle = FlatStyle.Flat;
                     if (i == _model.GetSize - 1)
                         gameBoard[i, j].Enabled = true;
