@@ -18,11 +18,7 @@ command = ""
 while command != "EXIT":
     command = raw_input("$ ")
 
-    if command.upper() == "EXIRRRRT":
-    	client.sendall(command)
-        print "Kapcsolat megszakitva"
-
-    elif (command[0:2].upper() == "DL" and len(command)>2):
+    if (command[0:2].upper() == "DL" and len(command)>2):
 		if "\\" in command:
 			file = command.split("\\")[-1]
 		else:
@@ -50,6 +46,6 @@ while command != "EXIT":
 			print "Fajl sikeresen mentve a Kliens mappajaba!"
 			
     else:
-    	client.sendall(command)
-        data = client.recv(100000)
-        print data
+		client.sendall(command)
+		data = client.recv(100000)
+		print data
