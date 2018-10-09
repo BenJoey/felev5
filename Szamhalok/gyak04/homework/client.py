@@ -17,9 +17,9 @@ command = ""
 
 while command != "EXIT":
     command = raw_input("$ ")
-    client.sendall(command)
 
-    if command.upper() == "EXIT":
+    if command.upper() == "EXIRRRRT":
+    	client.sendall(command)
         print "Kapcsolat megszakitva"
 
     elif (command[0:2].upper() == "DL" and len(command)>2):
@@ -31,8 +31,14 @@ while command != "EXIT":
 				file = file + word + " "
 			if (not command[-1][-1] == " "):
 				file = file.strip()
-		print file
-		data = client.recv(100000)
+		client.sendall(("GS"+ command[2:]))
+		FileSize = client.recv(1000)
+	  	client.sendall(command)
+		try:
+			data = client.recv(int(FileSize))
+		except:
+			data = FileSize
+			dump = client.recv(20)
 		if (data == 'Empty'):
 			print "Hibas fajlnev vagy nem letezo fajl"
 		elif (data == 'Directory'):
@@ -41,8 +47,9 @@ while command != "EXIT":
 			f = open(file, "w")
 			f.write(data)
 			f.close()
-			print "file sikeresen atmasolva a Kliens mappajaba!"
+			print "Fajl sikeresen mentve a Kliens mappajaba!"
 			
     else:
+    	client.sendall(command)
         data = client.recv(100000)
         print data

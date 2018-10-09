@@ -8,6 +8,7 @@ import os
 import json
 import ast
 import copy
+import sys
 import datetime
 
 #################################################################
@@ -96,6 +97,7 @@ while input:
                 data = r.recv(200)
 
                 if data.upper() == "EXIT":
+                    r.sendall("Kapcsolat megszakitva")
                     r.close()
                     input.remove(r)
                     print "Kliens kilepett"
@@ -135,7 +137,7 @@ while input:
 						time = os.path.getmtime(path)
 						ToRet = "A file modositasi datuma:" + str(datetime.datetime.fromtimestamp(float(time)))
 						r.sendall(ToRet)
-                elif (data[0:2].upper() == "DL" and len(data)>2):
+                elif ((data[0:2].upper() in ["DL","GS"]) and len(data)>2):
 					file = ''
 					for word in data.split(" ")[1:]:
 						file = file + word + " "
@@ -150,9 +152,12 @@ while input:
 						f = open(path)
 						if os.path.getsize(path) > 0:
 							backString = f.read()
-							r.sendall(backString)
+							if data[0:2].upper() == "DL":
+								r.sendall(backString)
+							else:
+								r.sendall(str(sys.getsizeof(backString)))
 						else:
-							r.sendall(' ')
+							r.sendall("1")
                 else:
 					r.sendall("Hibas parancs")
             except:
