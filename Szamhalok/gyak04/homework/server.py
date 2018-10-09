@@ -5,7 +5,10 @@
 import socket
 import select
 import os
+import json
+import ast
 import copy
+import datetime
 
 #################################################################
 ###Internal functions
@@ -92,14 +95,16 @@ while input:
             try:
                 data = r.recv(200)
 
-                if data == "EXIT":
+                if data.upper() == "EXIT":
                     r.close()
                     input.remove(r)
                     print "Kliens kilepett"
-                elif data == "DIR":
-					r.sendall(str(listDirectory()))
+                elif data.upper() == "DIR":
+					Dir_json_obj = str(listDirectory())
+					ToRet = "File szerkezet:\n" + str(json.dumps(ast.literal_eval(Dir_json_obj), indent=4))
+					r.sendall(ToRet)
 				
-                elif (data[0:4] == "FIND" and len(data) > 5):
+                elif (data[0:4].upper() == "FIND" and len(data) > 5):
 					directory_to_search = os.listdir(server_directory)
 					search = ''
 					finds = []
@@ -110,11 +115,12 @@ while input:
 					for file in directory_to_search:
 						SearchDirectory(server_directory + "\\" + file, file, search, finds)
 					if not finds:
-						r.sendall("Empty")
+						r.sendall("Hibas fajlnev vagy nem letezo fajl")
 					else:
 						finds = list(map( lambda x: x.replace(server_directory + '\\', ''), finds))
-						r.sendall(str(finds))
-                elif (data[0:7] == "MODTIME" and len(data)>7):
+						ToRet = "A file(ok) eleresi helye(i):\n" + str(finds).replace('\\\\', '\\')
+						r.sendall(ToRet)
+                elif (data[0:7].upper() == "MODTIME" and len(data)>7):
 					file = ''
 					for word in data.split(" ")[1:]:
 						file = file + word + " "
@@ -122,13 +128,14 @@ while input:
 						file = file.strip()
 					path = server_directory + "\\" + file
 					if (not os.path.exists(path)):
-						r.sendall("Empty")
+						r.sendall("Hibas fajlnev vagy nem letezo fajl")
 					elif (os.path.isdir(path)):
-						r.sendall("Directory")
+						r.sendall("A megadott utvonal egy konyvtar")
 					else:
 						time = os.path.getmtime(path)
-						r.sendall(str(time))
-                elif (data[0:2] == "DL" and len(data)>2):
+						ToRet = "A file modositasi datuma:" + str(datetime.datetime.fromtimestamp(float(time)))
+						r.sendall(ToRet)
+                elif (data[0:2].upper() == "DL" and len(data)>2):
 					file = ''
 					for word in data.split(" ")[1:]:
 						file = file + word + " "
@@ -146,6 +153,8 @@ while input:
 							r.sendall(backString)
 						else:
 							r.sendall(' ')
+                else:
+					r.sendall("Hibas parancs")
             except:
 				r.close()
 				input.remove(r)
