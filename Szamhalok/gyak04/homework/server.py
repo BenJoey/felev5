@@ -5,10 +5,32 @@
 import socket
 import select
 import os
+import copy
 
 #################################################################
 ###Internal functions
 #################################################################
+
+def CreateJSON_OBJ(JSON_INOUT, prevFolders, currPath, isFile):
+	for prev in prevFolders:
+		if (prev == prevFolders[0] and prev == prevFolders[-1] and isFile):
+			JSON_INOUT['root']['files'].append(currPath)
+		elif (prev == prevFolders[-1] and isFile):
+			prevFolder[prev]['files'].append(currPath)
+		
+		elif(prev == prevFolders[0] and prev == prevFolders[-1] and not isFile):
+			JSON_INOUT['root']['dirs'][currPath] = {}
+			JSON_INOUT['root']['dirs'][currPath]['dirs'] = {}
+			JSON_INOUT['root']['dirs'][currPath]['files'] = []
+		elif (prev == prevFolders[-1] and not isFile):
+			prevFolder[prev]['dirs'][currPath] = {}
+			prevFolder[prev]['dirs'][currPath]['dirs'] = {}
+			prevFolder[prev]['dirs'][currPath]['files'] = []
+			
+		elif prev == prevFolders[0]:
+			prevFolder = JSON_INOUT[prev]['dirs']
+		else:
+			prevFolder = prevFolder[prev]['dirs']
 
 def listDirectory():
 	OutJSON = {}
@@ -17,18 +39,26 @@ def listDirectory():
 	OutJSON['root']['files'] = []
 	directory = os.listdir(server_directory)
 	for file in directory:
-		DirectoryCollector(server_files + "\\" + file, OutJSON, ["root"], file)
+		DirectoryCollector(server_directory + "\\" + file, OutJSON, ["root"], file)
 	return OutJSON
 
 def DirectoryCollector(path, OutJSON2, prevFolders, currPath):
 	if os.path.isdir(path):
-		jsonMaker(OutJSON2, prevFolders, currPath, False)
+		CreateJSON_OBJ(OutJSON2, prevFolders, currPath, False)
 		dir = os.listdir(path)
 		prevFolders.append(currPath)
 		for file in dir:
 			DirectoryCollector(path + "\\" + file, OutJSON2, copy.deepcopy(prevFolders), file)
 	else:
-		jsonMaker(OutJSON2, prevFolders, currPath, True)
+		CreateJSON_OBJ(OutJSON2, prevFolders, currPath, True)
+
+def SearchDirectory(path_to_dir, currPath, search, finds):
+	if os.path.isdir(path_to_dir):
+		direct = os.listdir(path_to_dir)
+		for file in direct:
+			SearchDirectory(path_to_dir + "\\" + file, file, search, finds)
+	elif (currPath == search):
+		finds.append(path_to_dir)
 
 #################################################################
 ###Script starts here
@@ -61,7 +91,30 @@ while input:
         else:
             try:
                 data = r.recv(200)
+
                 if data == "EXIT":
                     r.close()
                     input.remove(r)
                     print "Kliens kilepett"
+                elif data == "DIR":
+					r.sendall(str(listDirectory()))
+				
+                elif (data[0:4] == "FIND" and len(data) > 5):
+					directory_to_search = os.listdir(server_directory)
+					search = ''
+					finds = []
+					for idontknow in data.split(" ")[1:]:
+						search = search + idontknow + " "
+					if (not data[-1][-1] == " "):
+						search = search.strip()
+					for file in directory_to_search:
+						SearchDirectory(server_directory + "\\" + file, file, search, finds)
+					if not finds:
+						r.sendall("Empty")
+					else:
+						finds = list(map( lambda x: x.replace(server_directory + '\\', ''), finds))
+						r.sendall(str(finds))
+            except:
+				r.close()
+				input.remove(r)
+				print "A kliens eroszakosan megszakadt"
