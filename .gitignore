@@ -12,3 +12,4 @@
 *.vs/
 *packages/
 *serverContent/
+*.exe
