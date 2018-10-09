@@ -66,7 +66,7 @@ def SearchDirectory(path_to_dir, currPath, search, finds):
 
 server_address = ("localhost", 10000)
 server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-server_directory = "C:\Users\Bence\felev5\Szamhalok\gyak04\homework\serverContent"
+server_directory = "serverContent"
 
 server.bind(server_address)
 
@@ -114,6 +114,38 @@ while input:
 					else:
 						finds = list(map( lambda x: x.replace(server_directory + '\\', ''), finds))
 						r.sendall(str(finds))
+                elif (data[0:7] == "MODTIME" and len(data)>7):
+					file = ''
+					for word in data.split(" ")[1:]:
+						file = file + word + " "
+					if (not data[-1][-1] == " "):
+						file = file.strip()
+					path = server_directory + "\\" + file
+					if (not os.path.exists(path)):
+						r.sendall("Empty")
+					elif (os.path.isdir(path)):
+						r.sendall("Directory")
+					else:
+						time = os.path.getmtime(path)
+						r.sendall(str(time))
+                elif (data[0:2] == "DL" and len(data)>2):
+					file = ''
+					for word in data.split(" ")[1:]:
+						file = file + word + " "
+					if (not data[-1][-1] == " "):
+						file = file.strip()
+					path = server_directory + "\\" + file
+					if (not os.path.exists(path)):
+						r.sendall("Empty")
+					elif (os.path.isdir(path)):
+						r.sendall("Directory")
+					else:
+						f = open(path)
+						if os.path.getsize(path) > 0:
+							backString = f.read()
+							r.sendall(backString)
+						else:
+							r.sendall(' ')
             except:
 				r.close()
 				input.remove(r)
