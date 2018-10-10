@@ -5,4 +5,4 @@ run:
 	matrix_solve.exe
 
 clear:
-	rm -rf *.exe
+	rm -rf *.exe output.txt
