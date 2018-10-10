@@ -15,7 +15,7 @@ client.connect(server_address)
 
 command = ""
 
-while command != "EXIT":
+while command.upper() != "EXIT":
     command = raw_input("$ ")
 
     if (command[0:2].upper() == "DL" and len(command)>2):
