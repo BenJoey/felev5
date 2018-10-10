@@ -2,27 +2,19 @@
 #include <vector>
 #include <future>
 #include <iostream>
+//#include <algorithm>
 
-std::vector<std::vector<int>> calculate_solution(const std::vector<std::vector<int>>& data)
+std::vector<std::vector<int>> calculate_solution(const std::vector<std::vector<int>>& ToCalc)
 {
-    //std::vector<std::vector<int>> ToRet(data.size(), std::vector<int>(0));
-    return data;
-}
-
-std::string Conv_Vect_To_String(const std::vector<std::vector<int>>& data)
-{
-    std::string ToRet = "";
-    for(int i = 0;i<data.size();i++)
+    std::vector<std::vector<int>> ToRet(ToCalc);
+    for(int i = 0; i < ToRet.size(); i++)
     {
-        for(int j = 0;i<data[j].size();j++)
+        for(int j = 0; j < ToRet.size(); j++)
         {
-            //std::cout << data[i][j] <<std::endl;
-            ToRet += data[i][j];
+            if(ToRet[i][j] != 0 ){}
         }
-        ToRet += "\r\n";
     }
-    std::cout << ToRet << std::endl;
-    return ToRet;
+    return ToCalc;
 }
     
 int main()
@@ -33,26 +25,24 @@ int main()
 	
 	input >> N;
     
-	std::vector<std::vector<std::vector<int>>> data(N, std::vector<std::vector<int>>(0));
-    //data.resize(N);
-    for(int i = 0; i<N;i++)
+	std::vector<std::vector<std::vector<int>>> data(N);
+    for(int i = 0; i < N; i++)
     {
         int Size;
         input >> Size;
         data[i].resize(Size);
-        for(int j = 0;j<Size;j++)
+        for(int j = 0; j < Size; j++)
         {
             data[i][j].resize(Size);
-            for(int k =0;k<Size;k++)
+            for(int k =0; k < Size; k++)
             {
                 input >> data[i][j][k];
             }
         }
     }
-    //std::cout << data[2][1][0];
     input.close();
     std::vector<std::future<std::vector<std::vector<int>>>> results;
-    for(size_t i=0;i<N;i++)
+    for(size_t i = 0; i < N; i++)
     {
         results.push_back(std::async(std::launch::async, calculate_solution, data[i]));
     }
@@ -60,15 +50,13 @@ int main()
     for(std::future<std::vector<std::vector<int>>>& f : results)
     {
         f.wait();
-        //std::string Out = Conv_Vect_To_String(f.get());
-        //output << Out <<std::endl;
         std::vector<std::vector<int>> Res = f.get();
-        for(int i = 0;i<Res.size();i++)
+        for(int i = 0; i < Res.size(); i++)
         {
-            for(int j = 0;i<Res[j].size();j++)
+            for(int j = 0; j < Res[i].size(); j++)
             {
-                //std::cout << data[i][j] <<std::endl;
                 output << Res[i][j];
+                if(j != Res[i].size() - 1)output << " ";
             }
             output << std::endl;
         }
