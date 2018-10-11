@@ -25,9 +25,9 @@ bool Can_It_Go_Here(const std::vector<std::vector<int>>& ToSearch, int Row, int 
 bool solve(std::vector<std::vector<int>>& ToRet)
 {
 	if(std::make_pair(-1,-1) == get_empty_field(ToRet)) return true;
-	
+
 	std::pair<int,int> current = get_empty_field(ToRet);  // First item is the row number & second one is the column
-	
+
 	for(int num = 1; num <= ToRet.size(); num++)
 		if(Can_It_Go_Here(ToRet, current.first, current.second, num))
 		{
@@ -40,55 +40,55 @@ bool solve(std::vector<std::vector<int>>& ToRet)
 
 std::vector<std::vector<int>> get_answer(const std::vector<std::vector<int>>& Original)
 {
-    std::vector<std::vector<int>> ToRet(Original);
+	std::vector<std::vector<int>> ToRet(Original);
 	if(solve(ToRet)) return ToRet;
 	else return Original;
 }
 
 int main()
 {
-    std::ifstream input("input.txt");
-	
+	std::ifstream input("input.txt");
+
 	unsigned int N;
-	
+
 	input >> N;
-    
+
 	std::vector<std::vector<std::vector<int>>> data(N);
-    for(int i = 0; i < N; i++)
-    {
-        int Size;
-        input >> Size;
-        data[i].resize(Size);
-        for(int j = 0; j < Size; j++)
-        {
-            data[i][j].resize(Size);
-            for(int k =0; k < Size; k++)
-            {
-                input >> data[i][j][k];
-            }
-        }
-    }
-    input.close();
-    std::vector<std::future<std::vector<std::vector<int>>>> results;
-    for(size_t i = 0; i < N; i++)
-    {
-        results.push_back(std::async(std::launch::async, get_answer, data[i]));
-    }
-    std::ofstream output("output.txt");
-    for(std::future<std::vector<std::vector<int>>>& f : results)
-    {
-        f.wait();
-        std::vector<std::vector<int>> Res = f.get();
-        for(int i = 0; i < Res.size(); i++)
-        {
-            for(int j = 0; j < Res[i].size(); j++)
-            {
-                output << Res[i][j];
-                if(j != Res[i].size() - 1)output << " ";
-            }
-            output << std::endl;
-        }
-    }
-    output.close();
-    return 0;
+	for(int i = 0; i < N; i++)
+	{
+		int Size;
+		input >> Size;
+		data[i].resize(Size);
+		for(int j = 0; j < Size; j++)
+		{
+			data[i][j].resize(Size);
+			for(int k =0; k < Size; k++)
+			{
+				input >> data[i][j][k];
+			}
+		}
+	}
+	input.close();
+	std::vector<std::future<std::vector<std::vector<int>>>> results;
+	for(size_t i = 0; i < N; i++)
+	{
+		results.push_back(std::async(std::launch::async, get_answer, data[i]));
+	}
+	std::ofstream output("output.txt");
+	for(std::future<std::vector<std::vector<int>>>& f : results)
+	{
+		f.wait();
+		std::vector<std::vector<int>> Res = f.get();
+		for(int i = 0; i < Res.size(); i++)
+		{
+			for(int j = 0; j < Res[i].size(); j++)
+			{
+				output << Res[i][j];
+				if(j != Res[i].size() - 1)output << " ";
+			}
+			output << std::endl;
+		}
+	}
+	output.close();
+	return 0;
 }
