@@ -10,7 +10,7 @@
 struct Order{
     char name[50];
     char email[50];
-    char phone[11];
+    char phone[12];
     time_t time;
     int request;
     int position;
@@ -24,6 +24,36 @@ struct Model{
 };
 
 typedef struct Model model_t;
+
+void Order_to_File(FILE* stream, const order_t* ord){
+    fprintf(
+        stream,
+        "%d;%s;%s;%s;%d\n",
+        ord->position,
+        ord->name,
+        ord->email,
+        ord->phone,
+        ord->request
+    );
+}
+
+void save_data(const model_t* toSave, order_t* new_Ord){
+    FILE* file = fopen(SAVE_LOC, "w");
+    if(file == NULL) {
+        return;
+    } else {
+        fprintf(file, "%d\n", toSave->length + (new_Ord == NULL ? 0 : 1));
+        int i;
+        for(i = 0; i < toSave->length; ++i) {
+            Order_to_File(file, &(toSave->full_log[i]));
+        }
+        if(new_Ord!=NULL){
+            new_Ord->position=toSave->length+1;
+            Order_to_File(file, new_Ord);
+        }
+        fclose(file);
+    }
+}
 
 void load_data(model_t* toFill){
     FILE* file = fopen(SAVE_LOC, "r");
@@ -42,7 +72,7 @@ void load_data(model_t* toFill){
             order_t* curr = &(toFill->full_log[i]);
             fscanf(
                 file,
-                "%d;%[^;];%[^;];%[^;];%d",
+                "%d;%[^;];%[^;];%[^;];%d\n",
                 (int)&(curr->position),
                 (char*)&(curr->name),
                 (char*)&(curr->email),
@@ -54,22 +84,9 @@ void load_data(model_t* toFill){
     fclose(file);
 }
 
-int read_order(order_t* ord) {
-    printf("Nev (max 50 karakter): ");
-    if(scanf(NAME_FORMAT, ord->name)<0)return 0;
-    printf("Email (max 50 karakter): ");
-    if(scanf(NAME_FORMAT, ord->email)<0)return 0;
-    printf("Telefonszam (11 szamjegy): ");
-    if(scanf("%s", &(ord->phone))<0){return 0;}
-    printf("Igeny: ");
-    if(scanf("%s", ord->request)<0)return 0;
-    ord->time = time(NULL);
-    return 1;
-}
-
 void print_order(const order_t* ord){
-    printf("Sorszam: %d", ord->position);
-    printf("Megrendelo neve: %s   Email-cime: %s   Telefonszama: %s   Igenye: %s", ord->name, ord->email, ord->phone, ord->request);
+    printf("\nSorszam: %d   ", ord->position);
+    printf("Megrendelo neve: %s   Email-cime: %s   Telefonszama: %s   Igenye: %d", ord->name, ord->email, ord->phone, ord->request);
 }
 
 void list_by_filter(const model_t* model, const char* param, const int type){
@@ -95,6 +112,18 @@ void wait_enter(){
     getchar();
 }
 
+void read_order(order_t* ord) {
+    printf("Nev (max 50 karakter): ");
+    scanf(NAME_FORMAT, &(ord->name));
+    printf("Email (max 50 karakter): ");
+    scanf(NAME_FORMAT, &(ord->email));
+    printf("Telefonszam (11 szamjegy): ");
+    scanf("%11d", &(ord->phone));
+    printf("Igeny: ");
+    scanf("%20d", &(ord->request));
+    ord->time = time(NULL);
+}
+
 int main()
 {
 	int quit = 0;
@@ -106,54 +135,57 @@ int main()
         printf("3: Teljes listazas\n");
         printf("4: Listazas szurve\n");
         printf("0: Kilepes\n\n");
-        int selected;
-        int choice;
+        char selected[1];
+        char choice[1];
         model_t Model;
+        load_data(&Model);
         order_t Current;
-        scanf("%d", &selected);
-        switch(selected){
-            case 0:
+        scanf("%s", &selected);
+        switch(selected[0]){
+            case '0':
                 quit=1;
                 break;
-            case 1:
+            case '1':
                 printf("----Uj rendeles----\n\n");
-                if(read_order(&Current) == 1){
-                    printf("%s", Current.name);
-                }
-                //insert save order function here
+                read_order(&Current);
+                save_data(&Model, &Current);
                 wait_enter();
                 break;
-            case 2:
-                printf("Modositas tipusa\n");
+            case '2':
+                printf("----Modositas tipusa----\n");
                 printf("1. Torles\n");
                 printf("2. Adatok/Igeny szerkesztese\n");
-                if(scanf("%d", &choice)>0){
+                scanf("%s", &choice);
+                if(choice[0]=='1'||choice[0]=='2'){
                     printf("Modositani kivant megrendeles sorszama: ");
                 }
                 wait_enter();
                 break;
-            case 3:
-                printf("Megrendelesek teljes listaja:\n\n");
+            case '3':
+                printf("----Megrendelesek teljes listaja:----\n");
                 int i;
                 for(i=0;i<Model.length;++i){
                     print_order(&(Model.full_log[i]));
                 }
                 wait_enter();
                 break;
-            case 4:
-                printf("Mi szerint kivan listazni?\n");
+            case '4':
+                printf("----Mi szerint kivan listazni?----\n");
                 printf("1. Nev szerint\n");
                 printf("2. Igeny szerint\n");
-                if(scanf("%d", &choice)>0 && (choice==1||choice==2)){
+                scanf("%s", &choice);
+                if(choice[0]=='1'||choice[0]=='2'){
                     printf("Keresesi parameter: ");
                     char param[50];
                     scanf("%s", &param);
-                    list_by_filter(&Model, param, choice);
+                    list_by_filter(&Model, param, (int)choice[0]);
                     //printf("%d, test   %s   tests\n\n", choice, param);
                 }
                 wait_enter();
                 break;
             default:
+                printf("Hibas parancs");
+                wait_enter();
                 break;
         }
     }
