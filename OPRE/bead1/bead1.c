@@ -15,12 +15,13 @@ struct order{
     int position;
 };
 
+typedef struct order order_t;
+
 struct model{
     int lenght;
     order_t* full_log;
 };
 
-typedef struct order order_t;
 typedef struct model model_t;
 
 void read_order(order_t* ord) {
@@ -49,12 +50,18 @@ void list_by_filter(const model_t* model, const char* param, const int type){
                 toFilter = model->full_log[i].name;
                 break;
             case 2:
-                toFilter = model->full_log[i].request;
+                toFilter = (char*)model->full_log[i].request;
                 break;
         }
         if(param == toFilter)
             print_order(&(model->full_log[i]));
     }
+}
+
+void wait_enter(){
+    printf("\nNyomj [Enter]-t a folytatashoz.\n");
+    while(getchar()!='\n');
+    getchar();
 }
 
 int main()
@@ -69,6 +76,7 @@ int main()
         printf("4: Listazas szurve\n");
         printf("0: Kilepes\n\n");
         int selected;
+        int choice;
         model_t Model;
         order_t Current;
         scanf("%d", &selected);
@@ -80,6 +88,16 @@ int main()
                 printf("----Uj rendeles----\n\n");
                 read_order(&Current);
                 //insert save order function here
+                wait_enter();
+                break;
+            case 2:
+                printf("Modositas tipusa\n");
+                printf("1. Torles\n");
+                printf("2. Adatok/Igeny szerkesztese\n");
+                if(scanf("%d", &choice)){
+                    printf("Modositani kivant megrendeles sorszama: ");
+                }
+                wait_enter();
                 break;
             case 3:
                 printf("Megrendelesek teljes listaja:\n\n");
@@ -87,21 +105,20 @@ int main()
                 for(i=0;i<Model.lenght;++i){
                     print_order(&(Model.full_log[i]));
                 }
+                wait_enter();
                 break;
             case 4:
                 printf("Mi szerint kivan listazni?\n");
                 printf("1. Nev szerint\n");
                 printf("2. Igeny szerint\n");
-                int choice;
-                if(scanf("%d", &choice)){
+                if(scanf("%d", &choice && (choice==1||choice==2))){
                     printf("Keresesi parameter: ");
                     char param[50];
                     scanf("%s", &param);
-                    printf("%d, test   %s   tests\n\n", choice, param);
-                    if(choice==1 || choice==2){
-                        list_by_filter(&Model, param, choice);
-                    }
+                    list_by_filter(&Model, param, choice);
+                    //printf("%d, test   %s   tests\n\n", choice, param);
                 }
+                wait_enter();
                 break;
             default:
                 break;
