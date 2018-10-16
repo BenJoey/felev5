@@ -3,10 +3,11 @@
 #include <time.h>
 
 #define NAME_FORMAT "%50s"
-#define EMAIL_FORMAT "[a-zA-Z0-9]@[a-zA-Z].[a-zA-Z]"
+#define SEPAR ";"
+//#define EMAIL_FORMAT "[a-zA-Z0-9]@[a-zA-Z].[a-zA-Z]"
 #define SAVE_LOC "data.txt"
 
-struct order{
+struct Order{
     char name[50];
     char email[50];
     char phone[11];
@@ -15,25 +16,55 @@ struct order{
     int position;
 };
 
-typedef struct order order_t;
+typedef struct Order order_t;
 
-struct model{
-    int lenght;
+struct Model{
+    int length;
     order_t* full_log;
 };
 
-typedef struct model model_t;
+typedef struct Model model_t;
 
-void read_order(order_t* ord) {
+void load_data(model_t* toFill){
+    FILE* file = fopen(SAVE_LOC, "r");
+    if(file == NULL) {
+        file = fopen(SAVE_LOC, "w");
+        fprintf(file, "0\n");
+        toFill->length = 0;
+        toFill->full_log = NULL;
+    }else{
+        int length;
+        fscanf(file, "%d", &length);
+        toFill->length = length;
+        toFill->full_log = (order_t*)(malloc(toFill->length * sizeof(order_t)));
+        int i;
+        for(i=0;i<length;++i){
+            order_t* curr = &(toFill->full_log[i]);
+            fscanf(
+                file,
+                "%d;%[^;];%[^;];%[^;];%d",
+                (int)&(curr->position),
+                (char*)&(curr->name),
+                (char*)&(curr->email),
+                (char*)&(curr->phone),
+                (int)&(curr->request)
+            );
+        }
+    }
+    fclose(file);
+}
+
+int read_order(order_t* ord) {
     printf("Nev (max 50 karakter): ");
-    scanf(NAME_FORMAT, ord->name);
+    if(scanf(NAME_FORMAT, ord->name)<0)return 0;
     printf("Email (max 50 karakter): ");
-    scanf(EMAIL_FORMAT, ord->email);
+    if(scanf(NAME_FORMAT, ord->email)<0)return 0;
     printf("Telefonszam (11 szamjegy): ");
-    scanf("%11s", ord->phone);
+    if(scanf("%s", &(ord->phone))<0){return 0;}
     printf("Igeny: ");
-    scanf("%20s", &(ord->request));
+    if(scanf("%s", ord->request)<0)return 0;
     ord->time = time(NULL);
+    return 1;
 }
 
 void print_order(const order_t* ord){
@@ -43,7 +74,7 @@ void print_order(const order_t* ord){
 
 void list_by_filter(const model_t* model, const char* param, const int type){
     int i;
-    for(i=0;i<model->lenght;++i){
+    for(i=0;i<model->length;++i){
         char* toFilter;
         switch(type){
             case 1:
@@ -86,7 +117,9 @@ int main()
                 break;
             case 1:
                 printf("----Uj rendeles----\n\n");
-                read_order(&Current);
+                if(read_order(&Current) == 1){
+                    printf("%s", Current.name);
+                }
                 //insert save order function here
                 wait_enter();
                 break;
@@ -94,7 +127,7 @@ int main()
                 printf("Modositas tipusa\n");
                 printf("1. Torles\n");
                 printf("2. Adatok/Igeny szerkesztese\n");
-                if(scanf("%d", &choice)){
+                if(scanf("%d", &choice)>0){
                     printf("Modositani kivant megrendeles sorszama: ");
                 }
                 wait_enter();
@@ -102,7 +135,7 @@ int main()
             case 3:
                 printf("Megrendelesek teljes listaja:\n\n");
                 int i;
-                for(i=0;i<Model.lenght;++i){
+                for(i=0;i<Model.length;++i){
                     print_order(&(Model.full_log[i]));
                 }
                 wait_enter();
@@ -111,7 +144,7 @@ int main()
                 printf("Mi szerint kivan listazni?\n");
                 printf("1. Nev szerint\n");
                 printf("2. Igeny szerint\n");
-                if(scanf("%d", &choice && (choice==1||choice==2))){
+                if(scanf("%d", &choice)>0 && (choice==1||choice==2)){
                     printf("Keresesi parameter: ");
                     char param[50];
                     scanf("%s", &param);
