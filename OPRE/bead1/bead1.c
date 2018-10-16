@@ -15,13 +15,12 @@ struct order{
     int position;
 };
 
-typedef struct order order_t;
-
 struct model{
     int lenght;
     order_t* full_log;
 };
 
+typedef struct order order_t;
 typedef struct model model_t;
 
 void read_order(order_t* ord) {
@@ -34,6 +33,28 @@ void read_order(order_t* ord) {
     printf("Igeny: ");
     scanf("%20s", &(ord->request));
     ord->time = time(NULL);
+}
+
+void print_order(const order_t* ord){
+    printf("Sorszam: %d", ord->position);
+    printf("Megrendelo neve: %s   Email-cime: %s   Telefonszama: %s   Igenye: %s", ord->name, ord->email, ord->phone, ord->request);
+}
+
+void list_by_filter(const model_t* model, const char* param, const int type){
+    int i;
+    for(i=0;i<model->lenght;++i){
+        char* toFilter;
+        switch(type){
+            case 1:
+                toFilter = model->full_log[i].name;
+                break;
+            case 2:
+                toFilter = model->full_log[i].request;
+                break;
+        }
+        if(param == toFilter)
+            print_order(&(model->full_log[i]));
+    }
 }
 
 int main()
@@ -61,7 +82,29 @@ int main()
                 //insert save order function here
                 break;
             case 3:
-                list_model();
+                printf("Megrendelesek teljes listaja:\n\n");
+                int i;
+                for(i=0;i<Model.lenght;++i){
+                    print_order(&(Model.full_log[i]));
+                }
+                break;
+            case 4:
+                printf("Mi szerint kivan listazni?\n");
+                printf("1. Nev szerint\n");
+                printf("2. Igeny szerint\n");
+                int choice;
+                if(scanf("%d", &choice)){
+                    printf("Keresesi parameter: ");
+                    char param[50];
+                    scanf("%s", &param);
+                    printf("%d, test   %s   tests\n\n", choice, param);
+                    if(choice==1 || choice==2){
+                        list_by_filter(&Model, param, choice);
+                    }
+                }
+                break;
+            default:
+                break;
         }
     }
 }
