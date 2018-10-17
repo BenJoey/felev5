@@ -73,11 +73,11 @@ void load_data(model_t* toFill){
             fscanf(
                 file,
                 "%d;%[^;];%[^;];%[^;];%d\n",
-                (int)&(curr->position),
+                &(curr->position),
                 (char*)&(curr->name),
                 (char*)&(curr->email),
                 (char*)&(curr->phone),
-                (int)&(curr->request)
+                &(curr->request)
             );
         }
     }
@@ -86,7 +86,7 @@ void load_data(model_t* toFill){
 
 void print_order(const order_t* ord){
     printf("\nSorszam: %d   ", ord->position);
-    printf("Megrendelo neve: %s   Email-cime: %s   Telefonszama: %s   Igenye: %d", ord->name, ord->email, ord->phone, ord->request);
+    printf("Megrendelo neve: %s   Email-cime: %s   Telefonszama: %s   Igenye: %d\n", ord->name, ord->email, ord->phone, ord->request);
 }
 
 void list_by_filter(const model_t* model, const char* param, const int type){
@@ -98,10 +98,10 @@ void list_by_filter(const model_t* model, const char* param, const int type){
                 toFilter = model->full_log[i].name;
                 break;
             case 2:
-                toFilter = (char*)model->full_log[i].request;
+                toFilter = (char*)&(model->full_log[i].request);
                 break;
         }
-        if(param == toFilter)
+        if(*param == *toFilter)
             print_order(&(model->full_log[i]));
     }
 }
@@ -118,10 +118,24 @@ void read_order(order_t* ord) {
     printf("Email (max 50 karakter): ");
     scanf(NAME_FORMAT, &(ord->email));
     printf("Telefonszam (11 szamjegy): ");
-    scanf("%11d", &(ord->phone));
+    scanf("%11s", &(ord->phone));
     printf("Igeny: ");
     scanf("%20d", &(ord->request));
     ord->time = time(NULL);
+}
+
+int Mod_Order(model_t* FullModel, int OrdNum){
+    int Index=-1;
+    int i;
+    for(i=0;i<FullModel->length;++i){
+        if(FullModel->full_log[i].position == OrdNum) Index = i;
+    }
+    if(Index==-1)return 0;
+    printf("Modositani kivant megrendeles jelenlegi adatai:\n");
+    print_order(&(FullModel->full_log[i]));
+    printf("Uj adatok:\n");
+    read_order(&(FullModel->full_log[i]));
+    return 1;
 }
 
 int main()
@@ -158,6 +172,8 @@ int main()
                 scanf("%s", &choice);
                 if(choice[0]=='1'||choice[0]=='2'){
                     printf("Modositani kivant megrendeles sorszama: ");
+                    int OrdNum;
+                    scanf("%d", &OrdNum);
                 }
                 wait_enter();
                 break;
