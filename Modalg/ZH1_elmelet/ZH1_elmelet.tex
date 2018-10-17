@@ -34,29 +34,29 @@
 	f(a,b)=0\text{ és }\delta_2f(a,b)\neq0$\br
 	Ekkor:
 	\begin{itemize}
-		\item $\exists u_1, u_2\subset\R$ nyílt, $a\in u_1, b\in u_2\text{ és }\exists!\varphi:
-		u_1\rightarrow u_2$ bijekció:$\varphi(a)=b\text{ és }f(x, \varphi(x))=0$
-		\item $\varphi:u_1\rightarrow u_2$ \folytdifh és $\varphi'(x)=$
+		\item $\exists U_1, U_2\subset\R$ nyílt, $a\in U_1, b\in U_2\text{ és }\exists!\varphi:
+		U_1\rightarrow U_2$ bijekció:$\varphi(a)=b\text{ és }f(x, \varphi(x))=0$
+		\item $\varphi:U_1\rightarrow U_2$ \folytdifh és $\varphi'(x)=$
 		\LARGE{$-\frac{\delta_1f(x, \varphi(x))}{\delta_2f(x, \varphi(x))}$}
 	\end{itemize}
-	Mindkét esetben $x\in u_1$
+	Mindkét esetben $x\in U_1$
 	\item\textbf{Implicit függvény tétel} (általános eset):\br
 	Legyen $\Omega_1\subset\R^{n_1},\Omega_2\subset\R^{n_2}$ nyílt, 
 	$f:\Omega_1\times\Omega_2\rightarrow\R^{n_2}$\br
 	Tfh: $f$ \folytdifh $\Omega_1\times\Omega_2$-n és $\exists a\in\Omega_1, b\in\Omega_2:
-	f(a,b)=0\text{ és }\delta_2f(a,b)\neq0$\br
+	f(a,b)=0\br\text{és }det(\delta_2f(a,b))\neq0$\br
 	Ekkor:
 	\begin{itemize}
-		\item $\exists u_1\subset\Omega_1, u_2\subset\Omega_2$ nyílt, $a\in u_1, b\in u_2\text{ és }\exists!\varphi:
-		u_1\rightarrow u_2:\varphi(a)=b\text{ és }f(x, \varphi(x))=0$
-		\item $\varphi:u_1\rightarrow u_2$ \folytdifh és $\varphi'(x)=$
+		\item $\exists U_1\subset\Omega_1, U_2\subset\Omega_2$ nyílt, $a\in U_1, b\in U_2\text{ és }\exists!\varphi:
+		U_1\rightarrow U_2:\varphi(a)=b\text{ és }f(x, \varphi(x))=0$
+		\item $\varphi:U_1\rightarrow U_2$ \folytdifh és $\varphi'(x)=$
 		\Large{$-[\delta_2f(x,\varphi(x))]^{-1}\cdot\delta_1f(x,\varphi(x))$}
 	\end{itemize}
-	Mindkét esetben $x\in u_1$
-	\item\textbf{Unknown defs No.1}
+	Mindkét esetben $x\in U_1$
+	\item\textbf{Parciális derivált számítása implicit függvénnyel}
 	\begin{itemize}
 		\item $\delta_2f(a,b):=(y\mapsto f(a,y))'|_{y=b}\in\R^{n_2\times n_2}$
-		\item $\delta_1f(a,b):=(x\mapsto f(x,b))'|_{x=a}\in\R^{n_1\times n_1}$
+		\item $\delta_1f(a,b):=(x\mapsto f(x,b))'|_{x=a}\in\R^{n_2\times n_1}$
 	\end{itemize}
 	\item\textbf{Unknown def No.2}\br
 	Az $f$ függvénynek a $c\in H$-ban feltételes lokális minimuma (maximuma) van, ha\br
