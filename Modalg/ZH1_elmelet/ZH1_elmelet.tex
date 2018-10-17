@@ -22,13 +22,13 @@
 {\footnotesize Külön köszönet \textsc{Korponai Károlynak} és \textsc{Horváth Milánnak} a jegyzetekért.}
 
 \begin{enumerate}
-	\item\textbf{Inverz függvény tétel:}\br
+	\item\textbf{Inverz függvény tétel}\br
 	Legyen $\Omega\subset\R^n$ nyílt halmaz és $f:\Omega\rightarrow\R^n$\br
 	Tfh: $f$ \folytdifh és $\exists a\in\Omega:\text{ det}f'(a)\neq0$\br
 	Ekkor: $\exists U\subset\Omega, V\subset\R^n$ nyílt halmazok, $a\in U, f(a)\in V,
 	f|_U:U\rightarrow V$ bijektív,\br
 	$(f|_U)^{-1}$ differenciálható és $(f^{-1})'(y)=[f'(f^{-1}(y))]^{-1},\quad (y\in V)$
-	\item\textbf{Implicit függvény tétel} (speciális eset):\br
+	\item\textbf{Implicit függvény tétel} (speciális eset)\br
 	Legyen $\Omega\subset\R^2$ nyílt, $f:\Omega\rightarrow\R$\br
 	Tfh: $f$ folytonosan differenciálható $\Omega$-n és $\exists(a,b)\in\Omega:
 	f(a,b)=0\text{ és }\delta_2f(a,b)\neq0$\br
@@ -40,7 +40,7 @@
 		\LARGE{$-\frac{\delta_1f(x, \varphi(x))}{\delta_2f(x, \varphi(x))}$}
 	\end{itemize}
 	Mindkét esetben $x\in U_1$
-	\item\textbf{Implicit függvény tétel} (általános eset):\br
+	\item\textbf{Implicit függvény tétel} (általános eset)\br
 	Legyen $\Omega_1\subset\R^{n_1},\Omega_2\subset\R^{n_2}$ nyílt, 
 	$f:\Omega_1\times\Omega_2\rightarrow\R^{n_2}$\br
 	Tfh: $f$ \folytdifh $\Omega_1\times\Omega_2$-n és $\exists a\in\Omega_1, b\in\Omega_2:
@@ -61,7 +61,7 @@
 	\item\textbf{Feltételes lokális szélső érték}\br
 	Az $f$ függvénynek a $c\in H$-ban feltételes lokális minimuma (maximuma) van, ha\br
 	$\exists K(c):\forall x\in K(c)\cap H:f(x)\geq f(c),\quad(f(x)\leq f(c))$
-	\item\textbf{Feltételes lokális szélsőérték szükséges feltétel:}\br
+	\item\textbf{Feltételes lokális szélsőérték szükséges feltétel}\br
 	Legyen $U\subset\R^n$ nyílt, $f,g_i:U\rightarrow\R,\quad i=1,...,m\quad$\br Tfh:
 	\begin{itemize}
 		\item $f,g_i$ \folytdifh\quad $i=1,...,m$
@@ -71,7 +71,7 @@
 	Ekkor: $\exists\lambda_1,...,\lambda_m\in\R$, hogy $L'(c)=0$, ahol
 	$L=f+\lambda_1g_1+...+\lambda_mg_m$
 	\newpage
-	\item\textbf{Feltételes lokális szélsőérték elégséges feltétel:}\br
+	\item\textbf{Feltételes lokális szélsőérték elégséges feltétel}\br
 	Legyen $U\subset\R^n$ nyílt, $f,g_i:U\rightarrow\R,\quad i=1,...,m\quad$\br Tfh:
 	\begin{itemize}
 		\item $f,g_i$ \folytdifh\quad $i=1,...,m$
@@ -89,7 +89,7 @@
 	\item\textbf{Szakaszonként \folytdifh függvény}\br
 	$\varphi:[\alpha,\beta]\rightarrow\R^n$ szakaszonként \folytdifh, ha $\varphi$
 	folytonos és\br $\exists\alpha=t_0<t_1<...<t_n=\beta$, hogy
-	{\Large $f|_{(t_{i-1}, t_i)}$} \folytdifh\quad $i=1,...,m-1$
+	{\Large $\varphi|_{(t_{i-1}, t_i)}$} \folytdifh\quad $i=1,...,m-1$
 	\item\textbf{Összefüggő halmaz}\br
 	$U\subset\R^n$ összefüggő, ha $\forall x,y\in U:\exists\varphi:
 	[\alpha,\beta]\rightarrow U$ szakaszonsan \folytdifh, $\varphi(\alpha)=x\text{ és }
@@ -104,7 +104,7 @@
 	$D\subset\R^{n+1}, f:D\rightarrow\R^n$ folytonos, $(\tau, \xi)\in D,\quad
 	\xi\in\R^n, \tau\in\R$\br
 	Az $x'(t)=f(t,x(t)),\quad x(t)=\xi$ feladatot kezdeti érték problémának (KÉP) nevezzük.
-	\item\textbf{Peano tétel:}\br
+	\item\textbf{Peano tétel}\br
 	Ha $D\subset\R^{n+1}, f:D\rightarrow\R^n$ folytonos,  $(\tau, \xi)\in D$, akkor az\br
 	$x'(t)=f(t,x(t)),\quad x(t)=\xi$ KÉP-nek $\exists$ megoldása.
 	\item\textbf{KÉP globális egyértelműen megoldhatósága}\br
@@ -133,13 +133,15 @@
 	$\quad\forall(\tau,\xi)\in D$-ben.
 	\item\textbf{Picard-Lindelöf}\br
 	Tfh: $f:D\rightarrow\R$ folytonos függvény kielégíti a második változóban a lokális Lipschitz feltételt a
-	$(\tau,\xi)$ pontban. Ekkor: $x'(t)=f(t, x(t))\text{,  }x(\tau)=\xi$ KÉP lokálisan, egyértelműen oldható meg.
+	$(\tau,\xi)$ pontban. Ekkor: $x'(t)=f(t, x(t))\text{,  }x(\tau)=\xi$ KÉP lokálisan, egyértelműen oldható meg.\br
+	ahol $(\tau,\xi)\in D$
 	\item\textbf{KÉP ekvivalens átalakítása}\br
 	Az $x'(t)=f(t, x(t))\text{,  }x(\tau)=\xi$ KÉP ekvivalens az $x(t)=\xi+
 	\int\limits_{\tau}^{t}f(s,x(s))ds$ integrálegyenlettel.
 	\item\textbf{Lokális Lipschitz feltétel és KÉP globális megoldhatósága}\br
 	Tfh: $f:D\rightarrow\R$ folytonos függvény kielégíti a második változóban a lokális Lipschitz feltételt a
-	$(\tau,\xi)$ pontban. Ekkor: $x'(t)=f(t, x(t))\text{,  }x(\tau)=\xi$ KÉP globálisan, egyértelműen oldható meg.
+	$(\tau,\xi)$ pontban. Ekkor: $x'(t)=f(t, x(t))\text{,  }x(\tau)=\xi$ KÉP globálisan, egyértelműen oldható meg.\br
+	ahol $(\tau,\xi)\in D$
 	\item\textbf{Szeparális differenciál egyenlet}\br
 	Ha $I_1,I_2\subset\R$ nyílt intervallumok, $f:I_1\rightarrow\R\text{,  }
 	g:I_2\rightarrow\R$ folytonos függvények.\br
