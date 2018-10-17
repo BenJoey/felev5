@@ -58,7 +58,7 @@
 		\item $\delta_2f(a,b):=(y\mapsto f(a,y))'|_{y=b}\in\R^{n_2\times n_2}$
 		\item $\delta_1f(a,b):=(x\mapsto f(x,b))'|_{x=a}\in\R^{n_2\times n_1}$
 	\end{itemize}
-	\item\textbf{Unknown def No.2}\br
+	\item\textbf{Feltételes lokális szélső érték}\br
 	Az $f$ függvénynek a $c\in H$-ban feltételes lokális minimuma (maximuma) van, ha\br
 	$\exists K(c):\forall x\in K(c)\cap H:f(x)\geq f(c),\quad(f(x)\leq f(c))$
 	\item\textbf{Feltételes lokális szélsőérték szükséges feltétel:}\br
@@ -80,13 +80,13 @@
 		\item $L''(c)$ feltételesen pozitív definit
 	\end{itemize}
 	Ekkor $f$-nek $c$-ben feltételes lokális minimuma van.
-	\item\textbf{Unknown def No.3}\br
-	Feltételes pozitív definit, ha $A$ szimmetrikus mátrix $<A\cdot h,h>>0\quad
+	\item\textbf{Feltételes pozitív definit}\br
+	A feltételes pozitív definit, ha $A$ szimmetrikus mátrix $<A\cdot h,h>>0\quad
 	\forall h\in\R^n\backslash\{0\}$\br amelyre $g'(c)\cdot h=0$, ahol $g=
 	\begin{bmatrix}
 		g_1 \\ . \\ . \\ g_m
 	\end{bmatrix}$
-	\item\textbf{Unknown def No.4}\br
+	\item\textbf{Szakaszonként \folytdifh függvény}\br
 	$\varphi:[\alpha,\beta]\rightarrow\R^n$ szakaszonként \folytdifh, ha $\varphi$
 	folytonos és\br $\exists\alpha=t_0<t_1<...<t_n=\beta$, hogy
 	{\Large $f|_{(t_i-1, t_i)}$} \folytdifh\quad $i=1,...,m-1$
@@ -109,7 +109,7 @@
 	\item\textbf{Peano tétel:}\br
 	Ha $D\subset\R^{n+1}, f:D\rightarrow\R^n$ folytonos,  $(\tau, \xi)\in D$, akkor az\br
 	$x'(t)=f(t,x(t)),\quad x(t)=\xi$ KÉP-nek $\exists$ megoldása.
-	\item\textbf{KÉP. globális egyértelműen megoldhatósága}\br
+	\item\textbf{KÉP globális egyértelműen megoldhatósága}\br
 	Az $x'(t)=f(t, x(t))\text{,  }x(\tau)=\xi$ KÉP globálisan, egyértelműen oldható meg, ha
 	$\varphi$ és $\psi$ is megoldás, akkor $\varphi(t)=\psi(t)\text{,  }\forall t\in D_\varphi\cap D_\psi$
 	\item\textbf{Teljes megoldás}\br
@@ -119,7 +119,7 @@
 	\tilde{\varphi}(t)=\varphi(t)\quad t\in D_\varphi$\br
 	$\tilde{\varphi}$-t teljes megoldásnak nevezzük.
 	\newpage
-	\item\textbf{KÉP. lokális egyértelmű megoldhatósága}\br
+	\item\textbf{KÉP lokális egyértelmű megoldhatósága}\br
 	Az $x'(t)=f(t, x(t))\text{,  }x(\tau)=\xi$ KÉP lokálisan, egyértelműen oldható meg, ha
 	$\exists K(\tau,\xi)$ környezet, hogy erre leszűkítve $f$-et  a KÉP már globálisan egyértelmûen oldható meg.
 	\item\textbf{KÉP Lokális és globális megoldhatóságának kapcsolata}\br
@@ -146,13 +146,13 @@
 	Ha $I_1,I_2\subset\R$ nyílt intervallumok, $f:I_1\rightarrow\R\text{,  }
 	g:I_2\rightarrow\R$ folytonos függvények.\br
 	Akkor az $x'(t)=f(t)\cdot g(x(t))$ feladatot szeparális differenciál egyenletnek nevezzük.
-	\item\textbf{Szeparális DE globális megoldhatósága}\br
-	Ha $0\notin R_g$, akkor az $x'=f\cdot g \circ x$ szeparális DE, az 
+	\item\textbf{Szeparális differenciál egyenlet globális megoldhatósága}\br
+	Ha $0\notin R_g$, akkor az $x'=f\cdot g \circ x$ szeparális differenciál egyenlet, az 
 	$x(\tau)=\xi$ kezdeti állítás\br globálisan egyértelmûen oldható meg.
 	\item\textbf{Lineárisan differenciál egyenlet}\br
 	Legyen $I\subset\R$ nyílt intervallum, $f,g:\sum\rightarrow\R$ folytonos függvény.
 	Az $x'(t)+f(t)\cdot x(t)=g(t)$ feladatot lineárisan differenciál egyenletnek nevezzük.
-	\item\textbf{Lineárisan DE globális megoldhatósága}\br
+	\item\textbf{Lineárisan differenciál egyenlet globális megoldhatósága}\br
 	Az $x'+f\cdot x=g\text{,  }x(\tau)=\xi$ KÉP globálisan egyértelműen oldható meg.
 	\item\textbf{Homogén-Inhomogén módszer}\br
 	Legyen $\psi_0\in M_{\text{ih}}$. Ekkor $\psi\in M_{\text{ih}}\Leftrightarrow
