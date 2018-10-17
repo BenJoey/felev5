@@ -11,3 +11,6 @@ WinForms és WPF alkalmazások C# nyelven
 
 ### Modalg
 Analízis 4 elméleti kidolgozások LaTeX-ba
+
+### OPRE
+Párhuzamosítás és UNIX C nyelven
