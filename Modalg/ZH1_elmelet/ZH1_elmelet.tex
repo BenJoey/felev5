@@ -89,22 +89,20 @@
 	\item\textbf{Szakaszonként \folytdifh függvény}\br
 	$\varphi:[\alpha,\beta]\rightarrow\R^n$ szakaszonként \folytdifh, ha $\varphi$
 	folytonos és\br $\exists\alpha=t_0<t_1<...<t_n=\beta$, hogy
-	{\Large $f|_{(t_i-1, t_i)}$} \folytdifh\quad $i=1,...,m-1$
+	{\Large $f|_{(t_{i-1}, t_i)}$} \folytdifh\quad $i=1,...,m-1$
 	\item\textbf{Összefüggő halmaz}\br
 	$U\subset\R^n$ összefüggő, ha $\forall x,y\in U:\exists\varphi:
 	[\alpha,\beta]\rightarrow U$ szakaszonsan \folytdifh, $\varphi(\alpha)=x\text{ és }
 	\varphi(\beta)=y$
 	\item\textbf{Tartomány}\br
 	$D\subset\R^n$ tartomány, ha nyílt és összefüggő.
-	\item\textbf{Tartomány 2}\br
-	$D\subset\R^{n+1}$ tartományon, ha $f:D\rightarrow\R^n$ folytonos
-	\item\textbf{Elsőrendű explicit differenciál egyenlet:}\br
+	\item\textbf{Elsőrendű explicit differenciál egyenlet}\br
+	$D\subset\R^{n+1}$ tartomány, ha $f:D\rightarrow\R^n$ folytonos, akkor\br
 	Az $x'(t)=f(t,x(t))$ egyenletet elsőrendű explicit differenciál egyenletnek (DE) nevezzük, ahol\br
 	$x:I\rightarrow\R^n$ \folytdifh, $I\subset\R$ nyílt intervallum.
-	\item\textbf{Unknown def No.5}\br
-	$D\subset\R^{n+1}, f:D\rightarrow\R^n$ folytonos, $(\tau, \xi)\in D,\quad
-	\xi\in\R^n, \tau\in\R$
 	\item\textbf{Kezdeti érték probléma}\br
+	$D\subset\R^{n+1}, f:D\rightarrow\R^n$ folytonos, $(\tau, \xi)\in D,\quad
+	\xi\in\R^n, \tau\in\R$\br
 	Az $x'(t)=f(t,x(t)),\quad x(t)=\xi$ feladatot kezdeti érték problémának (KÉP) nevezzük.
 	\item\textbf{Peano tétel:}\br
 	Ha $D\subset\R^{n+1}, f:D\rightarrow\R^n$ folytonos,  $(\tau, \xi)\in D$, akkor az\br
@@ -148,7 +146,7 @@
 	Akkor az $x'(t)=f(t)\cdot g(x(t))$ feladatot szeparális differenciál egyenletnek nevezzük.
 	\item\textbf{Szeparális differenciál egyenlet globális megoldhatósága}\br
 	Ha $0\notin R_g$, akkor az $x'=f\cdot g \circ x$ szeparális differenciál egyenlet, az 
-	$x(\tau)=\xi$ kezdeti állítás\br globálisan egyértelmûen oldható meg.
+	$x(\tau)=\xi$ kezdeti érték\br globálisan egyértelmûen oldható meg.
 	\item\textbf{Lineárisan differenciál egyenlet}\br
 	Legyen $I\subset\R$ nyílt intervallum, $f,g:\sum\rightarrow\R$ folytonos függvény.
 	Az $x'(t)+f(t)\cdot x(t)=g(t)$ feladatot lineárisan differenciál egyenletnek nevezzük.
