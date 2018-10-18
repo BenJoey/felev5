@@ -1,11 +1,10 @@
-#include <stdio.h>
-#define _XOPEN_SOURCE
+#define _XOPEN_SOURCE 700
 #include <time.h>
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
 #define NAME_FORMAT "%50s"
-#define SEPAR ";"
 #define SAVE_LOC "data.txt"
 
 struct Order{
@@ -28,7 +27,8 @@ typedef struct Model model_t;
 
 void Order_to_File(FILE* stream, const order_t* ord){
     char buf[20];
-    strftime(buf, 20, "%F %T", localtime(&(ord->time)));
+    //if(ord->time==time(NULL))
+    strftime(buf, 20, "%F;%T", localtime(&(ord->time)));
     fprintf(
         stream,
         "%d;%s;%s;%s;%d;%s\n",
@@ -116,7 +116,7 @@ void load_data(model_t* toFill){
                 &(curr->request),
                 (char*)timebuf
             );
-            strptime((char*)timebuf, "%F %T", &tm);
+            strptime((char*)timebuf, "%F;%T", &tm);
             curr->time = mktime(&tm);
         }
     }
@@ -124,11 +124,11 @@ void load_data(model_t* toFill){
 }
 
 void print_order(const order_t* ord){
-    char time[20];
-    strftime(time, 20, "%F %T", localtime(&(ord->time)));
+    char _time[20];
+    strftime(_time, 20, "%F;%T", localtime(&(ord->time)));
     printf("\nSorszam: %d   ", ord->position);
     printf("Megrendelo neve: %s   Email-cime: %s   Telefonszama: %s   Igenye: %d   Megrendeles ideje: %s\n",
-            ord->name, ord->email, ord->phone, ord->request, time);
+            ord->name, ord->email, ord->phone, ord->request, _time);
 }
 
 void list_by_filter(const model_t* model, const char* param, const char type){
