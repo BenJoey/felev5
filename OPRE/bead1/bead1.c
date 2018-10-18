@@ -5,7 +5,6 @@
 
 #define NAME_FORMAT "%50s"
 #define SEPAR ";"
-//#define EMAIL_FORMAT "[a-zA-Z0-9]@[a-zA-Z].[a-zA-Z]"
 #define SAVE_LOC "data.txt"
 
 struct Order{
@@ -38,12 +37,34 @@ void Order_to_File(FILE* stream, const order_t* ord){
     );
 }
 
-int Get_Sorszam(const model_t* _model){
+int is_Pos_Set(const model_t* _model, int OrdNum){
     int i;
-    for(i=1;i<_model->length;++i){
-        if(i != _model->full_log[i].position)return i;
+    for(i=0;i<_model->length;++i){
+        if(_model->full_log[i].position == OrdNum)return 1;
     }
-    return (i+1);
+    return 0;
+}
+
+void Save_With_Del_Order(const model_t* toSave, int OrdNum){
+    FILE* file = fopen(SAVE_LOC, "w");
+    fprintf(file, "%d\n", toSave->length-1);
+    int i;
+    for(i = 0; i < toSave->length; ++i) {
+        if(OrdNum != toSave->full_log[i].position)
+            Order_to_File(file, &(toSave->full_log[i]));
+    }
+    fclose(file);
+}
+
+int Get_Next_ID(const model_t* _model){
+    int i;
+    for(i=0;i<_model->length;++i){
+        int j, quit=1;
+        for(j=0;j<_model->length;++j)
+            if((i+1) == _model->full_log[j].position)quit=0;
+        if(quit)return (i+1);
+    }
+    return (_model->length+1);
 }
 
 void save_data(const model_t* toSave, order_t* new_Ord){
@@ -57,7 +78,7 @@ void save_data(const model_t* toSave, order_t* new_Ord){
             Order_to_File(file, &(toSave->full_log[i]));
         }
         if(new_Ord!=NULL){
-            new_Ord->position=Get_Sorszam(toSave);
+            new_Ord->position=Get_Next_ID(toSave);
             Order_to_File(file, new_Ord);
         }
         fclose(file);
@@ -185,11 +206,22 @@ int main()
                     int OrdNum, Succ;
                     scanf("%d", &OrdNum);
                     switch(choice[0]){
+                        case '1':
+                            if(is_Pos_Set(&Model, OrdNum)){
+                                Save_With_Del_Order(&Model, OrdNum);
+                            }else{
+                                printf("Nincs ilyen sorszamu megrendeles\n");
+                            }
+                            break;
                         case '2':
-                            Succ = Mod_Order(&Model, OrdNum);
+                            if(Mod_Order(&Model, OrdNum)){
+                                save_data(&Model, NULL);
+                                printf("Megrendeles sikeresen modositva\n");
+                            }else{
+                                printf("Nincs ilyen sorszamu megrendeles\n");
+                            }
                             break;
                     }
-                    save_data(&Model, NULL);
                 }
                 wait_enter();
                 break;
@@ -219,5 +251,7 @@ int main()
                 wait_enter();
                 break;
         }
+        free(Model.full_log);
     }
+    return 0;
 }
