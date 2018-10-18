@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #define NAME_FORMAT "%50s"
@@ -37,6 +38,14 @@ void Order_to_File(FILE* stream, const order_t* ord){
     );
 }
 
+int Get_Sorszam(const model_t* _model){
+    int i;
+    for(i=1;i<_model->length;++i){
+        if(i != _model->full_log[i].position)return i;
+    }
+    return (i+1);
+}
+
 void save_data(const model_t* toSave, order_t* new_Ord){
     FILE* file = fopen(SAVE_LOC, "w");
     if(file == NULL) {
@@ -48,7 +57,7 @@ void save_data(const model_t* toSave, order_t* new_Ord){
             Order_to_File(file, &(toSave->full_log[i]));
         }
         if(new_Ord!=NULL){
-            new_Ord->position=toSave->length+1;
+            new_Ord->position=Get_Sorszam(toSave);
             Order_to_File(file, new_Ord);
         }
         fclose(file);
@@ -89,20 +98,21 @@ void print_order(const order_t* ord){
     printf("Megrendelo neve: %s   Email-cime: %s   Telefonszama: %s   Igenye: %d\n", ord->name, ord->email, ord->phone, ord->request);
 }
 
-void list_by_filter(const model_t* model, const char* param, const int type){
+void list_by_filter(const model_t* model, const char* param, const char type){
     int i;
     for(i=0;i<model->length;++i){
-        char* toFilter;
+        char req[20];
+        sprintf(req, "%ld", model->full_log[i].request);
         switch(type){
-            case 1:
-                toFilter = model->full_log[i].name;
+            case '1':
+                if(strcmp(param, model->full_log[i].name)==0)
+                    print_order(&(model->full_log[i]));
                 break;
-            case 2:
-                toFilter = (char*)&(model->full_log[i].request);
+            case '2':
+                if(strcmp(param, req)==0)
+                    print_order(&(model->full_log[i]));
                 break;
         }
-        if(*param == *toFilter)
-            print_order(&(model->full_log[i]));
     }
 }
 
@@ -131,10 +141,10 @@ int Mod_Order(model_t* FullModel, int OrdNum){
         if(FullModel->full_log[i].position == OrdNum) Index = i;
     }
     if(Index==-1)return 0;
-    printf("Modositani kivant megrendeles jelenlegi adatai:\n");
-    print_order(&(FullModel->full_log[i]));
+    printf("\nModositani kivant megrendeles jelenlegi adatai:");
+    print_order(&(FullModel->full_log[Index]));
     printf("Uj adatok:\n");
-    read_order(&(FullModel->full_log[i]));
+    read_order(&(FullModel->full_log[Index]));
     return 1;
 }
 
@@ -172,8 +182,14 @@ int main()
                 scanf("%s", &choice);
                 if(choice[0]=='1'||choice[0]=='2'){
                     printf("Modositani kivant megrendeles sorszama: ");
-                    int OrdNum;
+                    int OrdNum, Succ;
                     scanf("%d", &OrdNum);
+                    switch(choice[0]){
+                        case '2':
+                            Succ = Mod_Order(&Model, OrdNum);
+                            break;
+                    }
+                    save_data(&Model, NULL);
                 }
                 wait_enter();
                 break;
@@ -194,8 +210,7 @@ int main()
                     printf("Keresesi parameter: ");
                     char param[50];
                     scanf("%s", &param);
-                    list_by_filter(&Model, param, (int)choice[0]);
-                    //printf("%d, test   %s   tests\n\n", choice, param);
+                    list_by_filter(&Model, param, choice[0]);
                 }
                 wait_enter();
                 break;
