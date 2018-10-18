@@ -1,7 +1,8 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#define _XOPEN_SOURCE
 #include <time.h>
+#include <string.h>
+#include <stdlib.h>
 
 #define NAME_FORMAT "%50s"
 #define SEPAR ";"
@@ -11,9 +12,9 @@ struct Order{
     char name[50];
     char email[50];
     char phone[12];
-    time_t time;
     int request;
     int position;
+    time_t time;
 };
 
 typedef struct Order order_t;
@@ -26,14 +27,17 @@ struct Model{
 typedef struct Model model_t;
 
 void Order_to_File(FILE* stream, const order_t* ord){
+    char buf[20];
+    strftime(buf, 20, "%F %T", localtime(&(ord->time)));
     fprintf(
         stream,
-        "%d;%s;%s;%s;%d\n",
+        "%d;%s;%s;%s;%d;%s\n",
         ord->position,
         ord->name,
         ord->email,
         ord->phone,
-        ord->request
+        ord->request,
+        buf
     );
 }
 
@@ -100,23 +104,31 @@ void load_data(model_t* toFill){
         int i;
         for(i=0;i<length;++i){
             order_t* curr = &(toFill->full_log[i]);
+            struct tm tm;
+            char* timebuf[20];
             fscanf(
                 file,
-                "%d;%[^;];%[^;];%[^;];%d\n",
+                "%d;%[^;];%[^;];%[^;];%d;%s\n",
                 &(curr->position),
                 (char*)&(curr->name),
                 (char*)&(curr->email),
                 (char*)&(curr->phone),
-                &(curr->request)
+                &(curr->request),
+                (char*)timebuf
             );
+            strptime((char*)timebuf, "%F %T", &tm);
+            curr->time = mktime(&tm);
         }
     }
     fclose(file);
 }
 
 void print_order(const order_t* ord){
+    char time[20];
+    strftime(time, 20, "%F %T", localtime(&(ord->time)));
     printf("\nSorszam: %d   ", ord->position);
-    printf("Megrendelo neve: %s   Email-cime: %s   Telefonszama: %s   Igenye: %d\n", ord->name, ord->email, ord->phone, ord->request);
+    printf("Megrendelo neve: %s   Email-cime: %s   Telefonszama: %s   Igenye: %d   Megrendeles ideje: %s\n",
+            ord->name, ord->email, ord->phone, ord->request, time);
 }
 
 void list_by_filter(const model_t* model, const char* param, const char type){
@@ -203,7 +215,7 @@ int main()
                 scanf("%s", &choice);
                 if(choice[0]=='1'||choice[0]=='2'){
                     printf("Modositani kivant megrendeles sorszama: ");
-                    int OrdNum, Succ;
+                    int OrdNum;
                     scanf("%d", &OrdNum);
                     switch(choice[0]){
                         case '1':
