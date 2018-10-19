@@ -11,6 +11,5 @@
 *obj/
 *.vs/
 *packages/
-*serverContent/
 *.exe
 *.txt
