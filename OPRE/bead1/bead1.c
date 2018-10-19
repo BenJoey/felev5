@@ -25,9 +25,14 @@ struct Model{
 
 typedef struct Model model_t;
 
+int compare_ord(const void *s1, const void *s2){
+    order_t *o1 = (order_t *)s1;
+    order_t *o2 = (order_t *)s2;
+    return (o1->position>o2->position);
+}
+
 void Order_to_File(FILE* stream, const order_t* ord){
     char buf[20];
-    //if(ord->time==time(NULL))
     strftime(buf, 20, "%F;%T", localtime(&(ord->time)));
     fprintf(
         stream,
@@ -62,11 +67,8 @@ void Save_With_Del_Order(const model_t* toSave, int OrdNum){
 
 int Get_Next_ID(const model_t* _model){
     int i;
-    for(i=0;i<_model->length;++i){
-        int j, quit=1;
-        for(j=0;j<_model->length;++j)
-            if((i+1) == _model->full_log[j].position)quit=0;
-        if(quit)return (i+1);
+    for(i=1;i<=_model->length;++i){
+        if(is_Pos_Set(_model, i) == 0)return i;
     }
     return (_model->length+1);
 }
@@ -121,6 +123,7 @@ void load_data(model_t* toFill){
         }
     }
     fclose(file);
+    qsort(toFill->full_log, toFill->length, sizeof(order_t), compare_ord);
 }
 
 void print_order(const order_t* ord){
