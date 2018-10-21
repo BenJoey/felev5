@@ -76,7 +76,7 @@
 	\begin{itemize}
 		\item $f,g_i$ \folytdifh\quad $i=1,...,m$
 		\item $\exists\lambda_1,...,\lambda_m:L'(c)=0,\quad c\in H$
-		\item $g_i(c)$ lineárisan független, $i=1,...,m$
+		\item $g'_i(c)$ lineárisan független, $i=1,...,m$
 		\item $L''(c)$ feltételesen pozitív definit
 	\end{itemize}
 	Ekkor $f$-nek $c$-ben feltételes lokális minimuma van.
@@ -89,7 +89,7 @@
 	\item\textbf{Szakaszonként \folytdifh függvény}\br
 	$\varphi:[\alpha,\beta]\rightarrow\R^n$ szakaszonként \folytdifh, ha $\varphi$
 	folytonos és\br $\exists\alpha=t_0<t_1<...<t_n=\beta$, hogy
-	{\Large $\varphi|_{(t_{i-1}, t_i)}$} \folytdifh\quad $i=1,...,m-1$
+	{\Large $\varphi|_{(t_{i-1}, t_i)}$} \folytdifh\quad $i=1,...,n-1$
 	\item\textbf{Összefüggő halmaz}\br
 	$U\subset\R^n$ összefüggő, ha $\forall x,y\in U:\exists\varphi:
 	[\alpha,\beta]\rightarrow U$ szakaszonsan \folytdifh, $\varphi(\alpha)=x\text{ és }
@@ -103,10 +103,10 @@
 	\item\textbf{Kezdeti érték probléma}\br
 	$D\subset\R^{n+1}, f:D\rightarrow\R^n$ folytonos, $(\tau, \xi)\in D,\quad
 	\xi\in\R^n, \tau\in\R$\br
-	Az $x'(t)=f(t,x(t)),\quad x(t)=\xi$ feladatot kezdeti érték problémának (KÉP) nevezzük.
+	Az $x'(t)=f(t,x(t)),\quad x(\tau)=\xi$ feladatot kezdeti érték problémának (KÉP) nevezzük.
 	\item\textbf{Peano tétel}\br
 	Ha $D\subset\R^{n+1}, f:D\rightarrow\R^n$ folytonos,  $(\tau, \xi)\in D$, akkor az\br
-	$x'(t)=f(t,x(t)),\quad x(t)=\xi$ KÉP-nek $\exists$ megoldása.
+	$x'(t)=f(t,x(t)),\quad x(\tau)=\xi$ KÉP-nek $\exists$ megoldása.
 	\item\textbf{KÉP globális egyértelműen megoldhatósága}\br
 	Az $x'(t)=f(t, x(t))\text{,  }x(\tau)=\xi$ KÉP globálisan, egyértelműen oldható meg, ha
 	$\varphi$ és $\psi$ is megoldás, akkor $\varphi(t)=\psi(t)\text{,  }\forall t\in D_\varphi\cap D_\psi$
@@ -126,13 +126,13 @@
 	\item\textbf{Lokális Lipschitz feltétel}\br
 	Az $f:D\rightarrow\R^n$ folytonos függvény kielégíti a második változójában a lokális Lipschitz
 	feltételt a $(\tau,\xi)\in D$ pontban, ha $\exists K(\tau,\xi),\exists
-	L:||f(t,u)-f(t,\tilde{u})||\subseteq L||u-\tilde{u}||\br\forall(t,u),(t,
+	L:||f(t,u)-f(t,\tilde{u})||\leq L||u-\tilde{u}||\br\forall(t,u),(t,
 	\tilde{u})\in K(\tau,\xi)\text{,  }t\in\R\text{  és  }u,\tilde{u}\in\R^n$
 	\item\textbf{Folyt. differenciálhatóság és Lipschitz feltétel}\br
 	Ha $f:D\rightarrow\R^n$ \folytdifh, akkor $f$ kielégíti a második változójában a lokális Lipschitz feltételt.
 	$\quad\forall(\tau,\xi)\in D$-ben.
 	\item\textbf{Picard-Lindelöf tétel}\br
-	Tfh: $f:D\rightarrow\R$ folytonos függvény kielégíti a második változóban a lokális Lipschitz feltételt a
+	Tfh: $f:D\rightarrow\R^n$ folytonos függvény kielégíti a második változóban a lokális Lipschitz feltételt a
 	$(\tau,\xi)$ pontban. Ekkor: $x'(t)=f(t, x(t))\text{,  }x(\tau)=\xi$ KÉP lokálisan, egyértelműen oldható meg.\br
 	ahol $(\tau,\xi)\in D$
 	\item\textbf{KÉP ekvivalens átalakítása}\br
