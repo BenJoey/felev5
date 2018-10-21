@@ -4,7 +4,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define NAME_FORMAT "%50s"
 #define SAVE_LOC "data.txt"
 
 struct Order{
@@ -35,15 +34,14 @@ void Order_to_File(FILE* stream, const order_t* ord){
     char buf[20];
     strftime(buf, 20, "%F;%T", localtime(&(ord->time)));
     fprintf(
-        stream,
-        "%d;%s;%s;%s;%d;%s\n",
-        ord->position,
-        ord->name,
-        ord->email,
-        ord->phone,
-        ord->request,
-        buf
+        stream, "%d;%s;%s;%s;%d;%s\n", ord->position, ord->name,
+        ord->email, ord->phone, ord->request, buf
     );
+}
+
+int Get_Offer(const int request){
+    if(request % 250 == 0)return request/250;
+    return request/250+1;
 }
 
 int is_Pos_Set(const model_t* _model, int OrdNum){
@@ -109,14 +107,8 @@ void load_data(model_t* toFill){
             struct tm tm;
             char* timebuf[20];
             fscanf(
-                file,
-                "%d;%[^;];%[^;];%[^;];%d;%s\n",
-                &(curr->position),
-                (char*)&(curr->name),
-                (char*)&(curr->email),
-                (char*)&(curr->phone),
-                &(curr->request),
-                (char*)timebuf
+                file, "%d;%[^;];%[^;];%[^;];%d;%s\n", &(curr->position), (char*)&(curr->name),
+                (char*)&(curr->email), (char*)&(curr->phone), &(curr->request), (char*)timebuf
             );
             strptime((char*)timebuf, "%F;%T", &tm);
             curr->time = mktime(&tm);
@@ -130,8 +122,8 @@ void print_order(const order_t* ord){
     char _time[20];
     strftime(_time, 20, "%F;%T", localtime(&(ord->time)));
     printf("\nSorszam: %d   ", ord->position);
-    printf("Megrendelo neve: %s   Email-cime: %s   Telefonszama: %s   Igenye: %d   Megrendeles ideje: %s\n",
-            ord->name, ord->email, ord->phone, ord->request, _time);
+    printf("Megrendelo neve: %s   Email-cime: %s   Telefonszama: %s   Igenye: %d\nAjanlott panelek szama: %d     Megrendeles ideje: %s\n",
+            ord->name, ord->email, ord->phone, ord->request, Get_Offer(ord->request), _time);
 }
 
 void list_by_filter(const model_t* model, const char* param, const char type){
@@ -153,16 +145,16 @@ void list_by_filter(const model_t* model, const char* param, const char type){
 }
 
 void wait_enter(){
-    printf("\nNyomj [Enter]-t a folytatashoz.\n");
+    printf("\nNyomjon [Enter]-t a folytatashoz.\n");
     while(getchar()!='\n');
     getchar();
 }
 
 void read_order(order_t* ord) {
-    printf("Nev (max 50 karakter): ");
-    scanf(NAME_FORMAT, &(ord->name));
+    printf("Nev (max 50 karakter, szokoz nelkul): ");
+    scanf("%50s", &(ord->name));
     printf("Email (max 50 karakter): ");
-    scanf(NAME_FORMAT, &(ord->email));
+    scanf("%50s", &(ord->email));
     printf("Telefonszam (11 szamjegy): ");
     scanf("%11s", &(ord->phone));
     printf("Igeny: ");
@@ -188,13 +180,9 @@ int main()
 {
 	int quit = 0;
     while(!quit){
-        printf("----Fenyes Nap Kft----\n\n");
-        printf("Elerheto funkciok:\n");
-        printf("1: Uj rendeles rogzitese\n");
-        printf("2: Korabbi rendeles modositasa\n");
-        printf("3: Teljes listazas\n");
-        printf("4: Listazas szurve\n");
-        printf("0: Kilepes\n\n");
+        printf("----Fenyes Nap Kft----\n\nElerheto funkciok:\n");
+        printf("1: Uj rendeles rogzitese\n2: Korabbi rendeles modositasa\n3: Teljes listazas\n");
+        printf("4: Listazas szurve\n5: Ajanlat kerese\n0: Kilepes\n\n");
         char selected[1];
         char choice[1];
         model_t Model;
@@ -212,9 +200,7 @@ int main()
                 wait_enter();
                 break;
             case '2':
-                printf("----Modositas tipusa----\n");
-                printf("1. Torles\n");
-                printf("2. Adatok/Igeny szerkesztese\n");
+                printf("----Modositas tipusa----\n1. Torles\n2. Adatok/Igeny szerkesztese\n");
                 scanf("%s", &choice);
                 if(choice[0]=='1'||choice[0]=='2'){
                     printf("Modositani kivant megrendeles sorszama: ");
@@ -249,9 +235,7 @@ int main()
                 wait_enter();
                 break;
             case '4':
-                printf("----Mi szerint kivan listazni?----\n");
-                printf("1. Nev szerint\n");
-                printf("2. Igeny szerint\n");
+                printf("----Mi szerint kivan listazni?----\n1. Nev szerint\n2. Igeny szerint\n");
                 scanf("%s", &choice);
                 if(choice[0]=='1'||choice[0]=='2'){
                     printf("Keresesi parameter: ");
@@ -259,6 +243,14 @@ int main()
                     scanf("%s", &param);
                     list_by_filter(&Model, param, choice[0]);
                 }
+                wait_enter();
+                break;
+            case '5':
+                printf("----Ajanlott panelek szamanak lekerdezese----\n");
+                printf("Igyene: ");
+                int req;
+                scanf("%d", &req);
+                printf("\nMaganak %d darab panel lenne az optimális.\n", Get_Offer(req));
                 wait_enter();
                 break;
             default:
