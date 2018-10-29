@@ -4,14 +4,14 @@
 
 -module(xor_cipher).
 -export([toBitString/1,
-		charToBitString/1,
-		bitStringToChar/1,
-		xOr/2,
-		encrypt/2,
-		decrypt/2,
-		isCycledIn/2,
-		test/0
-		]).
+         charToBitString/1,
+         bitStringToChar/1,
+         xOr/2,
+         encrypt/2,
+         decrypt/2,
+         isCycledIn/2,
+         test/0
+        ]).
 
 %%%=============================================================================
 %%% Types
@@ -50,10 +50,10 @@ xOr(A, B) -> recXOR(A, B, []).
 %% 5. Encryption (3 pont)
 -spec encrypt(Text :: string(), Key :: string()) -> string().
 encrypt(Text, Key) ->
-	LongKey = getLongKey(Key, length(Text), [], 1),
-	{TextBitStr, KeyBitStr} = {lists:map(fun(L) -> charToBitString(L) end, Text), lists:map(fun(L) -> charToBitString(L) end, LongKey)},
-	ResXOR = [xOr(lists:nth(Ind, TextBitStr), lists:nth(Ind, KeyBitStr)) || Ind<-lists:seq(1, length(Text))],
-	lists:map(fun(L) -> bitStringToChar(L) end, ResXOR).
+    LongKey = getLongKey(Key, length(Text), [], 1),
+    {TextBitStr, KeyBitStr} = {lists:map(fun(L) -> charToBitString(L) end, Text), lists:map(fun(L) -> charToBitString(L) end, LongKey)},
+    ResXOR = [xOr(lists:nth(Ind, TextBitStr), lists:nth(Ind, KeyBitStr)) || Ind<-lists:seq(1, length(Text))],
+    lists:map(fun(L) -> bitStringToChar(L) end, ResXOR).
 
 %% 6. Decryption (1 pont)
 -spec decrypt(Cipher :: string(), Key :: string()) -> string().
@@ -64,8 +64,8 @@ decrypt(Cipher, Key) -> encrypt(Cipher, Key).
 isCycledIn(A, B) -> cycSearch(A, B, 1).
 
 test() ->
-	decrypt( encrypt("Save Our Souls!", "SOS") , "SOS"),
-	isCycledIn("ab", "ababa").
+    decrypt( encrypt("Save Our Souls!", "SOS") , "SOS"),
+    isCycledIn("ab", "ababa").
 
 %%%=============================================================================
 %%% Internal functions
@@ -89,30 +89,30 @@ addExtraZeros(Acc, ReqLen) -> addExtraZeros(Acc ++ [0], ReqLen).
 recXOR(A, [], Acc) -> lists:merge(lists:reverse(Acc), A);
 recXOR([], B, Acc) -> lists:merge(lists:reverse(Acc), B);
 recXOR([HeadA | RestA], [HeadB | RestB], Acc) ->
-	Current = case HeadA of
-				0 -> HeadB;
-				1 -> (HeadB + 1) rem 2
-				end,
-	recXOR(RestA, RestB, [Current | Acc]).
+    Current = case HeadA of
+                  0 -> HeadB;
+                  1 -> (HeadB + 1) rem 2
+              end,
+    recXOR(RestA, RestB, [Current | Acc]).
 
 %% Repeats the input word until it reaches the required length
 -spec getLongKey(OriginalKey :: string(), ReqLen :: number(), Acc :: string(), Index :: number()) -> string().
 getLongKey(_, ReqLen, Acc, _) when length(Acc) == ReqLen -> lists:reverse(Acc);
 getLongKey(OriginalKey, ReqLen, Acc, Index) ->
-	getLongKey(OriginalKey, ReqLen, [lists:nth(Index, OriginalKey) | Acc], (Index rem length(OriginalKey)) + 1).
+    getLongKey(OriginalKey, ReqLen, [lists:nth(Index, OriginalKey) | Acc], (Index rem length(OriginalKey)) + 1).
 
 -spec cycSearch(ToFind :: string(), ToSearch :: string(), Index :: number()) -> true | false.
 cycSearch(ToFind, ToSearch, Index) when Index > length(ToSearch) ->
-	not (Index < length(ToFind));  %% If the ToSearch word is shorter than the chars to find, than it's false,
-								   %% otherwise if it did not quit earlier then it's true
+    not (Index < length(ToFind));  %% If the ToSearch word is shorter than the chars to find, than it's false,
+%% otherwise if it did not quit earlier then it's true
 
 cycSearch(ToFind, ToSearch, Index) ->
-	FindInd = case (Index rem length(ToFind)) of
-				0 -> length(ToFind);
-				Val -> Val
-			end,
-	case lists:nth(Index, ToSearch) == lists:nth(FindInd, ToFind) of
-		true ->
-			cycSearch(ToFind, ToSearch, Index + 1);
-		false -> false
-	end.
+    FindInd = case (Index rem length(ToFind)) of
+                  0 -> length(ToFind);
+                  Val -> Val
+              end,
+    case lists:nth(Index, ToSearch) == lists:nth(FindInd, ToFind) of
+        true ->
+            cycSearch(ToFind, ToSearch, Index + 1);
+        false -> false
+    end.
