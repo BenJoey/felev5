@@ -10,6 +10,8 @@
          encrypt/2,
          decrypt/2,
          isCycledIn/2,
+         getKey/2,
+         decodeMessage/2,
          test/0
         ]).
 
@@ -51,9 +53,10 @@ xOr(A, B) -> recXOR(A, B, []).
 -spec encrypt(Text :: string(), Key :: string()) -> string().
 encrypt(Text, Key) ->
     LongKey = getLongKey(Key, length(Text), [], 1),
-    {TextBitStr, KeyBitStr} = {lists:map(fun(L) -> charToBitString(L) end, Text), lists:map(fun(L) -> charToBitString(L) end, LongKey)},
-    ResXOR = [xOr(lists:nth(Ind, TextBitStr), lists:nth(Ind, KeyBitStr)) || Ind<-lists:seq(1, length(Text))],
-    lists:map(fun(L) -> bitStringToChar(L) end, ResXOR).
+    {TextBitStr, KeyBitStr} = {lists:map(fun(L) -> charToBitString(L) end, Text),
+                               lists:map(fun(L) -> charToBitString(L) end, LongKey)},
+    ResultXOR = [xOr(lists:nth(Ind, TextBitStr), lists:nth(Ind, KeyBitStr)) || Ind<-lists:seq(1, length(Text))],
+    lists:map(fun(L) -> bitStringToChar(L) end, ResultXOR).
 
 %% 6. Decryption (1 pont)
 -spec decrypt(Cipher :: string(), Key :: string()) -> string().
@@ -63,9 +66,23 @@ decrypt(Cipher, Key) -> encrypt(Cipher, Key).
 -spec isCycledIn(A :: string(), B :: string()) -> true | false.
 isCycledIn(A, B) -> cycSearch(A, B, 1).
 
+%% 8. Determining the Key (4 pont)
+-spec getKey(Text :: string(), Cipher :: string()) -> string() | 'no_key'.
+getKey(Text, Cipher) -> findKey(decrypt(Cipher, Text), 1).
+
+%% 9. Decoding messages (4 + 3 pont)
+-spec decodeMessage(Cipher :: string(), TextPart :: string()) -> string().
+decodeMessage(Cipher, TextPart) ->
+    case searchKey(Cipher, TextPart, 1) of
+        'no_solution' -> 'cannot_be_decoded';
+        Key ->
+            io:format("~p~n", [Key]),
+            decrypt(Cipher, Key)
+    end.
+
 test() ->
-    decrypt( encrypt("Save Our Souls!", "SOS") , "SOS"),
-    isCycledIn("ab", "ababa").
+    getKey(encrypt("ave O", "TUT"), "ave O"),
+    decodeMessage(encrypt("hurtelnu hztrre kktrenor nununu", "GTA"), "kktrenor").
 
 %%%=============================================================================
 %%% Internal functions
@@ -103,8 +120,8 @@ getLongKey(OriginalKey, ReqLen, Acc, Index) ->
 
 -spec cycSearch(ToFind :: string(), ToSearch :: string(), Index :: number()) -> true | false.
 cycSearch(ToFind, ToSearch, Index) when Index > length(ToSearch) ->
-    not (Index < length(ToFind));  %% If the ToSearch word is shorter than the chars to find, than it's false,
-%% otherwise if it did not quit earlier then it's true
+    not (Index =< length(ToFind));  %% If the ToSearch word is shorter than the chars to find, then it's false,
+                                    %% otherwise if it did not quit earlier then it's true
 
 cycSearch(ToFind, ToSearch, Index) ->
     FindInd = case (Index rem length(ToFind)) of
@@ -115,4 +132,26 @@ cycSearch(ToFind, ToSearch, Index) ->
         true ->
             cycSearch(ToFind, ToSearch, Index + 1);
         false -> false
+    end.
+
+-spec findKey(LongKey :: string(), Index :: number()) -> string() | 'no_key'.
+findKey(LongKey, Index) when Index > (length(LongKey) -1) ->
+    'no_key';
+
+findKey(LongKey, Index) ->
+    case isCycledIn(lists:sublist(LongKey, Index), LongKey) of
+        true -> 
+            io:format("~p~n", [LongKey]),
+            lists:sublist(LongKey, Index);
+        false -> findKey(LongKey, Index + 1)
+    end.
+
+-spec searchKey(Cipher :: string(), TextPart :: string(), Index :: number()) -> string() | 'no_solution'.
+searchKey(Cipher, TextPart, Index) when ((Index + length(TextPart) - 1) > length(Cipher)) ->
+    'no_solution';
+
+searchKey(Cipher, TextPart, Index) ->
+    case getKey(TextPart, lists:sublist(Cipher, Index, length(TextPart))) of
+        'no_key' -> searchKey(Cipher, TextPart, Index + 1);
+        Key -> Key
     end.
