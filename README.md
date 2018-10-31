@@ -14,3 +14,6 @@ Analízis 4 elméleti kidolgozások LaTeX-ba
 
 ### OPRE
 Párhuzamosítás és UNIX C nyelven
+
+### Erlang
+Szekvenciális, konkurens és server-kliens erlang nyelven
