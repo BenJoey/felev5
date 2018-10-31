@@ -11,8 +11,7 @@
          decrypt/2,
          isCycledIn/2,
          getKey/2,
-         decodeMessage/2,
-         test/0
+         decodeMessage/2
         ]).
 
 %%%=============================================================================
@@ -71,18 +70,13 @@ isCycledIn(A, B) -> cycSearch(A, B, 1).
 getKey(Text, Cipher) -> findKey(decrypt(Cipher, Text), 1).
 
 %% 9. Decoding messages (4 + 3 pont)
--spec decodeMessage(Cipher :: string(), TextPart :: string()) -> string().
+%% This function only works if the given textpart is at least 1 char longer than the key used to encode the full text
+-spec decodeMessage(Cipher :: string(), TextPart :: string()) -> string() | 'cannot_be_decoded'.
 decodeMessage(Cipher, TextPart) ->
     case searchKey(Cipher, TextPart, 1) of
         'no_solution' -> 'cannot_be_decoded';
-        Key ->
-            io:format("~p~n", [Key]),
-            decrypt(Cipher, Key)
+        Key -> decrypt(Cipher, Key)
     end.
-
-test() ->
-    getKey(encrypt("ave O", "TUT"), "ave O"),
-    decodeMessage(encrypt("hurtelnu hztrre kktrenor nununu", "GTA"), "kktrenor").
 
 %%%=============================================================================
 %%% Internal functions
@@ -141,7 +135,6 @@ findKey(LongKey, Index) when Index > (length(LongKey) -1) ->
 findKey(LongKey, Index) ->
     case isCycledIn(lists:sublist(LongKey, Index), LongKey) of
         true -> 
-            io:format("~p~n", [LongKey]),
             lists:sublist(LongKey, Index);
         false -> findKey(LongKey, Index + 1)
     end.
@@ -151,7 +144,14 @@ searchKey(Cipher, TextPart, Index) when ((Index + length(TextPart) - 1) > length
     'no_solution';
 
 searchKey(Cipher, TextPart, Index) ->
-    case getKey(TextPart, lists:sublist(Cipher, Index, length(TextPart))) of
+    LongKey = decrypt(TextPart, lists:sublist(Cipher, Index, length(TextPart))),
+    case findKey(LongKey, 1) of
         'no_key' -> searchKey(Cipher, TextPart, Index + 1);
-        Key -> Key
+        Key ->
+            StartInd = case (Index rem length(Key)) of
+                           0 -> 2;
+                           1 -> 1;
+                           Val -> Val + (Val div 2)
+                       end,
+            lists:sublist(LongKey, StartInd, length(Key))
     end.
