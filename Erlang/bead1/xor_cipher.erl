@@ -11,7 +11,8 @@
          decrypt/2,
          isCycledIn/2,
          getKey/2,
-         decodeMessage/2
+         decodeMessage/2,
+         test/0
         ]).
 
 %%%=============================================================================
@@ -70,7 +71,7 @@ isCycledIn(A, B) -> cycSearch(A, B, 1).
 getKey(Text, Cipher) -> findKey(decrypt(Cipher, Text), 1).
 
 %% 9. Decoding messages (4 + 3 pont)
-%% This function only works if the given textpart is at least 1 char longer than the key used to encode the full text
+%% This function only works if the given textpart is at least 2 chars longer than the key used to encode the full text
 -spec decodeMessage(Cipher :: string(), TextPart :: string()) -> string() | 'cannot_be_decoded'.
 decodeMessage(Cipher, TextPart) ->
     case searchKey(Cipher, TextPart, 1) of
@@ -78,9 +79,32 @@ decodeMessage(Cipher, TextPart) ->
         Key -> decrypt(Cipher, Key)
     end.
 
+%% Some tests for function 9.
+-spec test() -> ok.
+test() ->
+    Msg1 = "Save Our Souls!",
+    Msg2 = "Sometimes the clouds look weird to me.",
+    TestList = [{Msg1, "SOS", "Save"}, {Msg1, "SOS", "ve Ou"}, {Msg1, "KTA", "ouls!"},
+                {Msg2, "GHU", "weird"}, {Msg2, "PDF", "times"}, {Msg2, "LER", "look"}],
+    Result = lists:map(fun(L) -> testHelper(L) end, TestList),
+    case lists:member(failed, Result) of
+        false -> io:format("All tests passed!\n");
+        true ->
+            io:format("Failed tests:\n"),
+            lists:map(fun(L) -> io:format("~p~n",[L]) end, [X || X<-lists:seq(1, length(Result)), lists:nth(X, Result)==failed])
+    end,
+    ok.
+
 %%%=============================================================================
 %%% Internal functions
 %%%=============================================================================
+
+-spec testHelper({Msg :: string(), Key :: string(), TextPart :: string()}) -> passed | failed.
+testHelper({Msg, Key, TextPart}) ->
+    case decodeMessage(encrypt(Msg, Key), TextPart) of
+        Msg -> passed;
+        _ -> failed
+    end.
 
 %% Most of the internal functions are the recursive functions
 %% Functions in the API calls starts the recursion
