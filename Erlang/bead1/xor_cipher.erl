@@ -71,7 +71,7 @@ isCycledIn(A, B) -> cycSearch(A, B, 1).
 getKey(Text, Cipher) -> findKey(decrypt(Cipher, Text), 1).
 
 %% 9. Decoding messages (4 + 3 pont)
-%% This function only works if the given textpart is at least as long as the key used to encode the full text
+%% Because of findKey function the given textpart needs to be at least 2 chars longer than the key that was used to encode the text
 -spec decodeMessage(Cipher :: string(), TextPart :: string()) -> string() | 'cannot_be_decoded'.
 decodeMessage(Cipher, TextPart) ->
     case searchKey(Cipher, TextPart, 1) of
@@ -152,6 +152,7 @@ cycSearch(ToFind, ToSearch, Index) ->
         false -> false
     end.
 
+%% This function only works of the text in which we search the key is at least 2 chars longer than the actual key
 -spec findKey(LongKey :: string(), Index :: number()) -> string() | 'no_key'.
 findKey(LongKey, Index) when Index > (length(LongKey) -1) ->
     'no_key';
