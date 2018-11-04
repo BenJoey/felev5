@@ -163,6 +163,13 @@ findKey(LongKey, Index) ->
         false -> findKey(LongKey, Index + 1)
     end.
 
+%% Explanation for searching the Key
+%% ActualKey == what we search
+%% WrongKey == what we found in the searchKey function
+%% While searching the key first we got the WrongKey same length as the ActualKey but the order of the letters might be different
+%% To find the ActualKey we repeat the WrongKey backwards starting from the Index where we found the WrongKey (getLongKeyBegin function)
+%% This way we get the LongKey (up until Index) that was used to encrypt the full text
+%% Then the first X (X == WrongKey length) letter of the LongKey is the ActualKey
 -spec searchKey(Cipher :: string(), TextPart :: string(), Index :: number()) -> string() | 'no_solution'.
 searchKey(Cipher, TextPart, Index) when ((Index + length(TextPart) - 1) > length(Cipher)) ->
     'no_solution';
@@ -181,7 +188,7 @@ getLongKeyBegin(_, Acc, 0, _) -> Acc;
 
 getLongKeyBegin(Key, Acc, Index, KeyInd) ->
     NextInd = case KeyInd of
-                 1 -> length(Key);
-                 Val -> Val - 1
-             end,
+                  1 -> length(Key);
+                  Val -> Val - 1
+              end,
     getLongKeyBegin(Key, [lists:nth(KeyInd, Key) | Acc], Index - 1, NextInd).
