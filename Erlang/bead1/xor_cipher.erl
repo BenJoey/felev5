@@ -71,7 +71,7 @@ isCycledIn(A, B) -> cycSearch(A, B, 1).
 getKey(Text, Cipher) -> findKey(decrypt(Cipher, Text), 1).
 
 %% 9. Decoding messages (4 + 3 pont)
-%% This function only works if the given textpart is at least 2 chars longer than the key used to encode the full text
+%% This function only works if the given textpart is at least as long as the key used to encode the full text
 -spec decodeMessage(Cipher :: string(), TextPart :: string()) -> string() | 'cannot_be_decoded'.
 decodeMessage(Cipher, TextPart) ->
     case searchKey(Cipher, TextPart, 1) of
@@ -172,10 +172,16 @@ searchKey(Cipher, TextPart, Index) ->
     case findKey(LongKey, 1) of
         'no_key' -> searchKey(Cipher, TextPart, Index + 1);
         Key ->
-            StartInd = case (Index rem length(Key)) of
-                           0 -> 2;
-                           1 -> 1;
-                           Val -> Val + (Val div 2)
-                       end,
-            lists:sublist(LongKey, StartInd, length(Key))
+            LongerPart = getLongKeyBegin(Key, [], Index - 1, length(Key)) ++ Key,
+            lists:sublist(LongerPart, length(Key))
     end.
+
+-spec getLongKeyBegin(Key :: string(), Acc :: string(), Index :: number(), KeyInd :: number()) -> string().
+getLongKeyBegin(_, Acc, 0, _) -> Acc;
+
+getLongKeyBegin(Key, Acc, Index, KeyInd) ->
+    NextInd = case KeyInd of
+                 1 -> length(Key);
+                 Val -> Val - 1
+             end,
+    getLongKeyBegin(Key, [lists:nth(KeyInd, Key) | Acc], Index - 1, NextInd).
