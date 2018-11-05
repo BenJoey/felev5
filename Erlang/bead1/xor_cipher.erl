@@ -90,7 +90,7 @@ test() ->
     case lists:member(failed, Result) of
         false -> io:format("All tests passed!\n");
         true ->
-            io:format("Failed tests:\n"),
+            io:format("Failed tests:~n"),
             lists:map(fun(L) -> io:format("~p~n",[L]) end, [X || X<-lists:seq(1, length(Result)), lists:nth(X, Result)==failed])
     end,
     ok.
@@ -152,7 +152,7 @@ cycSearch(ToFind, ToSearch, Index) ->
         false -> false
     end.
 
-%% This function only works of the text in which we search the key is at least 2 chars longer than the actual key
+%% This function only works if the text in which we search the key is at least 2 chars longer than the actual key
 -spec findKey(LongKey :: string(), Index :: number()) -> string() | 'no_key'.
 findKey(LongKey, Index) when Index > (length(LongKey) -1) ->
     'no_key';
