@@ -30,7 +30,7 @@
 toBitString(N) -> toBitString(N, []).
 
 %% 2. Converting a character to a bitstring (2 pont)
--spec charToBitString(A :: char()) -> bitString() | {error, atom()}.
+-spec charToBitString(A :: char()) -> bitString() | {error, 'invalid_character'}.
 charToBitString(A) -> addExtraZeros(toBitString(A), 8).
 
 %% 3. Converting a bitstring to a character (2 pont)
@@ -88,7 +88,7 @@ test() ->
                 {Msg2, "GHU", "weird"}, {Msg2, "PDF", "times"}, {Msg2, "LER", "look"}],
     Result = lists:map(fun(L) -> testHelper(L) end, TestList),
     case lists:member(failed, Result) of
-        false -> io:format("All tests passed!\n");
+        false -> io:format("All tests passed!~n");
         true ->
             io:format("Failed tests:~n"),
             lists:map(fun(L) -> io:format("~p~n",[L]) end, [X || X<-lists:seq(1, length(Result)), lists:nth(X, Result)==failed])
@@ -114,9 +114,9 @@ toBitString(0, Acc) -> lists:reverse(Acc);
 toBitString(N, Acc) -> toBitString(N div 2, [N rem 2 | Acc]).
 
 %% Adds zeros to the end of the bitString until it reaches the required length
--spec addExtraZeros(Acc :: bitString(), ReqLen :: number()) -> bitString() | {error, atom()}.
+-spec addExtraZeros(Acc :: bitString(), ReqLen :: number()) -> bitString() | {error, 'invalid_character'}.
 addExtraZeros(Acc, ReqLen) when length(Acc) > ReqLen ->
-    {error, invalid_character};
+    {error, 'invalid_character'};
 addExtraZeros(Acc, ReqLen) when length(Acc) == ReqLen -> Acc;
 addExtraZeros(Acc, ReqLen) -> addExtraZeros(Acc ++ [0], ReqLen).
 
