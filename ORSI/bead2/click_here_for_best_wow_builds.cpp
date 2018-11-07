@@ -7,9 +7,10 @@
 
 #include "build.h"
 
-Build* get_Dominant_Elem(std::vector<Build> Arr, int begin, int end){
+Build* get_Dominant_Elem(const std::vector<Build>& Arr, int begin, int end){
     if(begin == (end-1)){         //Arr.size() == 1){
-        return &(Arr[begin]);
+        auto it = Arr.begin() + begin;
+        return it;
     }
     int mid = (begin+end) / 2;
     int count = 0, lsize = (end - begin)/2;
@@ -18,11 +19,13 @@ Build* get_Dominant_Elem(std::vector<Build> Arr, int begin, int end){
     std::future<Build*> leftResult = std::async(std::launch::async, get_Dominant_Elem, Arr, begin, mid);
     
     //std::vector<Build> rightArr(Arr.begin() + lsize, Arr.end());
-    std::future<Build*> rightResult = std::async(std::launch::async, get_Dominant_Elem, Arr, mid, end);
+    //std::future<Build*> rightResult = std::async(std::launch::async, get_Dominant_Elem, Arr, mid, end);
     
     leftResult.wait();
+    std::future<Build*> rightResult = std::async(std::launch::async, get_Dominant_Elem, Arr, mid, end);
     Build* leftDom = leftResult.get();
     if(leftDom != nullptr){
+        std::cout<<(*leftDom);
         for(int i = begin; i < end; ++i){
             if((*leftDom) == Arr[i])count++;
         }
