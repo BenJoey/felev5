@@ -7,23 +7,23 @@
 
 #include "build.h"
 
-Build * get_Dominant_Elem(std::vector<Build> Arr){
-    if(Arr.size() == 1){
-        return &(Arr[0]);
+Build* get_Dominant_Elem(std::vector<Build> Arr, int begin, int end){
+    if(begin == (end-1)){         //Arr.size() == 1){
+        return &(Arr[begin]);
     }
-    int lsize = Arr.size() / 2;
-    int count = 0;
+    int mid = (begin+end) / 2;
+    int count = 0, lsize = (end - begin)/2;
     
-    std::vector<Build> leftArr(Arr.begin(), Arr.begin() + lsize);
-    std::future<Build*> leftResult = std::async(std::launch::async, get_Dominant_Elem, leftArr);
+    //std::vector<Build> leftArr(Arr.begin(), Arr.begin() + lsize);
+    std::future<Build*> leftResult = std::async(std::launch::async, get_Dominant_Elem, Arr, begin, mid);
     
-    std::vector<Build> rightArr(Arr.begin() + lsize, Arr.end());
-    std::future<Build*> rightResult = std::async(std::launch::async, get_Dominant_Elem, rightArr);
+    //std::vector<Build> rightArr(Arr.begin() + lsize, Arr.end());
+    std::future<Build*> rightResult = std::async(std::launch::async, get_Dominant_Elem, Arr, mid, end);
     
-    leftResult.wait();    
+    leftResult.wait();
     Build* leftDom = leftResult.get();
     if(leftDom != nullptr){
-        for(int i = 0; i < Arr.size(); ++i){
+        for(int i = begin; i < end; ++i){
             if((*leftDom) == Arr[i])count++;
         }
         std::cout<<count<<std::endl;
@@ -33,7 +33,7 @@ Build * get_Dominant_Elem(std::vector<Build> Arr){
     rightResult.wait();
     Build* rightDom = rightResult.get();
     if(rightDom != nullptr){
-        for(int i = 0; i < Arr.size(); ++i){
+        for(int i = begin; i < end; ++i){
             if((*rightDom) == Arr[i])count++;
         }
         std::cout<<count<<std::endl;
@@ -77,7 +77,7 @@ int main()
     std::cout<<"HIBA\n";}*//*
     std::future<Build*> Get_Dom_Build = std::async(std::launch::async, get_Dominant_Elem, data);
     Get_Dom_Build.wait();*/
-    Build* DomBuild = get_Dominant_Elem(data);
+    Build* DomBuild = get_Dominant_Elem(data, 0, N);
     if(DomBuild == nullptr){
         std::cout<<"ERR"<<std::endl;
     }
