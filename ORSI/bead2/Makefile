@@ -1,7 +1,7 @@
 default: compile
 
 compile:
-	g++ click_here_for_best_wow_builds.cpp build.h
+	g++ click_here_for_best_wow_builds.cpp build.h -o out.exe
 
 run:
 	g++ click_here_for_best_wow_builds.cpp build.h -o out.exe
