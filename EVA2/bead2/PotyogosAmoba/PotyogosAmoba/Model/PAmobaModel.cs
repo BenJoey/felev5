@@ -36,6 +36,7 @@ namespace PotyogosAmoba.Model
 
         public event EventHandler<AmobaEvent> GameOver;
         public event EventHandler RefreshBoard;
+        public event EventHandler Reset;
 
         #endregion
 
@@ -91,6 +92,7 @@ namespace PotyogosAmoba.Model
             for (int i = 0; i < gameSize; i++)
                 for (int j = 0; j < gameSize; j++)
                     gameTable[i, j] = Player.NoPlayer;
+            Reset_Signal();
         }
 
         /// <summary>
@@ -118,6 +120,7 @@ namespace PotyogosAmoba.Model
                     player0Time++;
                     break;
             }
+            Refresh_Signal();
         }
 
         /// <summary>
@@ -129,7 +132,7 @@ namespace PotyogosAmoba.Model
         {
             gameTable[Row, Column] = _currentPlayer;
             _currentPlayer = _currentPlayer == Player.PlayerX ? Player.Player0 : Player.PlayerX;
-            Refresh_Signal();
+            //Refresh_Signal();
             GameCheck();
         }
 
@@ -219,6 +222,12 @@ namespace PotyogosAmoba.Model
         {
             if (GameOver != null)
                 GameOver(this, e);
+        }
+
+        private void Reset_Signal()
+        {
+            if (Reset != null)
+                Reset(this, new EventArgs());
         }
 
         #endregion

@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PotyogosAmoba"
         mc:Ignorable="d"
-        Title="Potyogos Amoba" Height="450" Width="400">
+        Title="Potyogos Amoba" Height="700" Width="600" MinHeight="700" MinWidth="600" SizeToContent="WidthAndHeight">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="70" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20" />
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="Fájl">
@@ -20,25 +21,32 @@
                 <MenuItem Header="Kilépés" Command="{Binding ExitCommand}" />
             </MenuItem>
             <MenuItem Header="Új játék">
-                <MenuItem Header="10x10" CommandParameter="10" Command="{Binding NewGameCommand}" />
+                <MenuItem Header="10x10" Command="{Binding NewGameCommand}" CommandParameter="10"/>
                 <Separator />
-                <MenuItem Header="20x20" CommandParameter="20" Command="{Binding NewGameCommand}" />
+                <MenuItem Header="20x20" Command="{Binding NewGameCommand}"  CommandParameter="20"/>
                 <Separator />
-                <MenuItem Header="30x30" CommandParameter="30" Command="{Binding NewGameCommand}" />
+                <MenuItem Header="30x30" Command="{Binding NewGameCommand}"  CommandParameter="30"/>
             </MenuItem>
         </Menu>
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
+        <GroupBox Margin="2" Header="Méret:" Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Pályaméret:" Margin="5" />
+                <TextBox Text="{Binding gameSize}" InputScope="" Width="80" Margin="0,5,5,10" Height="22" />
+                <Button Name="_ChangeSizeButton" Command="{Binding NewGameCommand}" CommandParameter="{Binding gameSize}" Content="Új játék" Width="80" Margin="10,5,5,5" />
+            </StackPanel>
+        </GroupBox>
+        <ItemsControl Grid.Row="2" ItemsSource="{Binding Fields}">
             <!--az mezőket tároló vezérlő-->
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <!--a gombokat egy rácsba fűzzük fel-->
+                    <!--a gombokat egy rácsba fűzzük fel  {Binding gameSize}-->
                     <UniformGrid Rows="{Binding gameSize}" Columns="{Binding gameSize}" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <!--az elemek gombok lesznek-->
                 <DataTemplate>
-                    <Button Command="{Binding StepCommand}" CommandParameter="{Binding Number}" Content="{Binding Text}" Focusable="False" RenderTransformOrigin="0.5, 0.5" FontSize="24" FontWeight="Bold">
+                    <Button Command="{Binding StepCommand}" CommandParameter="{Binding Number}" Content="{Binding Text}" Focusable="False" RenderTransformOrigin="0.5, 0.5" FontSize="24" FontWeight="Bold" Height="50" Width="50">
                         <!-- gomb háttérszíne -->
                         <!-- gomb méretezése (csak az animációnál használjuk ki) -->
                         <Button.RenderTransform>
@@ -56,7 +64,7 @@
                                         <Setter Property="Background" Value="LightGreen" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding Clickable}" Value="True">
-                                        <Setter Property="Background" Value="LightCyan" />
+                                        <Setter Property="Background" Value="Cyan" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -96,7 +104,7 @@
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
-        <StatusBar Grid.Row="2">
+        <StatusBar Grid.Row="3">
             <!-- státuszsor a játékosok idejéhez és a soron lévő játékoshoz -->
             <StatusBarItem>
                 <TextBlock Text="X játékos ideje: " />

@@ -24,10 +24,10 @@ namespace PotyogosAmoba.ViewModel
             get { return _text; }
             set
             {
+                OnPropertyChanged();
                 if (_text != value)
                 {
                     _text = value;
-                    OnPropertyChanged();
                 }
             }
         }

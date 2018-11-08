@@ -79,6 +79,7 @@ namespace PotyogosAmoba
         /// </summary>
         private void ViewModel_NewGame(object sender, Int32 e)
         {
+            _timer.Stop();
             _model.NewGame(e);
             _timer.Start();
         }

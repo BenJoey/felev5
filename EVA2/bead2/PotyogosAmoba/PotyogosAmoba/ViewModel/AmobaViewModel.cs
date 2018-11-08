@@ -13,6 +13,7 @@ namespace PotyogosAmoba.ViewModel
         #region Fields
 
         private PAmobaModel _model;
+        Boolean isPaused;
 
         #endregion
 
@@ -26,8 +27,20 @@ namespace PotyogosAmoba.ViewModel
 
         public String XTime { get { return TimeSpan.FromSeconds(_model.PlXTime).ToString("g"); } }
         public String OTime { get { return TimeSpan.FromSeconds(_model.Pl0Time).ToString("g"); } }
-        public Int32 gameSize { get { return _model.GetSize; } }
-        public String CurrentPlay { get { return _model.CurrentPlayer == Player.PlayerX ? "X" : "O"; } }
+        public Int32 gameSize
+        {
+            get { return _model.GetSize; }
+            set
+            {
+                if (gameSize != value)
+                {
+                    Console.WriteLine(value);
+                    _model.NewGame(Convert.ToInt32(value));
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public String CurrPlay { get { return _model.CurrentPlayer == Player.PlayerX ? "X" : "O"; } }
 
         #endregion
 
@@ -58,8 +71,10 @@ namespace PotyogosAmoba.ViewModel
         public AmobaViewModel(PAmobaModel model)
         {
             _model = model;
+            isPaused = false;
             _model.GameOver += new EventHandler<AmobaEvent>(Model_GameOver);
             _model.RefreshBoard += new EventHandler(Model_GameAdvanced);
+            //_model.Reset += new EventHandler(Model_Reset);
 
             NewGameCommand = new DelegateCommand(param => OnNewGame(Convert.ToInt32(param)));
             LoadGameCommand = new DelegateCommand(param => OnLoadGame());
@@ -109,9 +124,11 @@ namespace PotyogosAmoba.ViewModel
         private void StepGame(Int32 Index)
         {
             AmobaField clicked = Fields[Index];
-            _model.Step(clicked.X, clicked.Y);
-
-            clicked.Text = _model.GetFieldValue(clicked.X, clicked.Y) == Player.PlayerX ? "X" : "O";
+            if (clicked.Clickable && !isPaused)
+            {
+                _model.Step(clicked.X, clicked.Y);
+                clicked.Text = _model.GetFieldValue(clicked.X, clicked.Y) == Player.PlayerX ? "X" : "O";
+            }
         }
 
         #endregion
@@ -135,7 +152,13 @@ namespace PotyogosAmoba.ViewModel
         private void Model_GameAdvanced(object sender, EventArgs e)
         {
             RefreshTable();
-            //OnPropertyChanged("GameTime");
+        }
+
+        private void Model_Reset(object sender, EventArgs e)
+        {
+            _model = sender as PAmobaModel;
+            Fields.Clear();
+            ResetFields();
         }
 
         #endregion
@@ -147,11 +170,14 @@ namespace PotyogosAmoba.ViewModel
         /// </summary>
         private void OnNewGame(Int32 newSize)
         {
-            _model.NewGame(newSize);
-            ResetFields();
-            RefreshTable();
+            /*_model.NewGame(newSize);
+            RefreshTable();*/
+            Fields.Clear();
             if (NewGame != null)
                 NewGame(this, newSize);
+            ResetFields();
+            Console.WriteLine(Fields.Count);
+            RefreshTable();
         }
 
 
