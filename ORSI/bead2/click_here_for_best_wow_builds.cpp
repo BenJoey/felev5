@@ -4,7 +4,13 @@
 #include <string>
 #include <future>
 
-class Build {
+//Hello everyone and welcome to my channel
+//In today's video i will show you how can you find the best build in
+//the awesome game called World of Warcraft
+
+//First you have to play thousands of hours of WoW to find out which buids are even viable
+
+class Build { //Now check what are the important details of a build
   private:
     int Level;
     std::string Race;
@@ -34,13 +40,22 @@ bool is_this_the_GOD_build(const std::vector<Build> Arr, const int buildnum, con
   return (count > ReqCount);
 }
 
-int find_the_best_motha_fin_build(const std::vector<Build> Arr, const int begin, const int end){
+//Then we have to test these builds to find out which is the best to make other players uninstall the game
+int find_the_best_motha_fkin_build(const std::vector<Build> Arr, const int begin, const int end){
   if(begin == (end-1)) return begin;
 
+  //We start the testing by splitting up the builds into separate groups until all of the group has 1 build
   int mid = (begin+end) / 2;
 
-  std::future<int> leftResult = std::async(std::launch::async, find_the_best_motha_fin_build, Arr, begin, mid);
-  std::future<int> rightResult = std::async(std::launch::async, find_the_best_motha_fin_build, Arr, mid, end);
+  //Now we create a blizzard account for each of the builds to be able playtest them simultaneously on different servers
+  //Note: this part requires a lot of money because builds usually go further than lvl 20
+  std::future<int> leftResult = std::async(std::launch::async, find_the_best_motha_fkin_build, Arr, begin, mid);
+
+  //If there is a best build in each group that smashes the noobs on the correspondig servers then we compare the group winners until we reach the full build list again
+  int rightDom = find_the_best_motha_fkin_build(Arr, mid, end);
+
+  if(is_this_the_GOD_build(Arr, rightDom, begin, end))
+    return rightDom;
 
   leftResult.wait();
   int leftDom = leftResult.get();
@@ -48,17 +63,14 @@ int find_the_best_motha_fin_build(const std::vector<Build> Arr, const int begin,
   if(is_this_the_GOD_build(Arr, leftDom, begin, end))
     return leftDom;
 
-  rightResult.wait();
-  int rightDom = rightResult.get();
-
-  if(is_this_the_GOD_build(Arr, rightDom, begin, end))
-    return rightDom;
+  //If this part was not successful then we wasted the money for testing these builds
   return -1;
 }
 
+//Now that we know how to find the best build we have to execute it
 int main()
 {
-  std::ifstream input("input.txt");
+  std::ifstream input("input.txt"); //Open the list of builds
   std::vector<Build> data;
   std::string s;
   getline(input, s);
@@ -69,12 +81,17 @@ int main()
     while(getline(ss, s, ';')){
       Line.push_back(s);
     }
-    Build temp(Line[0], Line[1], std::stoi(Line[2]), Line[3]);
+    Build temp(Line[0], Line[1], std::stoi(Line[2]), Line[3]); //Only keep the important parts of the builds
     data.push_back(temp);
   }
-  int DomBuild = find_the_best_motha_fin_build(data, 0, N);
+  int DomBuild=-1;
+  if(N!=0)DomBuild = find_the_best_motha_fkin_build(data, 0, N); //Run the process said earlier
   std::ofstream output("output.txt");
   if(DomBuild == -1){
+    //If we have failed to find the best build because we are failures in life then all there is left to us
+    //is to embrace the crippling depression and try to recover the money lost by making
+    //heavy clickbait videos for YouTube that has the shit edited out of them
+
     output << "We've found nothing interesting." << std::endl;
   }
   else{
@@ -82,22 +99,5 @@ int main()
   }
   output.close();
 }
-  //int count = 0, lsize = (end - begin)/2;
-  /*if(leftDom != -1){
-    for(int i = begin; i < end; ++i){
-      if(Arr[leftDom] == Arr[i])count++;
-    }
-    std::cout<<count<<std::endl;
-    if(count > lsize) return leftDom;
-  }
-  count = 0;
-  rightResult.wait();
-  int rightDom = rightResult.get();
-  if(rightDom != -1){
-    for(int i = begin; i < end; ++i){
-      if(Arr[rightDom] == Arr[i])count++;
-    }
-    std::cout<<count<<std::endl;
-    if(count > lsize) return rightDom;
-  }
-  return -1;*/
+//Thank you for watching guys
+//If you enjoyed the video don't forget to like, comment, subscribe, share it on fb, post about it on instagram and twitter and also visit my patreon
