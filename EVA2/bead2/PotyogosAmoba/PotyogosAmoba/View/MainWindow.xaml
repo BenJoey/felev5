@@ -1,0 +1,124 @@
+﻿<Window x:Class="PotyogosAmoba.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PotyogosAmoba"
+        mc:Ignorable="d"
+        Title="Potyogos Amoba" Height="450" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="Fájl">
+                <MenuItem Header="Játék betöltése..." Command="{Binding LoadGameCommand}" />
+                <MenuItem Header="Játék mentése..." Command="{Binding SaveGameCommand}" />
+                <Separator />
+                <MenuItem Header="Kilépés" Command="{Binding ExitCommand}" />
+            </MenuItem>
+            <MenuItem Header="Új játék">
+                <MenuItem Header="10x10" CommandParameter="10" Command="{Binding NewGameCommand}" />
+                <Separator />
+                <MenuItem Header="20x20" CommandParameter="20" Command="{Binding NewGameCommand}" />
+                <Separator />
+                <MenuItem Header="30x30" CommandParameter="30" Command="{Binding NewGameCommand}" />
+            </MenuItem>
+        </Menu>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
+            <!--az mezőket tároló vezérlő-->
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <!--a gombokat egy rácsba fűzzük fel-->
+                    <UniformGrid Rows="{Binding gameSize}" Columns="{Binding gameSize}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <!--az elemek gombok lesznek-->
+                <DataTemplate>
+                    <Button Command="{Binding StepCommand}" CommandParameter="{Binding Number}" Content="{Binding Text}" Focusable="False" RenderTransformOrigin="0.5, 0.5" FontSize="24" FontWeight="Bold">
+                        <!-- gomb háttérszíne -->
+                        <!-- gomb méretezése (csak az animációnál használjuk ki) -->
+                        <Button.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </Button.RenderTransform>
+                        <Button.Style>
+                            <!-- gomb stílusa, ahol a színét megadjuk -->
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <!-- a szín egy adatkötés hatására fog változni -->
+                                    <DataTrigger Binding="{Binding Text}" Value="X">
+                                        <Setter Property="Background" Value="Pink" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Text}" Value="O">
+                                        <Setter Property="Background" Value="LightGreen" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Clickable}" Value="True">
+                                        <Setter Property="Background" Value="LightCyan" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Triggers>
+                            <!-- animációk végrehajtása esemény hatására -->
+                            <EventTrigger RoutedEvent="Button.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:00:02" From="0" To="1" Storyboard.TargetProperty="Opacity" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Button.Click">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Duration="0:00:00.2" Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)">
+                                            <ColorAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteColorKeyFrame Value="Red" KeyTime="0:00:00" />
+                                                <DiscreteColorKeyFrame Value="Black" KeyTime="0:00:00.2" />
+                                            </ColorAnimationUsingKeyFrames.KeyFrames>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <DoubleAnimation Duration="0:00:00.1" From="1" To="0.5" AutoReverse="True" Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)" />
+                                        <DoubleAnimation Duration="0:00:00.1" From="1" To="0.5" AutoReverse="True" Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <!--a függőségi tulajdonságokat kjülön kell kötnünk-->
+                <Style>
+                    <Setter Property="Grid.Row" Value="{Binding X}" />
+                    <Setter Property="Grid.Column" Value="{Binding Y}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+        <StatusBar Grid.Row="2">
+            <!-- státuszsor a játékosok idejéhez és a soron lévő játékoshoz -->
+            <StatusBarItem>
+                <TextBlock Text="X játékos ideje: " />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding XTime}" />
+            </StatusBarItem>
+            <Separator />
+            <StatusBarItem>
+                <TextBlock Text="Y játékos ideje: " />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding OTime}" />
+            </StatusBarItem>
+            <Separator />
+            <StatusBarItem>
+                <TextBlock Text="Soron lévő játékos: " />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding CurrPlay}" />
+            </StatusBarItem>
+            <StatusBarItem />
+        </StatusBar>
+    </Grid>
+</Window>

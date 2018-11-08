@@ -94,6 +94,17 @@ namespace PotyogosAmoba.Model
         }
 
         /// <summary>
+        /// Aktiv-e mező, azaz lehet-e rá kattintani
+        /// </summary>
+        /// <param name="x">A kattintott gomb sorának indexe.</param>
+        /// <param name="y">A kattintott gomb oszlopjának indexe.</param>
+        public Boolean isFieldActive(int x, int y)
+        {
+            if (x == gameSize - 1 && gameTable[x, y] == Player.NoPlayer) return true;
+            return (gameTable[x, y] == Player.NoPlayer && gameTable[x + 1, y] != Player.NoPlayer);
+        }
+
+        /// <summary>
         /// Játékidő léptetése.
         /// </summary>
         public void AdvanceTime()
@@ -112,6 +123,7 @@ namespace PotyogosAmoba.Model
         /// <summary>
         /// Játékos karakterének elhelyezése a kattintott oszlopba.
         /// </summary>
+        /// <param name="Row">A kattintott gomb sorának indexe.</param>
         /// <param name="Column">A kattintott gomb oszlopjának indexe.</param>
         public void Step(Int32 Row, Int32 Column)
         {
