@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>790</x>
+      <y>300</y>
+      <w>310</w>
+      <h>490</h>
+    </coordinates>
+    <panel_attributes>Model::PAmobaModel
+--
+- _dataAccess :IAmobaDataAccess
+- gameSize :Int32
+- _currentPlayer :Player
+- gameTable :Player([,])
+- playerXTime :Int32
+- player0Time :Int32
+--
++ PAmobaModel(IAmobaDataAccess)
++ NewGame(Int32) :void
++ AdvanceTime() :void
++ Step(Int32) :void
++ isFieldActive(Int32, Int32) :bool
+- GameCheck() :void
+- Refresh_Signal() :void
+- Reset_Signal() :void
+- GameOver_Signal(AmobaEvent) :void
+&lt;&lt;property&gt;&gt;
++ GetSize() :Int32
++ PlXTime() :Int32
++ Pl0Time() :Int32
++ CurrentPlayer() :Player
++ GetFieldValue(Int32, Int32) :Player
+&lt;&lt;event&gt;&gt;
++ GameOver() :EventHandler&lt;AmobaEvent&gt;
++ Refresh() :EventHandler
++ Reset() :EventHandler
+&lt;&lt;async&gt;&gt;
++ LoadGame :Task
++ SaveGame :Task</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>320</x>
+      <y>310</y>
+      <w>400</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>
+
+Model::AmobaEvent
+--
+- playerXTime :Int32
+- player0Time :Int32
+- _winner :Player
+- WinningPlace :Tuple&lt;Int32,Int32&gt;([])
+--
++ AmobaEvent(Player, Int32, Int32, Tuple&lt;Int32,Int32&gt;[]) :void
+&lt;&lt;property&gt;&gt;
++ GetXTime() :Int32
++ Get0Time() :Int32
++ WhoWon() :Player
++ WinPlace() :Tuple&lt;Int32,Int32&gt;[]</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>620</x>
+      <y>310</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>/EventArgs/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>710</x>
+      <y>350</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1240</x>
+      <y>300</y>
+      <w>140</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+Model::Player
+--
+NoPlayer
+PlayerX
+Player0
+halign=center</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1090</x>
+      <y>320</y>
+      <w>170</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+- _currentPlayer
+- gameTable</panel_attributes>
+    <additional_attributes>10.0;20.0;150.0;20.0</additional_attributes>
+  </element>
+</diagram>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>500</x>
+      <y>340</y>
+      <w>410</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>
+
+App
+--
+- _model :PAmobaModel
+- _viewModel :AmobaViewModel
+- _view :MainWindow
+- _timer :DispatcherTimer
+--
++ App()
+- App_StartupStartup(object, StartupEventArgs) :void
+- Timer_Tick(object, EventArgs) :void
+- View_Closing(object, CancelEventArgs) :void
+- ViewModel_NewGame(object, Int32) :void
+- View_GamePause(object, EventArgs) :void
+- ViewModel_ExitGame(object, System.EventArgs) :void
+- Model_GameOver(object, AmobaEvent) :void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>810</x>
+      <y>340</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>/Application/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

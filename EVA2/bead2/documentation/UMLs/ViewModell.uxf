@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>810</x>
+      <y>100</y>
+      <w>310</w>
+      <h>520</h>
+    </coordinates>
+    <panel_attributes>AmobaViewModel
+--
+- _model :PAmobaModel
+--
++ AmobaViewModel(PAmobaModel)
+- RefreshTable() :void
+- ResetFields() :void
+- StepGame(Int32) :void
+- Model_GameOver(object, AmobaEvent) :void
+- Model_GameAdvanced(object, EventArgs) :void
+- Model_Reset(object, EventArgs) :void
+- OnNewGame() :void
+- OnLoadGame() :void
+- OnSaveGame() :void
+- OnExitGame() :void
+- OnGamePause() :void
+&lt;&lt;property&gt;&gt;
++ NewGameCommand() :DelegateCommand
++ LoadGameCommand() :DelegateCommand
++ SaveGameCommand() :DelegateCommand
++ ExitCommand() :DelegateCommand
++ PauseCommand() :DelegateCommand
++ Fields() :ObservableCollection&lt;AmobaField&gt;
++ XTime() :String
++ OTime() :String
++ gameSize() :Int32
++ CurrPlay() :String
+&lt;&lt;event&gt;&gt;
++ NewGame() :EventHandler
++ LoadGame() :EventHandler
++ SaveGame() :EventHandler
++ ExitGame() :EventHandler
++ GamePause() :EventHandler</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>380</x>
+      <y>110</y>
+      <w>360</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>
+
+/ViewModelBase/
+--
+# ViewModelBase()
+# OnPropertyChanged(String) :void
+&lt;&lt;event&gt;&gt;
++ PropertyChanged() :PropertyChangedEventHandler</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>580</x>
+      <y>110</y>
+      <w>160</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>/INotifyPropertyChanged/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>150</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>430</x>
+      <y>300</y>
+      <w>270</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>AmobaField
+--
+- isClickable :Boolean
+- _text :String
+- winField :Boolean
+- _ButtonSize :Int32
+--
+&lt;&lt;property&gt;&gt;
++ ButtonSize() :Int32
++ Clickable() :Boolean
++ isWinField() :Boolean
++ Text() :String
++ X() :Int32
++ Y() :Int32
++ Number() :Int32
++ StepCommand() :DelegateCommand</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>610</x>
+      <y>230</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>690</x>
+      <y>340</y>
+      <w>140</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>570</x>
+      <y>680</y>
+      <w>410</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>
+
+DelegateCommand
+--
+- _execute :Action&lt;Object&gt; {readOnly}
+- _canExecute :Func&lt;Object, Boolean&gt; {readOnly}
+--
++ DelegateCommand(Action&lt;Object&gt;)
++ DelegateCommand(Func&lt;Object, Boolean&gt;, Action&lt;Object&gt;)
++ CanExecute(Object) :Boolean
++ Execute(Object) :void
++ RaiseCanExecuteChanged() :void
+&lt;&lt;event&gt;&gt;
++ CanExecuteChanged() :EventHandler</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>820</x>
+      <y>680</y>
+      <w>160</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>/ICommand/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>550</y>
+      <w>30</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>970</x>
+      <y>610</y>
+      <w>90</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;70.0;170.0;10.0;170.0</additional_attributes>
+  </element>
+</diagram>
