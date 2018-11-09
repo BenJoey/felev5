@@ -6,6 +6,7 @@ namespace PotyogosAmoba.ViewModel
     {
         private Boolean isClickable;
         private String _text;
+        private Boolean winField;
 
         public Boolean Clickable
         {
@@ -15,6 +16,18 @@ namespace PotyogosAmoba.ViewModel
                 if(isClickable != value)
                 {
                     isClickable = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public Boolean isWinField
+        {
+            get { return winField; }
+            set
+            {
+                if (winField != value)
+                {
+                    winField = value;
                     OnPropertyChanged();
                 }
             }

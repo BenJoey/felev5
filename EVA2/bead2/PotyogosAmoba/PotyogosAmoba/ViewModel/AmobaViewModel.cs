@@ -23,6 +23,7 @@ namespace PotyogosAmoba.ViewModel
         public DelegateCommand LoadGameCommand { get; private set; }
         public DelegateCommand SaveGameCommand { get; private set; }
         public DelegateCommand ExitCommand { get; private set; }
+        public DelegateCommand PauseCommand { get; private set; }
         public ObservableCollection<AmobaField> Fields { get; set; }
 
         public String XTime { get { return TimeSpan.FromSeconds(_model.PlXTime).ToString("g"); } }
@@ -34,7 +35,6 @@ namespace PotyogosAmoba.ViewModel
             {
                 if (gameSize != value)
                 {
-                    Console.WriteLine(value);
                     _model.NewGame(Convert.ToInt32(value));
                     OnPropertyChanged();
                 }
@@ -66,6 +66,11 @@ namespace PotyogosAmoba.ViewModel
         /// </summary>
         public event EventHandler ExitGame;
 
+        /// <summary>
+        /// Játék megállítás eseménye.
+        /// </summary>
+        public event EventHandler GamePause;
+
         #endregion
 
         public AmobaViewModel(PAmobaModel model)
@@ -74,12 +79,13 @@ namespace PotyogosAmoba.ViewModel
             isPaused = false;
             _model.GameOver += new EventHandler<AmobaEvent>(Model_GameOver);
             _model.RefreshBoard += new EventHandler(Model_GameAdvanced);
-            //_model.Reset += new EventHandler(Model_Reset);
+            _model.Reset += new EventHandler(Model_Reset);
 
             NewGameCommand = new DelegateCommand(param => OnNewGame(Convert.ToInt32(param)));
             LoadGameCommand = new DelegateCommand(param => OnLoadGame());
             SaveGameCommand = new DelegateCommand(param => OnSaveGame());
             ExitCommand = new DelegateCommand(param => OnExitGame());
+            PauseCommand = new DelegateCommand(param => OnGamePause());
 
             ResetFields();
 
@@ -98,7 +104,6 @@ namespace PotyogosAmoba.ViewModel
 
             OnPropertyChanged("OTime");
             OnPropertyChanged("XTime");
-            OnPropertyChanged("CurrPlay");
         }
 
         private void ResetFields()
@@ -114,11 +119,13 @@ namespace PotyogosAmoba.ViewModel
                         Text = String.Empty,
                         X = i,
                         Y = j,
+                        isWinField = false,
                         Number = i * _model.GetSize + j, // a gomb sorszáma, amelyet felhasználunk az azonosításhoz
                         StepCommand = new DelegateCommand(param => StepGame(Convert.ToInt32(param)))
                     });
                 }
             }
+            OnPropertyChanged("Fields");
         }
 
         private void StepGame(Int32 Index)
@@ -126,8 +133,9 @@ namespace PotyogosAmoba.ViewModel
             AmobaField clicked = Fields[Index];
             if (clicked.Clickable && !isPaused)
             {
+                clicked.Text = CurrPlay;
                 _model.Step(clicked.X, clicked.Y);
-                clicked.Text = _model.GetFieldValue(clicked.X, clicked.Y) == Player.PlayerX ? "X" : "O";
+                OnPropertyChanged("CurrPlay");
             }
         }
 
@@ -144,6 +152,11 @@ namespace PotyogosAmoba.ViewModel
             {
                 field.Clickable = false; // minden mezőt lezárunk
             }
+            foreach(Tuple<Int32, Int32> a in e.WinPlace)
+            {
+                Int32 No = a.Item1 * gameSize + a.Item2;
+                Fields[No].isWinField = true;
+            }
         }
 
         /// <summary>
@@ -156,9 +169,9 @@ namespace PotyogosAmoba.ViewModel
 
         private void Model_Reset(object sender, EventArgs e)
         {
-            _model = sender as PAmobaModel;
             Fields.Clear();
             ResetFields();
+            RefreshTable();
         }
 
         #endregion
@@ -170,14 +183,8 @@ namespace PotyogosAmoba.ViewModel
         /// </summary>
         private void OnNewGame(Int32 newSize)
         {
-            /*_model.NewGame(newSize);
-            RefreshTable();*/
-            Fields.Clear();
             if (NewGame != null)
                 NewGame(this, newSize);
-            ResetFields();
-            Console.WriteLine(Fields.Count);
-            RefreshTable();
         }
 
 
@@ -198,6 +205,16 @@ namespace PotyogosAmoba.ViewModel
         {
             if (SaveGame != null)
                 SaveGame(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Játék megállításának eseménykiváltása.
+        /// </summary>
+        private void OnGamePause()
+        {
+            isPaused = !isPaused;
+            if (GamePause != null)
+                GamePause(this, EventArgs.Empty);
         }
 
         /// <summary>

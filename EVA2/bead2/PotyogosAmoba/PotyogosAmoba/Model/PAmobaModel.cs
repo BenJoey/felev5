@@ -103,7 +103,7 @@ namespace PotyogosAmoba.Model
         public Boolean isFieldActive(int x, int y)
         {
             if (x == gameSize - 1 && gameTable[x, y] == Player.NoPlayer) return true;
-            return (gameTable[x, y] == Player.NoPlayer && gameTable[x + 1, y] != Player.NoPlayer);
+            return (gameTable[x, y] == Player.NoPlayer && GetFieldValue(x + 1, y) != Player.NoPlayer);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace PotyogosAmoba.Model
         {
             gameTable[Row, Column] = _currentPlayer;
             _currentPlayer = _currentPlayer == Player.PlayerX ? Player.Player0 : Player.PlayerX;
-            //Refresh_Signal();
+            Refresh_Signal();
             GameCheck();
         }
 
@@ -151,6 +151,7 @@ namespace PotyogosAmoba.Model
             player0Time = Loaded_data.Item3;
             _currentPlayer = Loaded_data.Item4;
             gameTable = Loaded_data.Item5;
+            Reset_Signal();
         }
 
         /// <summary>
