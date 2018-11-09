@@ -9,7 +9,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
-            <RowDefinition Height="70" />
+            <RowDefinition Height="65" />
             <RowDefinition Height="*" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
@@ -21,12 +21,11 @@
                 <MenuItem Header="Kilépés" Command="{Binding ExitCommand}" />
             </MenuItem>
         </Menu>
-        <GroupBox Margin="2" Header="Méret:" Grid.Row="1">
+        <GroupBox Margin="2,5,2,20" Grid.Row="1">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Pályaméret:" Margin="5" />
-                <TextBox Text="{Binding gameSize}" InputScope="" Width="80" Margin="0,5,5,10" Height="22" />
+                <TextBlock Text="Pályaméret:" Margin="9" />
+                <TextBox Text="{Binding gameSize}" InputScope="" Width="80" Margin="0,5,5,2" Height="22" />
                 <Button Name="_ChangeSizeButton" Command="{Binding NewGameCommand}" CommandParameter="{Binding gameSize}" Content="Új játék" Width="80" Margin="10,5,5,5" />
-                <Separator />
                 <Button Name="_PauseButton" Command="{Binding PauseCommand}" Content="Pause/Start" Width="80" Margin="10,5,5,5" />
             </StackPanel>
         </GroupBox>
