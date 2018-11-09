@@ -8,26 +8,63 @@ using System.Collections.ObjectModel;
 
 namespace PotyogosAmoba.ViewModel
 {
+    /// <summary>
+    /// Potyogós Amőba nézetmodell típusa.
+    /// </summary>
     public class AmobaViewModel : ViewModelBase
     {
         #region Fields
 
-        private PAmobaModel _model;
+        private PAmobaModel _model; //játékmodell
         Boolean isPaused;
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Új játék kezdése parancs lekérdezése.
+        /// </summary>
         public DelegateCommand NewGameCommand { get; private set; }
+
+        /// <summary>
+        /// Játék betöltése parancs lekérdezése.
+        /// </summary>
         public DelegateCommand LoadGameCommand { get; private set; }
+
+        /// <summary>
+        /// Játék mentése parancs lekérdezése.
+        /// </summary>
         public DelegateCommand SaveGameCommand { get; private set; }
+
+        /// <summary>
+        /// Kilépés parancs lekérdezése.
+        /// </summary>
         public DelegateCommand ExitCommand { get; private set; }
+
+        /// <summary>
+        /// Játék megállítás parancs lekérdezése.
+        /// </summary>
         public DelegateCommand PauseCommand { get; private set; }
+
+        /// <summary>
+        /// Játékmező gyűjtemény lekérdezése.
+        /// </summary>
         public ObservableCollection<AmobaField> Fields { get; set; }
 
+        /// <summary>
+        /// X játékos játékidejének lekérdezése.
+        /// </summary>
         public String XTime { get { return TimeSpan.FromSeconds(_model.PlXTime).ToString("g"); } }
+
+        /// <summary>
+        /// O játékos játékidejének lekérdezése.
+        /// </summary>
         public String OTime { get { return TimeSpan.FromSeconds(_model.Pl0Time).ToString("g"); } }
+
+        /// <summary>
+        /// Pályaméret lekérdezése.
+        /// </summary>
         public Int32 gameSize
         {
             get { return _model.GetSize; }
@@ -35,11 +72,17 @@ namespace PotyogosAmoba.ViewModel
             {
                 if (gameSize != value)
                 {
-                    _model.NewGame(Convert.ToInt32(value));
+                    //A játékméret nem lehet nagyobb 30x30-nál illetve kisebb 10-nél
+                    Int32 newSize = Convert.ToInt32(value) > 9 && Convert.ToInt32(value) < 31 ? Convert.ToInt32(value) : 10;
+                    _model.NewGame(newSize);
                     OnPropertyChanged();
                 }
             }
         }
+
+        /// <summary>
+        /// Soron lévő játékos lekérdezése.
+        /// </summary>
         public String CurrPlay { get { return _model.CurrentPlayer == Player.PlayerX ? "X" : "O"; } }
 
         #endregion
@@ -73,6 +116,12 @@ namespace PotyogosAmoba.ViewModel
 
         #endregion
 
+        #region Constructors
+
+        /// <summary>
+        /// Potyogós Amőba nézetmodell példányosítása.
+        /// </summary>
+        /// <param name="model">A modell típusa.</param>
         public AmobaViewModel(PAmobaModel model)
         {
             _model = model;
@@ -92,8 +141,13 @@ namespace PotyogosAmoba.ViewModel
             RefreshTable();
         }
 
+        #endregion
+
         #region Private methods
 
+        /// <summary>
+		/// Tábla frissítése.
+		/// </summary>
         private void RefreshTable()
         {
             foreach(AmobaField curr in Fields)
@@ -103,6 +157,9 @@ namespace PotyogosAmoba.ViewModel
             }
         }
 
+        /// <summary>
+		/// Tábla újragenerálása.
+		/// </summary>
         private void ResetFields()
         {
             Fields = new ObservableCollection<AmobaField>();
@@ -117,6 +174,7 @@ namespace PotyogosAmoba.ViewModel
                         X = i,
                         Y = j,
                         isWinField = false,
+                        ButtonSize = (35 - gameSize) > 10 ? (35 - gameSize) : 10,
                         Number = i * _model.GetSize + j, // a gomb sorszáma, amelyet felhasználunk az azonosításhoz
                         StepCommand = new DelegateCommand(param => StepGame(Convert.ToInt32(param)))
                     });
@@ -125,6 +183,10 @@ namespace PotyogosAmoba.ViewModel
             OnPropertyChanged("Fields");
         }
 
+        /// <summary>
+        /// Játék léptetése eseménykiváltása.
+        /// </summary>
+        /// <param name="Index">A lépett mező indexe.</param>
         private void StepGame(Int32 Index)
         {
             AmobaField clicked = Fields[Index];
@@ -166,6 +228,9 @@ namespace PotyogosAmoba.ViewModel
             OnPropertyChanged("XTime");
         }
 
+        /// <summary>
+        /// Játék újrakezdésének eseménykezelője.
+        /// </summary>
         private void Model_Reset(object sender, EventArgs e)
         {
             OnPropertyChanged("gameSize");

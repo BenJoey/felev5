@@ -2,12 +2,35 @@
 
 namespace PotyogosAmoba.ViewModel
 {
+    /// <summary>
+    /// Potyogós Amőba játékmező típusa.
+    /// </summary>
     public class AmobaField : ViewModelBase
     {
         private Boolean isClickable;
         private String _text;
         private Boolean winField;
+        private Int32 _ButtonSize;
 
+        /// <summary>
+        /// Megjelenítendő betűméret lekérdezése, vagy beállítása.
+        /// </summary>
+        public Int32 ButtonSize
+        {
+            get { return _ButtonSize; }
+            set
+            {
+                if (_ButtonSize != value)
+                {
+                    _ButtonSize = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Kattinthatóság lekérdezése, vagy beállítása.
+        /// </summary>
         public Boolean Clickable
         {
             get { return isClickable; }
@@ -20,6 +43,10 @@ namespace PotyogosAmoba.ViewModel
                 }
             }
         }
+
+        /// <summary>
+        /// Ez-e az egyik nyertes mező lekérdezése, vagy beállítása.
+        /// </summary>
         public Boolean isWinField
         {
             get { return winField; }
@@ -32,6 +59,10 @@ namespace PotyogosAmoba.ViewModel
                 }
             }
         }
+
+        /// <summary>
+        /// Felirat lekérdezése, vagy beállítása.
+        /// </summary>
         public String Text
         {
             get { return _text; }
@@ -59,6 +90,10 @@ namespace PotyogosAmoba.ViewModel
         /// Sorszám lekérdezése.
         /// </summary>
         public Int32 Number { get; set; }
+
+        /// <summary>
+        /// Lépés parancs lekérdezése, vagy beállítása.
+        /// </summary>
         public DelegateCommand StepCommand { get; set; }
     }
 }

@@ -76,25 +76,6 @@ namespace PotyogosAmoba
         #region View event handlers
 
         /// <summary>
-        /// Új játék indításának eseménykezelője.
-        /// </summary>
-        private void ViewModel_NewGame(object sender, Int32 e)
-        {
-            _timer.Stop();
-            _model.NewGame(e);
-            _timer.Start();
-        }
-
-        /// <summary>
-        /// Új játék indításának eseménykezelője.
-        /// </summary>
-        private void ViewModel_GamePause(object sender, EventArgs e)
-        {
-            if (_timer.IsEnabled) _timer.Stop();
-            else _timer.Start();
-        }
-
-        /// <summary>
         /// Nézet bezárásának eseménykezelője.
         /// </summary>
         private void View_Closing(object sender, CancelEventArgs e)
@@ -110,6 +91,29 @@ namespace PotyogosAmoba
                 if (restartTimer) // ha szükséges, elindítjuk az időzítőt
                     _timer.Start();
             }
+        }
+
+        #endregion
+
+        #region ViewModel event handlers
+
+        /// <summary>
+        /// Új játék indításának eseménykezelője.
+        /// </summary>
+        private void ViewModel_NewGame(object sender, Int32 e)
+        {
+            _timer.Stop();
+            _model.NewGame(e);
+            _timer.Start();
+        }
+
+        /// <summary>
+        /// Játék megállításának eseménykezelője.
+        /// </summary>
+        private void ViewModel_GamePause(object sender, EventArgs e)
+        {
+            if (_timer.IsEnabled) _timer.Stop();
+            else _timer.Start();
         }
 
         /// <summary>
@@ -188,7 +192,7 @@ namespace PotyogosAmoba
         /// Játék befejezésének eseménykezelője.
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="e">Amőba esemény típus a játék végéhez tartozó információkkal</param>
         private void Model_GameOver(Object sender, AmobaEvent e)
         {
             _timer.Stop();

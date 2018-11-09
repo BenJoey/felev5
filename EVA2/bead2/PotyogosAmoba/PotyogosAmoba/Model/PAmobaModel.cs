@@ -34,8 +34,19 @@ namespace PotyogosAmoba.Model
 
         #region Events
 
+        /// <summary>
+        /// Játék végének eseménye.
+        /// </summary>
         public event EventHandler<AmobaEvent> GameOver;
+
+        /// <summary>
+        /// Játék előrehaladásának eseménye.
+        /// </summary>
         public event EventHandler Refresh;
+
+        /// <summary>
+	    /// Játék létrehozásának eseménye.
+	    /// </summary>
         public event EventHandler Reset;
 
         #endregion
@@ -225,6 +236,9 @@ namespace PotyogosAmoba.Model
                 GameOver(this, e);
         }
 
+        /// <summary>
+        /// Játétábla újragenerálásának eseményének kiváltása.
+        /// </summary>
         private void Reset_Signal()
         {
             if (Reset != null)
