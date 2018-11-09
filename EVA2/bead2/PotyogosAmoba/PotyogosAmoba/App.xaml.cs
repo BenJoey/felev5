@@ -125,11 +125,14 @@ namespace PotyogosAmoba
                 OpenFileDialog _openFileDialog = new OpenFileDialog(); // dialógusablak
                 _openFileDialog.Title = "Amőba játék betöltése";
                 _openFileDialog.Filter = "Amőba Save File|*.sav";
-                await _model.LoadGame(_openFileDialog.FileName);
+                if (_openFileDialog.ShowDialog() == true)
+                {
+                    await _model.LoadGame(_openFileDialog.FileName);
+                }
             }
             catch (AmobaDataException)
             {
-                MessageBox.Show("Játék betöltése sikertelen!" + Environment.NewLine + "Hibás az elérési út, vagy a fájlformátum.", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("A fájl betöltése sikertelen!", "PotyogosAmoba", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 _model.NewGame(10);
             }
@@ -149,11 +152,22 @@ namespace PotyogosAmoba
                 SaveFileDialog _saveFileDialog = new SaveFileDialog(); // dialógablak
                 _saveFileDialog.Title = "Amőba játék mentése";
                 _saveFileDialog.Filter = "Amőba Save File|*.sav";
-                await _model.SaveGame(_saveFileDialog.FileName);
+                if (_saveFileDialog.ShowDialog() == true)
+                {
+                    try
+                    {
+                        // játéktábla mentése
+                        await _model.SaveGame(_saveFileDialog.FileName);
+                    }
+                    catch (AmobaDataException)
+                    {
+                        MessageBox.Show("Játék mentése sikertelen!" + Environment.NewLine + "Hibás az elérési út, vagy a könyvtár nem írható.", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
             }
             catch (AmobaDataException)
             {
-                MessageBox.Show("Játék mentése sikertelen!" + Environment.NewLine + "Hibás az elérési út, vagy a könyvtár nem írható.", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("A fájl mentése sikertelen!", "PotyogosAmoba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             _timer.Start();
         }

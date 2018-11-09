@@ -35,7 +35,7 @@ namespace PotyogosAmoba.Model
         #region Events
 
         public event EventHandler<AmobaEvent> GameOver;
-        public event EventHandler RefreshBoard;
+        public event EventHandler Refresh;
         public event EventHandler Reset;
 
         #endregion
@@ -211,8 +211,8 @@ namespace PotyogosAmoba.Model
         /// </summary>
         private void Refresh_Signal()
         {
-            if(RefreshBoard != null)
-                RefreshBoard(this, new EventArgs());
+            if(Refresh != null)
+                Refresh(this, new EventArgs());
         }
 
         /// <summary>

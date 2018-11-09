@@ -78,7 +78,7 @@ namespace PotyogosAmoba.ViewModel
             _model = model;
             isPaused = false;
             _model.GameOver += new EventHandler<AmobaEvent>(Model_GameOver);
-            _model.RefreshBoard += new EventHandler(Model_GameAdvanced);
+            _model.Refresh += new EventHandler(Model_GameAdvanced);
             _model.Reset += new EventHandler(Model_Reset);
 
             NewGameCommand = new DelegateCommand(param => OnNewGame(Convert.ToInt32(param)));
@@ -101,9 +101,6 @@ namespace PotyogosAmoba.ViewModel
                 curr.Text = _model.GetFieldValue(curr.X, curr.Y) == Player.NoPlayer ? String.Empty : _model.GetFieldValue(curr.X, curr.Y) == Player.PlayerX ? "X" : "O";
                 curr.Clickable = _model.isFieldActive(curr.X, curr.Y);
             }
-
-            OnPropertyChanged("OTime");
-            OnPropertyChanged("XTime");
         }
 
         private void ResetFields()
@@ -165,11 +162,13 @@ namespace PotyogosAmoba.ViewModel
         private void Model_GameAdvanced(object sender, EventArgs e)
         {
             RefreshTable();
+            OnPropertyChanged("OTime");
+            OnPropertyChanged("XTime");
         }
 
         private void Model_Reset(object sender, EventArgs e)
         {
-            Fields.Clear();
+            OnPropertyChanged("gameSize");
             ResetFields();
             RefreshTable();
         }
