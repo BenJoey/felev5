@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PotyogosAmoba.Model;
 using System.Collections.ObjectModel;
 
@@ -125,7 +121,6 @@ namespace PotyogosAmoba.ViewModel
         public AmobaViewModel(PAmobaModel model)
         {
             _model = model;
-            isPaused = false;
             _model.GameOver += new EventHandler<AmobaEvent>(Model_GameOver);
             _model.Refresh += new EventHandler(Model_GameAdvanced);
             _model.Reset += new EventHandler(Model_Reset);
@@ -135,6 +130,8 @@ namespace PotyogosAmoba.ViewModel
             SaveGameCommand = new DelegateCommand(param => OnSaveGame());
             ExitCommand = new DelegateCommand(param => OnExitGame());
             PauseCommand = new DelegateCommand(param => OnGamePause());
+
+            isPaused = false;
 
             ResetFields();
 
@@ -153,7 +150,7 @@ namespace PotyogosAmoba.ViewModel
             foreach(AmobaField curr in Fields)
             {
                 curr.Text = _model.GetFieldValue(curr.X, curr.Y) == Player.NoPlayer ? String.Empty : _model.GetFieldValue(curr.X, curr.Y) == Player.PlayerX ? "X" : "O";
-                curr.Clickable = _model.isFieldActive(curr.X, curr.Y);
+                curr.Clickable = _model.IsFieldActive(curr.X, curr.Y);
             }
         }
 
@@ -234,6 +231,7 @@ namespace PotyogosAmoba.ViewModel
         private void Model_Reset(object sender, EventArgs e)
         {
             OnPropertyChanged("gameSize");
+            OnPropertyChanged("CurrPlay");
             ResetFields();
             RefreshTable();
         }

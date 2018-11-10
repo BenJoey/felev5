@@ -100,6 +100,8 @@ namespace PotyogosAmoba
         /// <summary>
         /// Új játék indításának eseménykezelője.
         /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">Új táblaméret</param>
         private void ViewModel_NewGame(object sender, Int32 e)
         {
             _timer.Stop();
@@ -110,6 +112,8 @@ namespace PotyogosAmoba
         /// <summary>
         /// Játék megállításának eseménykezelője.
         /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ViewModel_GamePause(object sender, EventArgs e)
         {
             if (_timer.IsEnabled) _timer.Stop();
@@ -153,7 +157,7 @@ namespace PotyogosAmoba
             _timer.Stop();
             try
             {
-                SaveFileDialog _saveFileDialog = new SaveFileDialog(); // dialógablak
+                SaveFileDialog _saveFileDialog = new SaveFileDialog();
                 _saveFileDialog.Title = "Amőba játék mentése";
                 _saveFileDialog.Filter = "Amőba Save File|*.sav";
                 if (_saveFileDialog.ShowDialog() == true)
@@ -179,6 +183,8 @@ namespace PotyogosAmoba
         /// <summary>
         /// Játékból való kilépés eseménykezelője.
         /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ViewModel_ExitGame(object sender, System.EventArgs e)
         {
             _view.Close(); // ablak bezárása

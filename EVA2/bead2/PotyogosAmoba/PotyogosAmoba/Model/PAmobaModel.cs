@@ -111,7 +111,7 @@ namespace PotyogosAmoba.Model
         /// </summary>
         /// <param name="x">A kattintott gomb sorának indexe.</param>
         /// <param name="y">A kattintott gomb oszlopjának indexe.</param>
-        public Boolean isFieldActive(int x, int y)
+        public Boolean IsFieldActive(int x, int y)
         {
             if (x == gameSize - 1 && gameTable[x, y] == Player.NoPlayer) return true;
             return (gameTable[x, y] == Player.NoPlayer && GetFieldValue(x + 1, y) != Player.NoPlayer);
