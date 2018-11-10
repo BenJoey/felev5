@@ -71,8 +71,8 @@ az előző játékos lépésétől a saját lépéséig tart, ezt is mentsük el
 \begin{itemize}
 	\item Programszerkezet: A programot MVVM architektúrában valósítjuk meg:
 	\begin{itemize}
-		\item Megjelenítés: \textbf{View}
 		\item Modell: \textbf{Model}
+		\item Megjelenítés: \textbf{View}
 		\item Nézetmodell: \textbf{ViewModel}
 		\item Perzisztencia: \textbf{Persistence}
 	\end{itemize}
@@ -102,7 +102,7 @@ az előző játékos lépésétől a saját lépéséig tart, ezt is mentsük el
 	\end{center}
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=11cm]{UMLs/PersistenceClass.png}
+		\includegraphics[width=9cm]{UMLs/PersistenceClass.png}
 		\caption{A Persistence osztálydiagramja}
 	\end{figure}
 	\item Modell(4.ábra):
@@ -110,10 +110,12 @@ az előző játékos lépésétől a saját lépéséig tart, ezt is mentsük el
 		\item A játék modelljét a \textbf{PAmobaModel} osztály valósítsa meg, ami figyeli
 		a játékosok idejét\\(\textbf{playerXTime/player0Time}), a játék állását
 		(\textbf{gameTable}), a soron lévő játékost (\textbf{\_currentPlayer})
-		a lépések kezelését (\textbf{Step}), új játék kezdését (\textbf{NewGame})
+		a lépések kezelését (\textbf{Step}), új játék kezdését (\textbf{NewGame}),\br
+		lehet-e kattintani egy mezőre \textbf{(IsFieldActive)}
 		valamint az idő telését is követi (\textbf{AdvanceTime}).
-		\item Ha lépés történt akkor a model egy argumentum nélküli \textbf{RefreshBoard}
-		eseménnyel jelzi a \textit{Nézet}-nek, hogy a játék állapota megváltozott.
+		\item Ha lépés történt akkor a model egy argumentum nélküli \textbf{Refresh}
+		eseménnyel jelzi a \textit{Nézetmodell}-nek, hogy a játék állapota megváltozott.
+		A játék újraírását (betöltés/új játék indítása) a \textbf{Reset} esemény jelzi.
 		Ha a játék véget ért akkor azt egy \textbf{GameOver} eseménnyel jelzi, mely egy
 		4 db \textit{Tuple}-ből álló tömböt (győztes mezők koordinátái), a 2 játékos
 		idejét valamint a nyertes játékost adja át paraméterül.
