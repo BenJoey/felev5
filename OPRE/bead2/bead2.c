@@ -25,10 +25,11 @@ int compare_ord(const void *s1, const void *s2){
   return (o1->position>o2->position);
 }
 
-void Order_to_File(FILE* stream, const order_t* ord){
+void Order_to_File(FILE* stream, const order_t* ord, const int savetime){
   time_t now = time(0);
   char * now_str=ctime(&now);
   now_str[strlen(now_str)-1] = '\0';
+  char * timeOut = savetime == 0 ? now_str : ord->time;
   int i;
   for (i=0;i<strlen(now_str);i=i+1){
     if(now_str[i] == ' ')
@@ -36,7 +37,7 @@ void Order_to_File(FILE* stream, const order_t* ord){
   }
   fprintf(
       stream, "%d;%s;%s;%s;%s;%d\n", ord->position, ord->name,
-      ord->email, ord->phone, now_str, ord->request
+      ord->email, ord->phone, timeOut, ord->request
       );
 }
 
@@ -59,7 +60,7 @@ void Save_With_Del_Order(const model_t* toSave, int OrdNum){
   int i;
   for(i = 0; i < toSave->length; ++i) {
     if(OrdNum != toSave->full_log[i].position)
-      Order_to_File(file, &(toSave->full_log[i]));
+      Order_to_File(file, &(toSave->full_log[i]), 1);
   }
   fclose(file);
 }
@@ -80,11 +81,11 @@ void save_data(const model_t* toSave, order_t* new_Ord){
     fprintf(file, "%d\n", toSave->length + (new_Ord == NULL ? 0 : 1));
     int i;
     for(i = 0; i < toSave->length; ++i) {
-      Order_to_File(file, &(toSave->full_log[i]));
+      Order_to_File(file, &(toSave->full_log[i]), 1);
     }
     if(new_Ord!=NULL){
       new_Ord->position=Get_Next_ID(toSave);
-      Order_to_File(file, new_Ord);
+      Order_to_File(file, new_Ord, 0);
     }
     fclose(file);
   }
