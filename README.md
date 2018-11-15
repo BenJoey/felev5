@@ -13,7 +13,7 @@ WinForms és WPF alkalmazások C# nyelven
 Analízis 4 elméleti kidolgozások LaTeX-ba
 
 ### OPRE
-Párhuzamosítás és UNIX C nyelven
+Jobb ha nem tudod mi ez
 
 ### Erlang
 Szekvenciális, konkurens és server-kliens erlang nyelven
