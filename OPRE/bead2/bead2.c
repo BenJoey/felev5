@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <signal.h>
 
 #define SAVE_LOC "data.txt"
 
@@ -171,16 +173,29 @@ int Mod_Order(model_t* FullModel, int OrdNum){
   return 1;
 }
 
+void handler(int signalnum){
+  printf("Signal No. :%d", signalnum);
+}
+
 int main()
 {
   int quit = 0;
+  char selected[1];
+  char choice[1];
+  model_t Model;
+  int pipefd[2];
+  pid_t pid;
+
+  if(pipe(pipefd) == -1){
+    perror("Hiba pipe niytasakor!");
+    exit(EXIT_FAILURE);
+  }
+  signal(SIGUSR1, handler);
+  pid = fork();
   while(!quit){
     printf("----Fenyes Nap Kft----\n\nElerheto funkciok:\n");
     printf("1: Uj rendeles rogzitese\n2: Korabbi rendeles modositasa\n3: Teljes listazas\n");
     printf("4: Listazas szurve\n5: Ajanlat kerese\n0: Kilepes\n\n");
-    char selected[1];
-    char choice[1];
-    model_t Model;
     load_data(&Model);
     order_t Current;
     scanf("%s", &selected);
