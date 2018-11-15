@@ -1,4 +1,3 @@
-#define _XOPEN_SOURCE 700
 #include <time.h>
 #include <stdio.h>
 #include <string.h>
@@ -10,17 +9,15 @@ typedef struct Order{
     char name[50];
     char email[50];
     char phone[12];
+    char time[30];
     int request;
     int position;
-    time_t time;
 } order_t;
 
 typedef struct Model{
     int length;
     order_t* full_log;
 } model_t;
-
-
 
 int compare_ord(const void *s1, const void *s2){
     order_t *o1 = (order_t *)s1;
@@ -29,12 +26,18 @@ int compare_ord(const void *s1, const void *s2){
 }
 
 void Order_to_File(FILE* stream, const order_t* ord){
-    char buf[20];
-    strftime(buf, 20, "%F;%T", localtime(&(ord->time)));
-    fprintf(
-        stream, "%d;%s;%s;%s;%d;_placeholder_\n", ord->position, ord->name,
-        ord->email, ord->phone, ord->request //, buf
-    );
+  time_t now = time(0);
+  char * now_str=ctime(&now);
+  now_str[strlen(now_str)-1] = '\0';
+  int i;
+  for (i=0;i<strlen(now_str);i=i+1){
+    if(now_str[i] == ' ')
+      now_str[i] = '-';
+  }
+  fprintf(
+      stream, "%d;%s;%s;%s;%s;%d\n", ord->position, ord->name,
+      ord->email, ord->phone, now_str, ord->request
+      );
 }
 
 int Get_Offer(const int request){
@@ -80,8 +83,8 @@ void save_data(const model_t* toSave, order_t* new_Ord){
             Order_to_File(file, &(toSave->full_log[i]));
         }
         if(new_Ord!=NULL){
-            new_Ord->position=Get_Next_ID(toSave);
-            Order_to_File(file, new_Ord);
+          new_Ord->position=Get_Next_ID(toSave);
+          Order_to_File(file, new_Ord);
         }
         fclose(file);
     }
@@ -102,14 +105,10 @@ void load_data(model_t* toFill){
         int i;
         for(i=0;i<length;++i){
             order_t* curr = &(toFill->full_log[i]);
-            struct tm tm;
-            char* timebuf[20];
             fscanf(
-                file, "%d;%[^;];%[^;];%[^;];%d;%s\n", &(curr->position), (char*)&(curr->name),
-                (char*)&(curr->email), (char*)&(curr->phone), &(curr->request), (char*)timebuf
+                file, "%d;%[^;];%[^;];%[^;];%[^;];%d\n", &(curr->position), (char*)&(curr->name),
+                (char*)&(curr->email), (char*)&(curr->phone), (char*)&(curr->time), &(curr->request)
             );
-            //strptime((char*)timebuf, "%F;%T", &tm);
-            //curr->time = mktime(&tm);
         }
     }
     fclose(file);
@@ -117,11 +116,9 @@ void load_data(model_t* toFill){
 }
 
 void print_order(const order_t* ord){
-    char _time[20];
-    strftime(_time, 20, "%F;%T", localtime(&(ord->time)));
     printf("\nSorszam: %d   ", ord->position);
-    printf("Megrendelo neve: %s   Email-cime: %s   Telefonszama: %s   Igenye: %d\nAjanlott panelek szama: %d     Megrendeles ideje: __\n",
-            ord->name, ord->email, ord->phone, ord->request, Get_Offer(ord->request)); //, _time);
+    printf("Megrendelo neve: %s   Email-cime: %s   Telefonszama: %s   Igenye: %d\nAjanlott panelek szama: %d     Megrendeles ideje: %s\n",
+            ord->name, ord->email, ord->phone, ord->request, Get_Offer(ord->request), ord->time);
 }
 
 void list_by_filter(const model_t* model, const char* param, const char type){
@@ -157,7 +154,6 @@ void read_order(order_t* ord) {
     scanf("%11s", &(ord->phone));
     printf("Igeny: ");
     scanf("%20d", &(ord->request));
-    ord->time = time(NULL);
 }
 
 int Mod_Order(model_t* FullModel, int OrdNum){
