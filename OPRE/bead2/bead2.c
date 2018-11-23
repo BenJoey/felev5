@@ -1,4 +1,7 @@
+#define __XOPEN_SOURCE 700
 #include <time.h>
+#include <unistd.h>
+#include <wait.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -128,7 +131,7 @@ void list_by_filter(const model_t* model, const char* param, const char type){
   int i;
   for(i=0;i<model->length;++i){
     char req[20];
-    sprintf(req, "%ld", model->full_log[i].request);
+    sprintf(req, "%d", model->full_log[i].request);
     switch(type){
       case '1':
         if(strcmp(param, model->full_log[i].name)==0)
