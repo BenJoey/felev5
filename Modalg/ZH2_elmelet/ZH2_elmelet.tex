@@ -21,6 +21,63 @@
 {\footnotesize Külön köszönet \textsc{Korponai Károlynak} és \textsc{Horváth Milánnak} a jegyzetekért.}
 
 \begin{enumerate}
-	\item
+	\item\textbf{KÉP és Lineáris DER}\br
+	Az $x'+f\cdot x=g,\quad x(\tau)=\xi$ KÉP globálisan egyértelműen megoldható lineáris\br
+	differenciálegyenlet rendszer.
+	\item\textbf{Lineáris differenciálegyenlet rendszer}\br
+	$I\subset\R$ nyílt intervallum, $A:I\rightarrow\R^{n\times n}$ folytonos és korlátos,
+	azaz $A(t)=[a_{i,j}(t)]\quad i,j=1,...,n$\br
+	és $a_{i,j}$ folytonos és korlátos, továbbá $b:I\rightarrow\R^n$ folytonos és korlátos.\br
+	Ekkor az $x'=A\cdot x+b$ feladatot linerás DER-nek nevezzük.
+	\item\textbf{KÉP globálisan egyértelműen megoldhatósága}\br
+	Az $x'=A\cdot x+b$ KÉP globálisan egyértelműen megoldható $\forall(\tau, \xi)$ esetén.
+	\item\textbf{Homogén-inhomogén megoldás jelölése}\br
+	Jelölje $M_h$ az $x'=A\cdot x$ homogén DER összes teljes megoldását\br
+	jelölje $M_{ih}$ az $x'=A_i\cdot x+b$ inhomogén DER összes teljes megoldását
+	\item\textbf{Homogén megoldás dimenziója}\br
+	Tfh. az $x'=A\cdot x$ lin DER.  //$\leftarrow$ Itt ez elég furán volt leirva abba amit küldtél\br %%Dafuq is this?
+	Ekkor $M_h\subset C^1(I, \R^n)=\{\varphi:I\rightarrow\R^n,\varphi\in C^1\}$ altér és
+	$dim(M_h)=n$
+	\item\textbf{Homogén megoldás bázisa}\br
+	Az $M_h$ egy bázisát a DER alaprendszerének nevezzük.
+	\item\textbf{Alapmátrix definíciója}\br
+	Ha $\varphi^1,...,\varphi^n$ alaprendszer, akkor $\Phi=(\varphi^1,...,\varphi^n)$
+	alapmátrix.
+	\item\textbf{Alapmátrix és megoldhatóság kapcsolata}\br
+	Ha $\Phi\text{ az }x'=A\cdot x$ alapmátrixa, akkor $M_h=\{\Phi\cdot c : c\in\R^n\}$,
+	azaz $\forall$megoldás felírható\br
+	$\sum\limits_{i=1}^n c_i\cdot\varphi^i$ alakban, ahol $c=(c_1,...,c_n)^T$
+	\item\textbf{Alaprendszer tétel}\br
+	Tekintsük az $x'=A\cdot x$ lin DER-t. Tfh. $A$ űééandó mátrix és $A$-nak $\exists$ $n$
+	db lineárisan független saját vektora $s_1,...,s_n$, a hozzájuk tartozó
+	$\lambda_1,...,\lambda_n$ sajátértékekkel.\br
+	Ekkor $\varphi^{n_t}=s_i\cdot e^{\lambda_i\cdot t}\quad i=1,..,n$ egy alaprendszer.
+	\item\textbf{Homogén és inhomogén megoldás kapcsolata}\br
+	Ha $\psi_0\in M_{ih}$, akkor $M_{ih}=\{\psi_0+M_h\}=\{\psi_0+\varphi:\varphi\in M_h\}$
+	\item\textbf{Inhomogén megoldás felírása}
+	\begin{itemize}
+		\item Az $x'=A\cdot x+b$ összes megoldása: $\psi(t)=\Phi(t)\cdot c+\Phi(t)\cdot
+		\int\limits_{\tau}^t \Phi(s)^{-1}b(s)ds$
+		\item Az $x'=A\cdot x+b, x(\tau)=\xi$ KÉP globálisan egyértelmű megoldható:\br
+		$\psi(t)=\Phi(t)\cdot\Phi(t)^{-1}\cdot\xi+\Phi(t)\cdot\int\limits_{\tau}^t
+		\Phi(s)^{-1}b(s)ds$
+	\end{itemize}
+	\newpage
+	\item\textbf{n-edrendű DE}\br
+	$D\subset\R^{n+1}$ tartomány, $h:I\rightarrow\R$ folytonos függvény, $I\subset\R$ nyílt.\br
+	Az $y^{(y)}(t)=h(t,y(t),y'(t),..,y^{(n-1)}(t))$ feladatot n-edrendű DE-nek nevezzük, ahol\br
+	$g:I\rightarrow\R,y\in C^n,I\subset\R$ nyílt intervallum.
+	\item\textbf{Átviteli elv (n-edrendű DE-re)}\br
+	$\varphi$ kielégíti az $y^{(n)}=h\circ(id,y,...,y^{(n-1)})$ DE-t $\Leftrightarrow\psi$
+	kielégíti az $x'=f\circ(id,x)$ DER-t.
+	\item\textbf{Peano és Picard-Lindelöf tételek n-edrendű DER-en}\br
+	A DE-re tanult Peano és Picard-Lindelöf tételek most is igazak.
+	\item\textbf{n-edrendű lineáris DE}\br
+	$a_0,...,a_{n-1}, b:I\rightarrow\R$ folytonos függvény, $I\subset\R$ nyílt.\br
+	Az $y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_1\cdot y'+a_0\cdot y=b$ feladatot
+	n-edrendű lineráis DE-nek nevezzük.
+	\item\textbf{Átviteli elv (n-edrendű lineáris DE-re)}\br
+	$\varphi$ kielégíti az $y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_1\cdot y'+a_0\cdot y=b$
+	lin. DE-t $\Leftrightarrow\psi$ kielégíti az\br$x'=A\cdot x+b$ lin. DER-t.
 \end{enumerate}
 \end{document}
