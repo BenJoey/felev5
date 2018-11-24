@@ -192,12 +192,15 @@ int main(){
           order_t* curr = &(Model.full_log[res.Orders[i]]);
           strncpy(curr->state, res.msg, 15);
         }
+        save_data(&Model);
         pause();
         read(pipefd[0], &res, sizeof(child_output_t));
         for(i=0;i<res.NumOfOrd;++i){
           order_t* curr = &(Model.full_log[res.Orders[i]]);
           strncpy(curr->state, res.msg, 15);
         }
+        save_data(&Model);
+        close(pipefd[0]);
       }
     }
     int count = 0;
