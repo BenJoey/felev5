@@ -122,12 +122,11 @@ int isWeekOldOrder(model_t* _model){
   int i = 0;
   for(i=0;i<_model->length;++i)
     if(strcmp(_model->full_log[i].state,"NotStarted")==0 && difftime(time(NULL), _model->full_log[i].time) > weekInSecs) return i;
-  //printf("Diff: %.2f sec\n", difftime(time(NULL), Now));
   return -1;
 }
 
 void handler(int signalnum){
-  printf("Signal No. :%d", signalnum);
+  printf("Signal No. :%d\n", signalnum);
 }
 
 int main(){
