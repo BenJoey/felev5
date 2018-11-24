@@ -14,6 +14,7 @@ typedef struct Order{
   char name[50];
   char email[50];
   char phone[12];
+  char state[15];
   int request;
   int position;
   time_t time;
@@ -34,8 +35,8 @@ void Order_to_File(FILE* stream, const order_t* ord){
   char buf[20];
   strftime(buf, 20, "%F;%T", localtime(&(ord->time)));
   fprintf(
-      stream, "%d;%s;%s;%s;%d;%s\n", ord->position, ord->name,
-      ord->email, ord->phone, ord->request, buf
+      stream, "%d;%s;%s;%s;%s;%d;%s\n", ord->position, ord->name,
+      ord->email, ord->phone, ord->state, ord->request, buf
       );
 }
 
@@ -107,8 +108,8 @@ void load_data(model_t* toFill){
       struct tm tm;
       char* timebuf[20];
       fscanf(
-          file, "%d;%[^;];%[^;];%[^;];%d;%s\n", &(curr->position), (char*)&(curr->name),
-          (char*)&(curr->email), (char*)&(curr->phone), &(curr->request), (char*)timebuf
+          file, "%d;%[^;];%[^;];%[^;];%[^;];%d;%s\n", &(curr->position), (char*)&(curr->name),
+          (char*)&(curr->email), (char*)&(curr->phone), (char*)&(curr->state), &(curr->request), (char*)timebuf
           );
       strptime((char*)timebuf, "%F;%T", &tm);
       curr->time = mktime(&tm);
@@ -159,6 +160,7 @@ void read_order(order_t* ord) {
   scanf("%11s", ord->phone);
   printf("Igeny: ");
   scanf("%20d", &(ord->request));
+  strncpy(ord->state, "NotStarted", 15);
   ord->time = time(NULL);
 }
 
@@ -177,10 +179,11 @@ int Mod_Order(model_t* FullModel, int OrdNum){
 }
 
 int getSameReqOrder(model_t* FullModel, int OrdInd){
+  if(strcmp(FullModel->full_log[OrdInd].state, "NotStarted")!=0) return -1;
   int ReqToFind = FullModel->full_log[OrdInd].request;
   int i;
   for(i=0;i<FullModel->length;++i){
-    if(i != OrdInd && FullModel->full_log[i].request == ReqToFind) return i;
+    if(i != OrdInd && FullModel->full_log[i].request == ReqToFind && strcmp(FullModel->full_log[i].state,"NotStarted")==0) return i;
   }
   return -1;
 }
@@ -195,19 +198,10 @@ int main()
   char selected[1];
   char choice[1];
   model_t Model;
-  /*int pipefd[2];
-  pid_t pid;
-
-  if(pipe(pipefd) == -1){
-    perror("Hiba pipe niytasakor!");
-    exit(EXIT_FAILURE);
-  }
-  signal(SIGUSR1, handler);
-  pid = fork();*/
   while(!quit){
     printf("----Fenyes Nap Kft----\n\nElerheto funkciok:\n");
     printf("1: Uj rendeles rogzitese\n2: Korabbi rendeles modositasa\n3: Teljes listazas\n");
-    printf("4: Listazas szurve\n5: Ajanlat kerese\n0: Kilepes\n\n");
+    printf("4: Listazas szurve\n5: Ajanlat kerese\n6: Masodik beadando\n0: Kilepes\n\n");
     load_data(&Model);
     order_t Current;
     scanf("%s", selected);
@@ -269,7 +263,7 @@ int main()
         break;
       case '5':
         printf("----Ajanlott panelek szamanak lekerdezese----\n");
-        printf("Igyene: ");
+        printf("Igenye: ");
         int req;
         scanf("%d", &req);
         printf("\nMaganak %d darab panel lenne az optimális.\n", Get_Offer(req));
