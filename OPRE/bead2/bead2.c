@@ -10,7 +10,7 @@
 
 #define SAVE_LOC "data.txt"
 
-typedef struct Order{
+typedef struct {
   char name[50];
   char email[50];
   char phone[12];
@@ -20,10 +20,26 @@ typedef struct Order{
   time_t time;
 } order_t;
 
-typedef struct Model{
+typedef struct {
   int length;
   order_t* full_log;
 } model_t;
+
+typedef struct {
+  int NumOfOrd;
+  int Orders[2];
+} child_input_t;
+
+typedef struct {
+  int NumOfOrd;
+  int Orders[2];
+  char msg[15];
+} child_output_t;
+
+typedef struct {
+  int first;
+  int second;
+} IntTuple;
 
 int compare_ord(const void *s1, const void *s2){
   order_t *o1 = (order_t *)s1;
@@ -45,7 +61,7 @@ void save_data(const model_t* toSave){
   if(file == NULL) {
     return;
   } else {
-    fprintf(file, "%d\n", toSave->length + (new_Ord == NULL ? 0 : 1));
+    fprintf(file, "%d\n", toSave->length);
     int i;
     for(i = 0; i < toSave->length; ++i) {
       Order_to_File(file, &(toSave->full_log[i]));
@@ -83,13 +99,30 @@ void load_data(model_t* toFill){
   qsort(toFill->full_log, toFill->length, sizeof(order_t), compare_ord);
 }
 
-int getSameReqOrder(model_t* FullModel, int OrdInd){
-  if(strcmp(FullModel->full_log[OrdInd].state, "NotStarted")!=0) return -1;
-  int ReqToFind = FullModel->full_log[OrdInd].request;
+IntTuple FindSameReqOrders(model_t* FullModel){
+  IntTuple ret;
+  ret.first = -1; ret.second = -1;
   int i;
   for(i=0;i<FullModel->length;++i){
-    if(i != OrdInd && FullModel->full_log[i].request == ReqToFind && strcmp(FullModel->full_log[i].state,"NotStarted")==0) return i;
+    order_t* curr = &(FullModel->full_log[i]);
+    int j;
+    for(j=0;j<FullModel->length;++j){
+      if(i!=j && curr->request == FullModel->full_log[j].request && strcmp(FullModel->full_log[j].state,"NotStarted")==0 &&
+          strcmp(curr->state,"NotStarted")==0){
+        ret.first = i; ret.second = j;
+        return ret;
+      }
+    }
   }
+  return ret;
+}
+
+int isWeekOldOrder(model_t* _model){
+  double weekInSecs = 60*60*24*7;
+  int i = 0;
+  for(i=0;i<_model->length;++i)
+    if(strcmp(_model->full_log[i].state,"NotStarted")==0 && difftime(time(NULL), _model->full_log[i].time) > weekInSecs) return i;
+  //printf("Diff: %.2f sec\n", difftime(time(NULL), Now));
   return -1;
 }
 
@@ -98,6 +131,51 @@ void handler(int signalnum){
 }
 
 int main(){
+  int quit = 0;
   model_t Model;
+  while(!quit){
+    load_data(&Model);
+    int pipefd[2];
+    pid_t pid;
+
+    if(pipe(pipefd) == -1){
+      perror("Hiba pipe nyitasakor");
+      exit(EXIT_FAILURE);
+    }
+
+    signal(SIGUSR1, handler);
+    pid=fork();
+
+    if(pid == -1){
+      perror("Fork hiba");
+      exit(EXIT_FAILURE);
+    }
+    if(pid == 0){ //child process
+      kill(getppid(), SIGUSR1);
+      child_input_t input;
+      read(pipefd[0], &input, sizeof(child_input_t));
+      child_output_t output;
+      output.NumOfOrd = input.NumOfOrd;
+      int i;
+      for(i=0;i<2;++i)
+        output.Orders[i] = input.Orders[i];
+      strncpy(output.msg, "InProgress", 15);
+      close(pipefd[0]);
+      write(pipefd[1], &output, sizeof(child_output_t));
+      sleep(3);
+      strncpy(output.msg, "Done", 15);
+      write(pipefd[1], &output, sizeof(child_output_t));
+      kill(getppid(), SIGUSR1);
+      exit(0);
+    } else{ //parent process
+      child_input_t toSend;
+      int weekold = isWeekOldOrder(&Model);
+      if(weekold != -1){
+        toSend.NumOfOrd = 1;
+        toSend.Orders[0] = weekold;
+        toSend.Orders[1] = -1;
+      }
+    }
+  }
   return 0;
 }
