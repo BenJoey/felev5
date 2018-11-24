@@ -152,11 +152,11 @@ void wait_enter(){
 
 void read_order(order_t* ord) {
   printf("Nev (max 50 karakter, szokoz nelkul): ");
-  scanf("%50s", &(ord->name));
+  scanf("%50s", ord->name);
   printf("Email (max 50 karakter): ");
-  scanf("%50s", &(ord->email));
+  scanf("%50s", ord->email);
   printf("Telefonszam (11 szamjegy): ");
-  scanf("%11s", &(ord->phone));
+  scanf("%11s", ord->phone);
   printf("Igeny: ");
   scanf("%20d", &(ord->request));
   ord->time = time(NULL);
@@ -210,7 +210,7 @@ int main()
     printf("4: Listazas szurve\n5: Ajanlat kerese\n0: Kilepes\n\n");
     load_data(&Model);
     order_t Current;
-    scanf("%s", &selected);
+    scanf("%s", selected);
     switch(selected[0]){
       case '0':
         quit=1;
@@ -223,7 +223,7 @@ int main()
         break;
       case '2':
         printf("----Modositas tipusa----\n1. Torles\n2. Adatok/Igeny szerkesztese\n");
-        scanf("%s", &choice);
+        scanf("%s", choice);
         if(choice[0]=='1'||choice[0]=='2'){
           printf("Modositani kivant megrendeles sorszama: ");
           int OrdNum;
@@ -258,11 +258,11 @@ int main()
         break;
       case '4':
         printf("----Mi szerint kivan listazni?----\n1. Nev szerint\n2. Igeny szerint\n");
-        scanf("%s", &choice);
+        scanf("%s", choice);
         if(choice[0]=='1'||choice[0]=='2'){
           printf("Keresesi parameter: ");
           char param[50];
-          scanf("%s", &param);
+          scanf("%s", param);
           list_by_filter(&Model, param, choice[0]);
         }
         wait_enter();
