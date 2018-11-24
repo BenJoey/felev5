@@ -135,6 +135,7 @@ int main(){
   model_t Model;
   while(!quit){
     load_data(&Model);
+    int i;
     int pipefd[2];
     pid_t pid;
 
@@ -170,12 +171,42 @@ int main(){
     } else{ //parent process
       child_input_t toSend;
       int weekold = isWeekOldOrder(&Model);
+      IntTuple temp = FindSameReqOrders(&Model);
       if(weekold != -1){
         toSend.NumOfOrd = 1;
         toSend.Orders[0] = weekold;
         toSend.Orders[1] = -1;
       }
+      else if(temp.first != -1){
+        toSend.NumOfOrd = 2;
+        toSend.Orders[0] = temp.first;
+        toSend.Orders[1] = temp.second;
+      }
+      if(weekold != -1 || temp.first != -1){
+        write(pipefd[1], &toSend, sizeof(child_input_t));
+        close(pipefd[1]);
+        pause();
+        child_output_t res;
+        read(pipefd[0], &res, sizeof(child_output_t));
+        for(i=0;i<res.NumOfOrd;++i){
+          order_t* curr = &(Model.full_log[res.Orders[i]]);
+          strncpy(curr->state, res.msg, 15);
+        }
+        pause();
+        read(pipefd[0], &res, sizeof(child_output_t));
+        for(i=0;i<res.NumOfOrd;++i){
+          order_t* curr = &(Model.full_log[res.Orders[i]]);
+          strncpy(curr->state, res.msg, 15);
+        }
+      }
     }
+    int count = 0;
+    for(i=0;i<Model.length;++i){
+      order_t* curr = &(Model.full_log[i]);
+      if(strcmp(curr->state, "Done") != 0) count++;
+    }
+    if(count == 0) quit = 1;
+    free(Model.full_log);
   }
   return 0;
 }
