@@ -10,7 +10,7 @@
 
 #define SAVE_LOC "data.txt"
 
-typedef struct Order{
+typedef struct {
   char name[50];
   char email[50];
   char phone[12];
@@ -20,7 +20,7 @@ typedef struct Order{
   time_t time;
 } order_t;
 
-typedef struct Model{
+typedef struct {
   int length;
   order_t* full_log;
 } model_t;
