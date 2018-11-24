@@ -1,8 +1,8 @@
-#define __XOPEN_SOURCE 700
+#include <stdio.h>
+#define __USE_XOPEN
 #include <time.h>
 #include <unistd.h>
 #include <wait.h>
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -14,9 +14,9 @@ typedef struct Order{
   char name[50];
   char email[50];
   char phone[12];
-  char time[30];
   int request;
   int position;
+  time_t time;
 } order_t;
 
 typedef struct Model{
@@ -30,19 +30,12 @@ int compare_ord(const void *s1, const void *s2){
   return (o1->position>o2->position);
 }
 
-void Order_to_File(FILE* stream, const order_t* ord, const int savetime){
-  time_t now = time(0);
-  char * now_str=ctime(&now);
-  now_str[strlen(now_str)-1] = '\0';
-  char * timeOut = savetime == 0 ? now_str : ord->time;
-  int i;
-  for (i=0;i<strlen(now_str);i=i+1){
-    if(now_str[i] == ' ')
-      now_str[i] = '-';
-  }
+void Order_to_File(FILE* stream, const order_t* ord){
+  char buf[20];
+  strftime(buf, 20, "%F;%T", localtime(&(ord->time)));
   fprintf(
-      stream, "%d;%s;%s;%s;%s;%d\n", ord->position, ord->name,
-      ord->email, ord->phone, timeOut, ord->request
+      stream, "%d;%s;%s;%s;%d;%s\n", ord->position, ord->name,
+      ord->email, ord->phone, ord->request, buf
       );
 }
 
@@ -65,7 +58,7 @@ void Save_With_Del_Order(const model_t* toSave, int OrdNum){
   int i;
   for(i = 0; i < toSave->length; ++i) {
     if(OrdNum != toSave->full_log[i].position)
-      Order_to_File(file, &(toSave->full_log[i]), 1);
+      Order_to_File(file, &(toSave->full_log[i]));
   }
   fclose(file);
 }
@@ -86,11 +79,11 @@ void save_data(const model_t* toSave, order_t* new_Ord){
     fprintf(file, "%d\n", toSave->length + (new_Ord == NULL ? 0 : 1));
     int i;
     for(i = 0; i < toSave->length; ++i) {
-      Order_to_File(file, &(toSave->full_log[i]), 1);
+      Order_to_File(file, &(toSave->full_log[i]));
     }
     if(new_Ord!=NULL){
       new_Ord->position=Get_Next_ID(toSave);
-      Order_to_File(file, new_Ord, 0);
+      Order_to_File(file, new_Ord);
     }
     fclose(file);
   }
@@ -111,10 +104,14 @@ void load_data(model_t* toFill){
     int i;
     for(i=0;i<length;++i){
       order_t* curr = &(toFill->full_log[i]);
+      struct tm tm;
+      char* timebuf[20];
       fscanf(
-          file, "%d;%[^;];%[^;];%[^;];%[^;];%d\n", &(curr->position), (char*)&(curr->name),
-          (char*)&(curr->email), (char*)&(curr->phone), (char*)&(curr->time), &(curr->request)
+          file, "%d;%[^;];%[^;];%[^;];%d;%s\n", &(curr->position), (char*)&(curr->name),
+          (char*)&(curr->email), (char*)&(curr->phone), &(curr->request), (char*)timebuf
           );
+      strptime((char*)timebuf, "%F;%T", &tm);
+      curr->time = mktime(&tm);
     }
   }
   fclose(file);
@@ -122,9 +119,11 @@ void load_data(model_t* toFill){
 }
 
 void print_order(const order_t* ord){
+  char _time[20];
+  strftime(_time, 20, "%F;%T", localtime(&(ord->time)));
   printf("\nSorszam: %d   ", ord->position);
   printf("Megrendelo neve: %s   Email-cime: %s   Telefonszama: %s   Igenye: %d\nAjanlott panelek szama: %d     Megrendeles ideje: %s\n",
-      ord->name, ord->email, ord->phone, ord->request, Get_Offer(ord->request), ord->time);
+      ord->name, ord->email, ord->phone, ord->request, Get_Offer(ord->request), _time);
 }
 
 void list_by_filter(const model_t* model, const char* param, const char type){
@@ -160,6 +159,7 @@ void read_order(order_t* ord) {
   scanf("%11s", &(ord->phone));
   printf("Igeny: ");
   scanf("%20d", &(ord->request));
+  ord->time = time(NULL);
 }
 
 int Mod_Order(model_t* FullModel, int OrdNum){
@@ -176,6 +176,15 @@ int Mod_Order(model_t* FullModel, int OrdNum){
   return 1;
 }
 
+int getSameReqOrder(model_t* FullModel, int OrdInd){
+  int ReqToFind = FullModel->full_log[OrdInd].request;
+  int i;
+  for(i=0;i<FullModel->length;++i){
+    if(i != OrdInd && FullModel->full_log[i].request == ReqToFind) return i;
+  }
+  return -1;
+}
+
 void handler(int signalnum){
   printf("Signal No. :%d", signalnum);
 }
@@ -186,7 +195,7 @@ int main()
   char selected[1];
   char choice[1];
   model_t Model;
-  int pipefd[2];
+  /*int pipefd[2];
   pid_t pid;
 
   if(pipe(pipefd) == -1){
@@ -194,7 +203,7 @@ int main()
     exit(EXIT_FAILURE);
   }
   signal(SIGUSR1, handler);
-  pid = fork();
+  pid = fork();*/
   while(!quit){
     printf("----Fenyes Nap Kft----\n\nElerheto funkciok:\n");
     printf("1: Uj rendeles rogzitese\n2: Korabbi rendeles modositasa\n3: Teljes listazas\n");
