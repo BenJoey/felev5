@@ -7,4 +7,4 @@ run:
 	gcc bead2.c -o bead2
 	./bead2
 clear:
-	rm -rf bead2
+	rm bead2 data.txt
