@@ -8,7 +8,7 @@
 #include "pipe.hpp"
 #include <iostream>
 
-void FillUpVec(std::string Line, char separator, std::vector<std::string>& ToFill){
+void LineToVec(std::string Line, char separator, std::vector<std::string>& ToFill){
   std::istringstream ss(Line);
   std::string s;
   while(getline(ss, s, separator)) ToFill.push_back(s);
@@ -28,7 +28,7 @@ class Candidate{
       for(int i = 1; getline(ss, s, '|'); ++i){
         if(i != 4) t.push_back(s);
         else{
-          FillUpVec(s, ';', _skills);
+          LineToVec(s, ';', _skills);
         }
       }
       _submitdate = t[0]; _email = t[1]; _job = t[2];
@@ -77,7 +77,7 @@ void DateCompare(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count,
 
 void EmailCheck(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, std::string FilterLine){
   std::vector<std::string> validmails;
-  FillUpVec(FilterLine, '|', validmails);
+  LineToVec(FilterLine, '|', validmails);
   for(int i=0;i<data_count;++i){
     Candidate curr = source.pop();
     if(curr.Valid()){
@@ -90,10 +90,25 @@ void EmailCheck(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, 
 
 void isJobAvailable(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, std::string FilterLine){
   std::vector<std::string> jobs;
-  FillUpVec(FilterLine, '|', jobs);
+  LineToVec(FilterLine, '|', jobs);
   for(int i=0;i<data_count;++i){
     Candidate curr = source.pop();
     if(curr.Valid() && std::find(jobs.begin(), jobs.end(), curr._job)==jobs.end()) curr.Disable();
+    dest.push(curr);
+  }
+}
+
+void SkillCheck(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, std::string FilterLine){
+  std::vector<std::string> reqSkills;
+  LineToVec(FilterLine, '|', reqSkills);
+  for(int i=0;i<data_count;++i){
+    Candidate curr = source.pop();
+    if(curr.Valid()){
+      int count = 0;
+      for(std::string curr_skill : curr._skills)
+        count += std::find(reqSkills.begin(), reqSkills.end(), curr_skill) == reqSkills.end() ? 1 : 0;
+      if(count <= reqSkills.size()/2) curr.Disable();
+    }
     dest.push(curr);
   }
 }
