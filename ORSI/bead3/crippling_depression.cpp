@@ -1,4 +1,5 @@
 #include <string>
+#include <thread>
 #include <fstream>
 #include <vector>
 #include <sstream>
@@ -55,28 +56,42 @@ void DateCompare(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count,
   if(buffer >> year) buffer.ignore();
   if(buffer >> month) buffer.ignore();
   buffer >> day;
+  auto deadline = std::tie(year, month, day);
   for(int i = 0; i < data_count; ++i){
     Candidate data = source.pop();
     int subm_year, subm_month, subm_day;
-    if(buffer >> subm_year) buffer.ignore();
-    if(buffer >> subm_month) buffer.ignore();
-    buffer >> subm_day;
-    auto date1 = std::tie(year, month, day);
-    auto date2 = std::tie(subm_year, subm_month, subm_day);
+    std::istringstream buffer2(data._submitdate);
+    if(buffer2 >> subm_year) buffer.ignore();
+    if(buffer2 >> subm_month) buffer.ignore();
+    buffer2 >> subm_day;
+    auto submdate = std::tie(subm_year, subm_month, subm_day);
+    if(submdate > deadline) data.Disable();
+    dest.push(data);
   }
+}
+
+void FinalPipe(Pipe<Candidate>& source, int data_count){
+  std::ofstream output("output.txt");
+  for(int i = 0;i<data_count;++i){
+    Candidate curr = source.pop();
+    std::cout << curr._email << std::endl;
+    if(curr.Valid()) output << curr._email << std::endl;
+  }
+  output.close();
 }
 
 int main()
 {
-  std::vector<Pipe<Candidate>> pipes(9);
+  std::vector<Pipe<Candidate>> pipes(2);
   std::ifstream input("data.txt");
   std::string s;
   getline(input, s);
-  std::cout<< s << std::endl;
+  std::thread t1(DateCompare, std::ref(pipes[0]), std::ref(pipes[1]), 3, "18 10 07");
+  std::thread t2(FinalPipe, std::ref(pipes[1]), 3);
   while(getline(input, s)){
-    std::cout<< s << std::endl;
     Candidate test(s);
-    std::cout << test;
+    pipes[0].push(test);
   }
+  t1.join();t2.join();
   return 0;
 }
