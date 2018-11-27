@@ -1,10 +1,10 @@
 \documentclass[12pt]{article}
 
 \usepackage[a4paper,
-inner = 25mm,
-outer = 25mm,
-top = 25mm,
-bottom = 25mm]{geometry}
+inner = 15mm,
+outer = 15mm,
+top = 15mm,
+bottom = 15mm]{geometry}
 
 \usepackage{lmodern}
 \usepackage[magyar]{babel}
@@ -13,13 +13,17 @@ bottom = 25mm]{geometry}
 \usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
 \usepackage{amssymb}
+\usepackage{xcolor}
 \usepackage{epstopdf}
 \usepackage{setspace}
 \usepackage[nottoc,numbib]{tocbibind}
 \usepackage{setspace}
 
+%%Note: Azért van tele sortörésekkel mert triggereli az OCD-met ha egy egész bekezdés egy sorba van :D
+
 \setstretch{1.2}
 \begin{document}
+\def\br{\\[0.1cm]}
 \begin{titlepage}
 	\vspace*{0cm}
 	\centering
@@ -59,4 +63,69 @@ bottom = 25mm]{geometry}
 	\vspace*{1cm}
 	2018. december 5.
 \end{titlepage}
+\thispagestyle{empty}
+\begin{center}
+	\colorbox{lightgray}{{\large JPSMA3} \hspace{4.3cm} {\large ORSI 3. beadandó} \hspace{5.7cm} \thepage}
+\end{center}
+\section{Feladat}
+
+%%Csak a feladat "lényegi" részét másoltam ki a beadból
+%%A magyarázós részeket, segítségeket és megkötéseket nem
+%%De ha kellenek azok is akkor újra beküldöm és bemásolom az egészet :)
+
+Az egyik bemeneti fájlban \textit{data.txt} \textbf{N} darab gyakornoki jelentkezéshez tartozó
+információ olvasható, melyak alapján ki kell szűrni, hogy összesen hány kompetens jelentkező
+van a rengeteg beérkezett pályázat között.\\[0.2cm]
+\textit{data.txt} felépítése:
+
+A fájl első sorában az \textbf{N} szám jelzi, hogy hány adatot olvasunk (ahol \textbf{N} egy nemnegatív egész szám).
+A sorokban olvasható adatok függőleges vonal karakterrel (|) karakterrel vannak elválasztva egymástól.
+Feltehetjük, hogy a | csak tagolási karakterként fordul elő egy-egy sorban, minden sor
+helyesen van kitöltve, és pontosan annyi adat található a fájlban, amennyi az első sorban
+olvasható, és nem található benne olyan sor, ahol kevesebb adat lenne megadva, vagy más módon
+eltérne az elvárttól.
+
+Adott egy másik fájl is \textit{filters.txt}, melyben összesen 7 különböző filter található.\\
+\textit{filters.txt} felépítése:
+
+A fájlban soronként egy filterhez tartozó adat olvasható. A három egész számú adatot
+leszámítva a többiben | karakter szeparálja az információkat (pl. a képkiterjesztések sora
+lehet: .png|.jpg|.jpeg) Feltehető, hogy minden sorban van értelmes és releváns adat (tehát
+van elfogadott domain, meghirdetett állás, elvárt skill, elfogadott képformátum)
+
+A beolvasott adatok alapján egy olyan adatcsatorna tételére visszavezetett megoldást kell
+implementálni, mely beolvassa az inputadatokat, és az adatcsatorna egy-egy belső függvényének
+egy-egy filtert megfeleltetve az inputadatokat végigfuttatja az összes szűrőn, majd kiírja az
+\textit{output.txt} fájlba az adatokból azokat az e-mail címeket, akikhez tartozó
+jelentkezésen az összes szűrő triggerelt.
+
+\section{Felhasználói dokumentáció}
+%%No idea what to write here :(
+
+\subsection{Rendszer-követelmények, telepítés}
+
+A programunk több platformon is futtatható, dinamikus függősége nincsen, bármelyik, manapság
+használt PC-n működik. Külön telepíteni nem szükséges, elég a futtatható állományt elhelyezni
+a számítógépen.
+
+\subsection{A program használata}
+
+A program használata egyszerű, külön paramétereket nem vár, így intézőből is indítható. A
+futtatható állomány mellett kell elhelyezni az \textit{input.txt} valamint egy 
+\textit{filters.txt} nevű fájlt, mely a bemeneti és a filterezési
+adatokat tartalmazza, a fenti specifikációnak megfelelően. Figyeljünk az ebben található
+adatok helyességére és megfelelő tagolására, mivel az alkalmazás külön ellenőrzést nem végez
+erre vonatkozóan. A futás során az alkalmazás mellett található \textit{output.txt} fájl
+tartalmazza a kapott eredményt, ami az összes filternek megfelelő jelentkezők email címei.
+
+\newpage
+\thispagestyle{empty}
+\begin{center}
+	\colorbox{lightgray}{{\large JPSMA3} \hspace{4.3cm} {\large ORSI 3. beadandó} \hspace{5.7cm} \thepage}
+\end{center}
+
+\section{Fejlesztői dokumentáció}
+
+\subsection{Megoldási mód}
+A feladatot az adatcsatorna tételére visszavezetve oldjuk meg.
 \end{document}
