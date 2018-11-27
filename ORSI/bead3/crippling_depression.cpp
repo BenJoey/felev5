@@ -6,7 +6,6 @@
 #include <sstream>
 #include <tuple>
 #include "pipe.hpp"
-#include <iostream>
 
 void LineToVec(std::string Line, char separator, std::vector<std::string>& ToFill){
   std::istringstream ss(Line);
@@ -19,41 +18,23 @@ class Candidate{
     std::string _submitdate, _job, _email, _picfname, _cvfname;
     std::vector<std::string> _skills;
     int _picsize, _cvsize;
-    bool _isValid;
-    //public:
+    bool Valid;
     Candidate(std::string Line){
       std::istringstream ss(Line);
       std::vector<std::string> t;
       std::string s;
       for(int i = 1; getline(ss, s, '|'); ++i){
         if(i != 4) t.push_back(s);
-        else{
-          LineToVec(s, ';', _skills);
-        }
+        else LineToVec(s, ';', _skills);
       }
       _submitdate = t[0]; _email = t[1]; _job = t[2];
       _cvfname = t[3]; _cvsize = std::stoi(t[4]);
       _picfname = t[5]; _picsize = std::stoi(t[6]);
-      _isValid = true;
-    }
-    void Disable() { _isValid = false;}
-    bool Valid() {return _isValid;}
-    void print(std::ostream& stream) const {
-      stream << "date:"<<_submitdate<<std::endl;
-      stream << "email:"<<_email<<std::endl;
-      stream << "job:"<<_job<<std::endl;
-      stream << "2nd skill:"<<_skills[1]<<std::endl;
-      stream << "cvname:"<<_cvfname<<std::endl;
-      stream << "cvsize:"<<_cvsize<<std::endl;
-      stream << "picname:"<<_picfname<<std::endl;
-      stream << "cvsize:"<<_picsize<<std::endl;
+      Valid = true;
     }
 };
 
-std::ostream& operator<<(std::ostream& stream,const Candidate& rhs){
-  rhs.print(stream);
-  return stream;
-}
+//Pipe functions
 
 void DateCompare(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, std::string FilterLine){
   std::istringstream buffer(FilterLine);
@@ -70,7 +51,7 @@ void DateCompare(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count,
     if(buffer2 >> subm_month) buffer.ignore();
     buffer2 >> subm_day;
     auto submdate = std::tie(subm_year, subm_month, subm_day);
-    if(submdate > deadline) curr.Disable();
+    if(submdate > deadline) curr.Valid=false;
     dest.push(curr);
   }
 }
@@ -82,34 +63,24 @@ void EmailAndJob(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count,
   LineToVec(FilterLine, '|', ValidValues);
   for(int i=0;i<data_count;++i){
     Candidate curr = source.pop();
-    if(curr.Valid()){
+    if(curr.Valid){
       std::string ToCheck = JobOrEmail == 0 ? curr._email.substr(curr._email.find("@")+1) : curr._job;
-      if(std::find(ValidValues.begin(), ValidValues.end(), ToCheck) == ValidValues.end()) curr.Disable();
+      if(std::find(ValidValues.begin(), ValidValues.end(), ToCheck) == ValidValues.end()) curr.Valid=false;
     }
     dest.push(curr);
   }
 }
-/*
-void isJobAvailable(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, std::string FilterLine){
-  std::vector<std::string> jobs;
-  LineToVec(FilterLine, '|', jobs);
-  for(int i=0;i<data_count;++i){
-    Candidate curr = source.pop();
-    if(curr.Valid() && std::find(jobs.begin(), jobs.end(), curr._job)==jobs.end()) curr.Disable();
-    dest.push(curr);
-  }
-}*/
 
 void SkillCheck(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, std::string FilterLine){
   std::vector<std::string> reqSkills;
   LineToVec(FilterLine, '|', reqSkills);
   for(int i=0;i<data_count;++i){
     Candidate curr = source.pop();
-    if(curr.Valid()){
+    if(curr.Valid){
       int count = 0;
       for(std::string curr_skill : curr._skills)
         if(std::find(reqSkills.begin(), reqSkills.end(), curr_skill) != reqSkills.end()) count++;
-      if(count <= reqSkills.size()/2) curr.Disable();
+      if(count <= reqSkills.size()/2) curr.Valid=false;
     }
     dest.push(curr);
   }
@@ -118,7 +89,7 @@ void SkillCheck(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, 
 void CVformat(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count){
   for(int i=0;i<data_count;++i){
     Candidate curr = source.pop();
-    if(curr.Valid() && curr._cvfname.substr(curr._cvfname.size()-4) != ".pdf") curr.Disable();
+    if(curr.Valid && curr._cvfname.substr(curr._cvfname.size()-4) != ".pdf") curr.Valid=false;
     dest.push(curr);
   }
 }
@@ -129,7 +100,7 @@ void Size_Check(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, 
   for(int i=0;i<data_count;++i){
     Candidate curr = source.pop();
     int ToCheck = PicOrCV == 0 ? curr._cvsize : curr._picsize;
-    if(curr.Valid() && ToCheck > MaxSize) curr.Disable();
+    if(curr.Valid && ToCheck > MaxSize) curr.Valid=false;
     dest.push(curr);
   }
 }
@@ -139,7 +110,7 @@ void Picformat(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, s
   LineToVec(FilterLine, '|', formats);
   for(int i=0;i<data_count;++i){
     Candidate curr = source.pop();
-    if(curr.Valid() && std::find(formats.begin(), formats.end(), curr._picfname.substr(curr._picfname.find_last_of("."))) == formats.end()) curr.Disable();
+    if(curr.Valid && std::find(formats.begin(), formats.end(), curr._picfname.substr(curr._picfname.find_last_of("."))) == formats.end()) curr.Valid=false;
     dest.push(curr);
   }
 }
@@ -148,7 +119,7 @@ void FinalPipe(Pipe<Candidate>& source, int data_count){
   std::ofstream output("output.txt");
   for(int i = 0;i<data_count;++i){
     Candidate curr = source.pop();
-    if(curr.Valid()) output << curr._email << std::endl;
+    if(curr.Valid) output << curr._email << std::endl;
   }
   output.close();
 }
