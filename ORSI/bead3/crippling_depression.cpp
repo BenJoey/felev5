@@ -7,10 +7,11 @@
 #include <tuple>
 #include "pipe.hpp"
 
-void LineToVec(std::string Line, char separator, std::vector<std::string>& ToFill){
+//Splits a string by the delimeter into the given vector
+void LineToVec(std::string Line, char delimeter, std::vector<std::string>& ToFill){
   std::istringstream ss(Line);
   std::string s;
-  while(getline(ss, s, separator)) ToFill.push_back(s);
+  while(getline(ss, s, delimeter)) ToFill.push_back(s);
 }
 
 class Candidate{
@@ -20,16 +21,13 @@ class Candidate{
     int _picsize, _cvsize;
     bool Valid;
     Candidate(std::string Line){
-      std::istringstream ss(Line);
       std::vector<std::string> t;
-      std::string s;
-      for(int i = 1; getline(ss, s, '|'); ++i){
-        if(i != 4) t.push_back(s);
-        else LineToVec(s, ';', _skills);
-      }
+      LineToVec(Line, '|', t); //Split the line into a vector by the '|' delimeter
+      //Now use the vector to fill up the candidate's data
+      LineToVec(t[3], ';', _skills);
       _submitdate = t[0]; _email = t[1]; _job = t[2];
-      _cvfname = t[3]; _cvsize = std::stoi(t[4]);
-      _picfname = t[5]; _picsize = std::stoi(t[6]);
+      _cvfname = t[4]; _cvsize = std::stoi(t[5]);
+      _picfname = t[6]; _picsize = std::stoi(t[7]);
       Valid = true;
     }
 };
