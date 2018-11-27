@@ -106,9 +106,38 @@ void SkillCheck(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, 
     if(curr.Valid()){
       int count = 0;
       for(std::string curr_skill : curr._skills)
-        count += std::find(reqSkills.begin(), reqSkills.end(), curr_skill) == reqSkills.end() ? 1 : 0;
+        if(std::find(reqSkills.begin(), reqSkills.end(), curr_skill) != reqSkills.end()) count++;
       if(count <= reqSkills.size()/2) curr.Disable();
     }
+    dest.push(curr);
+  }
+}
+
+void CVformat(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count){
+  for(int i=0;i<data_count;++i){
+    Candidate curr = source.pop();
+    if(curr.Valid() && curr._cvfname.substr(curr._cvfname.size()-4) != ".pdf") curr.Disable();
+    dest.push(curr);
+  }
+}
+
+//The two size checks are almost identical so we differ them by addig a variable that tells if this is for Pic or CV
+//value is 0 for CV & 1 for Pic
+void Size_Check(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, int MaxSize, int PicOrCV){
+  for(int i=0;i<data_count;++i){
+    Candidate curr = source.pop();
+    int ToCheck = PicOrCV == 0 ? curr._cvsize : curr._picsize;
+    if(curr.Valid() && ToCheck > MaxSize) curr.Disable();
+    dest.push(curr);
+  }
+}
+
+void Picformat(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, std::string FilterLine){
+  std::vector<std::string> formats;
+  LineToVec(FilterLine, '|', formats);
+  for(int i=0;i<data_count;++i){
+    Candidate curr = source.pop();
+    if(curr.Valid() && std::find(formats.begin(), formats.end(), curr._picfname.substr(curr._picfname.size()-4)) == formats.end()) curr.Disable();
     dest.push(curr);
   }
 }
