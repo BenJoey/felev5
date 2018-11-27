@@ -13,6 +13,7 @@ bottom = 15mm]{geometry}
 \usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
 \usepackage{amssymb}
+\usepackage{amsmath}
 \usepackage{xcolor}
 \usepackage{epstopdf}
 \usepackage{setspace}
@@ -21,9 +22,15 @@ bottom = 15mm]{geometry}
 
 %%Note: Azért van tele sortörésekkel mert triggereli az OCD-met ha egy egész bekezdés egy sorba van :D
 
+\makeatletter
+\renewcommand*\env@matrix[1][c]{\hskip -\arraycolsep
+	\let\@ifnextchar\new@ifnextchar
+	\array{*\c@MaxMatrixCols #1}}
+\makeatother
+
 \setstretch{1.2}
 \begin{document}
-\def\br{\\[0.1cm]}
+\def\br{\\[0.2cm]}
 \begin{titlepage}
 	\vspace*{0cm}
 	\centering
@@ -75,7 +82,7 @@ bottom = 15mm]{geometry}
 
 Az egyik bemeneti fájlban \textit{data.txt} \textbf{N} darab gyakornoki jelentkezéshez tartozó
 információ olvasható, melyak alapján ki kell szűrni, hogy összesen hány kompetens jelentkező
-van a rengeteg beérkezett pályázat között.\\[0.2cm]
+van a rengeteg beérkezett pályázat között.\br
 \textit{data.txt} felépítése:
 
 A fájl első sorában az \textbf{N} szám jelzi, hogy hány adatot olvasunk (ahol \textbf{N} egy nemnegatív egész szám).
@@ -127,5 +134,20 @@ tartalmazza a kapott eredményt, ami az összes filternek megfelelő jelentkező
 \section{Fejlesztői dokumentáció}
 
 \subsection{Megoldási mód}
-A feladatot az adatcsatorna tételére visszavezetve oldjuk meg.
+A feladatot az adatcsatorna tételére visszavezetve oldjuk meg.\\
+A visszavezetésben az $n$ az input fájl első sorában lévő szám. Az adatcsatorna ($F(d)$) a
+teljes filterezési folyamat míg a csatorna pontjait egy-egy filter függyvénynek feleltetjük meg.\br
+$
+\begin{matrix}[l]
+	n & \rightsquigarrow & \textbf{N} \\
+	F(d) & \rightsquigarrow & d\text{ jelentkező megfelel-e az összes filternek} \\
+	f_i & \rightsquigarrow  & i\text{-edik filter függyvény}
+\end{matrix}
+$\br
+A kódot 2 részre lehet bontani, egy fő- és több alfolyamatra. A fő folyamat a \verb|main()|
+függvény, mely először beolvassa a filtereket és azokkal elindítja az adatcsatorna működését
+(alfolyamatok), majd beolvassa a jelentkezőket melyeket azután egyből felrak az első csatornára.\br
+Egy alfolyamat levesz a csatornáról egy jelentkezőt és, ha a jelentkező az előtte lévő
+csatornák filtereinek megfelelt akkor megvizsgálja a neki kiosztott filterre, amennyiben
+egy korábbi filteren megbukott úgy csak továbbküldi az adatot.
 \end{document}
