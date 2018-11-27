@@ -136,7 +136,8 @@ tartalmazza a kapott eredményt, ami az összes filternek megfelelő jelentkező
 \subsection{Megoldási mód}
 A feladatot az adatcsatorna tételére visszavezetve oldjuk meg.\\
 A visszavezetésben az $n$ az input fájl első sorában lévő szám. Az adatcsatorna ($F(d)$) a
-teljes filterezési folyamat míg a csatorna pontjait egy-egy filter függyvénynek feleltetjük meg.\br
+teljes filterezési folyamat míg a csatorna feldolgozási pontjait egy-egy filter függyvénynek
+feleltetjük meg.\br
 $
 \begin{matrix}[l]
 	n & \rightsquigarrow & \textbf{N} \\
@@ -146,8 +147,48 @@ $
 $\br
 A kódot 2 részre lehet bontani, egy fő- és több alfolyamatra. A fő folyamat a \verb|main()|
 függvény, mely először beolvassa a filtereket és azokkal elindítja az adatcsatorna működését
-(alfolyamatok), majd beolvassa a jelentkezőket melyeket azután egyből felrak az első csatornára.\br
+(alfolyamatok), majd beolvassa a jelentkezők adatait melyeket azután egyből felrak az első csatornára.\br
 Egy alfolyamat levesz a csatornáról egy jelentkezőt és, ha a jelentkező az előtte lévő
 csatornák filtereinek megfelelt akkor megvizsgálja a neki kiosztott filterre, amennyiben
 egy korábbi filteren megbukott úgy csak továbbküldi az adatot.
+
+\subsection{Implementáció}
+A csatornákat egy \verb|Pipe<T>| típussal reprezentáljuk mely \verb|T template| paraméterként
+megkapja, hogy milyen típusú adatok fognak áthaladni a csatornán.
+A jelentkezők adainak csatornákon való küldéséhez egy \verb|Candidate| típust hozunk létre, 
+melynek adattagjai az inputfájlban szereplő adatok és egy \verb|boolean| változó mely jelzi,
+hogy az eddigi filtereknek megfelelt-e, konstruktora meg egy az inputfájl specifikációjának
+megfelelő sort kap és az alapján tölti fel az adattagokat. Mivel egy csatorna nem tér vissza
+értékkel hanem a kapott értéket továbbküldi így \verb|std::thread| típussal meg tudjuk
+valósítani az alfolyamatokat, melyeket a filter sorának beolvasása után elindítunk
+a következő paraméterekkel: a filterező függvény neve, előző és következő csatorna, és
+jelentkezők száma (\textbf{N}). Egy alfolyamat terminál ha \textbf{N} darab adatot feldolgozott.
+A \verb|Pipe<T>| típus reprezentációja a \verb|pipe.hpp| header fájlban van, míg a kód többi
+része a \verb|crippling_depression.cpp| forrásfájlban található.
+
+\subsection{Fordítás menete}
+A programunk forráskódját a \verb|crippling_depression.cpp| fájl tartalmazza. A fordításhoz
+elengedhetetlen egy \verb|C++11| szabványt támogató fordítóprogram a rendszeren. Ehhez
+használhatjuk az \textit{MSVC}, \textit{g++} és \textit{clang} bármelyikét. A fordítás menete
+(4.9.2-es verziójú g++ használata esetén) a következő: \verb|'g++ crippling_depression.cpp -std=c++11'|
+. A speciális, \verb|-std=c++11| kapcsoló azért szükséges, mert alapértelmezés
+szerint ez a verziójú fordítóprogram még a régi, C++98-as szabványt követi, melyben a
+felhasznált nyelvi elemek még nem voltak jelen.
+
+\newpage
+\thispagestyle{empty}
+\begin{center}
+	\colorbox{lightgray}{{\large JPSMA3} \hspace{4.3cm} {\large ORSI 3. beadandó} \hspace{5.7cm} \thepage}
+\end{center}
+
+\subsection{Tesztelés}
+A program tesztelése során különböző méretű bemeneti fájlokat generáltam. Az így kapott
+fájlok mindig a specifikációnak megfelelően, az átlagostól a szélsőséges esetekig terjedtek.
+A programom minden esetben a tőle elvárt kimenetet állította elő, így a tesztesetek alapján
+helyesnek gondolhatjuk a működését.\br
+A számítógépemben található 4 magból 3-at kikapcsolva, (időben) szekvenciális lefutást tudtam 
+előállítani, így egy átlagos méretű fájl esetében (40-50 jelentkező) a futási idő $\sim$17 ms
+körüli volt. A magokat sorban visszakapcsolva ez az idő egészen $\sim$5 ms-ig csökkent,
+így megállapíthatjuk, hogy a párhuzamosított program tényleg gyorsabban futott, mint a
+szekvenciális változata (Intel i7-6700K processzorral).
 \end{document}
