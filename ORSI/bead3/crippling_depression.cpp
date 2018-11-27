@@ -8,6 +8,12 @@
 #include "pipe.hpp"
 #include <iostream>
 
+void FillUpVec(std::string Line, char separator, std::vector<std::string>& ToFill){
+  std::istringstream ss(Line);
+  std::string s;
+  while(getline(ss, s, separator)) ToFill.push_back(s);
+}
+
 class Candidate{
   public:
     std::string _submitdate, _job, _email, _picfname, _cvfname;
@@ -22,9 +28,7 @@ class Candidate{
       for(int i = 1; getline(ss, s, '|'); ++i){
         if(i != 4) t.push_back(s);
         else{
-          std::istringstream iss(s);
-          std::string temp;
-          while(getline(iss, temp, ';')) _skills.push_back(temp);
+          FillUpVec(s, ';', _skills);
         }
       }
       _submitdate = t[0]; _email = t[1]; _job = t[2];
@@ -72,16 +76,24 @@ void DateCompare(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count,
 }
 
 void EmailCheck(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, std::string FilterLine){
-  std::istringstream ss(FilterLine);
   std::vector<std::string> validmails;
-  std::string s;
-  while(getline(ss, s, '|')) validmails.push_back(s);
+  FillUpVec(FilterLine, '|', validmails);
   for(int i=0;i<data_count;++i){
     Candidate curr = source.pop();
     if(curr.Valid()){
       std::string maildomain = curr._email.substr(curr._email.find("@")+1);
       if(std::find(validmails.begin(), validmails.end(), maildomain) == validmails.end()) curr.Disable();
     }
+    dest.push(curr);
+  }
+}
+
+void isJobAvailable(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, std::string FilterLine){
+  std::vector<std::string> jobs;
+  FillUpVec(FilterLine, '|', jobs);
+  for(int i=0;i<data_count;++i){
+    Candidate curr = source.pop();
+    if(curr.Valid() && std::find(jobs.begin(), jobs.end(), curr._job)==jobs.end()) curr.Disable();
     dest.push(curr);
   }
 }
@@ -98,17 +110,17 @@ void FinalPipe(Pipe<Candidate>& source, int data_count){
 
 int main()
 {
-  std::vector<Pipe<Candidate>> pipes(3);
+  std::vector<Pipe<Candidate>> pipes(4);
   std::ifstream input("data.txt");
   std::string s;
   getline(input, s);
   std::thread t1(DateCompare, std::ref(pipes[0]), std::ref(pipes[1]), 3, "22 10 07");
-  std::thread t2(EmailCheck, std::ref(pipes[1]), std::ref(pipes[2]), 3, "yahoo.com|hotmail.com");
-  std::thread t9(FinalPipe, std::ref(pipes[2]), 3);
+  std::thread t2(EmailCheck, std::ref(pipes[1]), std::ref(pipes[2]), 3, "gmail.com|yahoo.com|hotmail.com");
+  std::thread t3(isJobAvailable, std::ref(pipes[2]), std::ref(pipes[3]), 3, "3D Animator|Technical Lead");
+  std::thread t9(FinalPipe, std::ref(pipes[3]), 3);
   while(getline(input, s)){
     Candidate test(s);
     pipes[0].push(test);
   }
-  t1.join();t9.join();
   return 0;
 }
