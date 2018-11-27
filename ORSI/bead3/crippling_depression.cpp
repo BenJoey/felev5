@@ -8,7 +8,7 @@
 #include "pipe.hpp"
 
 //Splits a string by the delimeter into the given vector
-void LineToVec(std::string Line, char delimeter, std::vector<std::string>& ToFill){
+void LineToVec(const std::string Line, const char delimeter, std::vector<std::string>& ToFill){
   std::istringstream ss(Line);
   std::string s;
   while(getline(ss, s, delimeter)) ToFill.push_back(s);
@@ -20,7 +20,7 @@ class Candidate{
     std::vector<std::string> _skills;
     int _picsize, _cvsize;
     bool Valid;
-    Candidate(std::string Line){
+    Candidate(const std::string Line){
       std::vector<std::string> t;
       LineToVec(Line, '|', t); //Split the line into a vector by the '|' delimeter
       //Now use the vector to fill up the candidate's data
@@ -34,7 +34,7 @@ class Candidate{
 
 //Pipe functions
 
-void DateCompare(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, std::string FilterLine){
+void DateCompare(Pipe<Candidate>& source, Pipe<Candidate>& dest, const int data_count, const std::string FilterLine){
   std::istringstream buffer(FilterLine);
   int year, month, day;
   if(buffer >> year) buffer.ignore();
@@ -56,7 +56,7 @@ void DateCompare(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count,
 
 //Email check and job availability search are almost identical so we so we differ them by addig a variable that tells which one is used
 //value is 0 for email and 1 for job 
-void EmailAndJob(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, std::string FilterLine, int JobOrEmail){
+void EmailAndJob(Pipe<Candidate>& source, Pipe<Candidate>& dest, const int data_count, const std::string FilterLine, const int JobOrEmail){
   std::vector<std::string> ValidValues;
   LineToVec(FilterLine, '|', ValidValues);
   for(int i=0;i<data_count;++i){
@@ -69,7 +69,7 @@ void EmailAndJob(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count,
   }
 }
 
-void SkillCheck(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, std::string FilterLine){
+void SkillCheck(Pipe<Candidate>& source, Pipe<Candidate>& dest, const int data_count, const std::string FilterLine){
   std::vector<std::string> reqSkills;
   LineToVec(FilterLine, '|', reqSkills);
   for(int i=0;i<data_count;++i){
@@ -84,7 +84,7 @@ void SkillCheck(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, 
   }
 }
 
-void CVformat(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count){
+void CVformat(Pipe<Candidate>& source, Pipe<Candidate>& dest, const int data_count){
   for(int i=0;i<data_count;++i){
     Candidate curr = source.pop();
     if(curr.Valid && curr._cvfname.substr(curr._cvfname.size()-4) != ".pdf") curr.Valid=false;
@@ -94,7 +94,7 @@ void CVformat(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count){
 
 //The two size checks are also almost identical so we differ them by addig a variable that tells if this is for Pic or CV
 //value is 0 for CV & 1 for Pic
-void Size_Check(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, int MaxSize, int PicOrCV){
+void Size_Check(Pipe<Candidate>& source, Pipe<Candidate>& dest, const int data_count, const int MaxSize, const int PicOrCV){
   for(int i=0;i<data_count;++i){
     Candidate curr = source.pop();
     int ToCheck = PicOrCV == 0 ? curr._cvsize : curr._picsize;
@@ -103,7 +103,7 @@ void Size_Check(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, 
   }
 }
 
-void Picformat(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, std::string FilterLine){
+void Picformat(Pipe<Candidate>& source, Pipe<Candidate>& dest, const int data_count, const std::string FilterLine){
   std::vector<std::string> formats;
   LineToVec(FilterLine, '|', formats);
   for(int i=0;i<data_count;++i){
@@ -113,7 +113,7 @@ void Picformat(Pipe<Candidate>& source, Pipe<Candidate>& dest, int data_count, s
   }
 }
 
-void FinalPipe(Pipe<Candidate>& source, int data_count){
+void FinalPipe(Pipe<Candidate>& source, const int data_count){
   std::ofstream output("output.txt");
   for(int i = 0;i<data_count;++i){
     Candidate curr = source.pop();
@@ -147,5 +147,4 @@ int main()
   input.close();
   t1.join();t2.join();t3.join();t4.join();
   t5.join();t6.join();t7.join();t8.join();t9.join();
-  return 0;
 }
