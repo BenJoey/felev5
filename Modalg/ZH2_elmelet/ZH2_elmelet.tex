@@ -12,13 +12,14 @@
 \begin{document}
 \renewcommand{\labelitemi}{\textbullet}
 \def\R{\mathbb{R}}
+\def\N{\mathbb{N}}
 \def\br{\\[0.1cm]}
 \begin{center}
 	{\Large\textbf{Modellek és algoritmusok B szakirány}}\\[0.2cm]
 	Tételkimondások és definíciók a 2. ZH-ra
 \end{center}
 {\small A kidolgozást \textsc{Bauer Bence} készítette \textsc{Dr. Weisz Ferenc} előadásai alapján.}\\
-{\footnotesize Külön köszönet \textsc{Korponai Károlynak} és \textsc{Horváth Milánnak} a jegyzetekért.}
+{\footnotesize Külön köszönet \textsc{Korponai Károlynak} a jegyzetekért.}
 
 \begin{enumerate}
 	\item\textbf{KÉP és Lineáris DER}\br
@@ -86,5 +87,94 @@
 	\item\textbf{Átviteli elv (n-edrendű lineáris DE-re)}\br
 	$\varphi$ kielégíti az $y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_1\cdot y'+a_0\cdot y=b$
 	lin. DE-t $\Leftrightarrow\psi$ kielégíti az\br$x'=A\cdot x+\bar{b}$ lin. DER-t.
+	\item\textbf{Homogén, inhomogén n-edrendű lineáris DE definíciója}\br
+	$y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_1\cdot y'+a_0\cdot y = b$ lineáris DE
+	homogén, ha $b=0$, inhomogén különben.
+	\item\textbf{n-edrendű lineáris DE folytonossága és dimenziója}\br
+	Tekintsük: $y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_0\cdot y=0$
+	homogén DE-t.\br Ekkor $M_h\subset C^n (I, \R)$ altér és $\dim M_h=n$
+	\item\textbf{Inhomogén megoldás felírása homogén megoldással}\br
+	Ha $\psi_0\in M_{ih}$, akkor $M_{ih}=\psi_0+M_h$
+	\item\textbf{DE karakterisztikus polinomja}\br
+	A DE karakterisztikus polinomja: $K(z)=z^n+a_{n-1}\cdot z^{n-1}+...+a_1
+	\cdot z+a_0$
+	\item\textbf{Homogén megoldás és karakterisztikus polinom kapcsolata}\br
+	$\varphi(t)=e^{\lambda\cdot t}\in M_h \Leftrightarrow\lambda$ gyöke K-nak
+	\item\textbf{DE karakterisztikus polinomjának alaprendszere}\br
+	Ha K-nak $\exists n$ db különböző $\lambda_1, ... , \lambda_n$ gyöke, akkor
+	$\varphi_{j}(t)=e^{\lambda_j\cdot t},j=1,...,n$ alaprendszer.
+	\item\textbf{$Valami_1$}\br
+	Tfh. $K(z)=(z-\lambda_1)^{m_1}\cdot...\cdot(z-\lambda_r)^{m_r},\lambda_1,
+	... ,\lambda_r$ különböző gyök, $m_1 + ... + m_r = n$.\br Ekkor
+	$\varphi_{i,j}(t)=e^{\lambda_j\cdot t}\cdot t^i,j=1,..,r,i=0,..,m-1$
+	alaprendszer.
+	\item\textbf{Az inhomogén megoldása (?)}\br
+	Ha $c(t)$ kielégíti a $\Phi(t)\cdot c'(t) = \bar{b}(t)$ egyenletet, akkor
+	$c_1(t)\cdot\varphi_1(t)+...+c_n(t)\cdot\varphi_n(t)\in M_{ih}$
+	\item\textbf{Az inhomogén megoldása, csak hosszaban lol (?)}\br
+	Tekintsük az $y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_0\cdot y=b$ inhomogén
+	DE-t.\br Legyen $\alpha,\beta,A,B,C,D\in\R$ és $\alpha\neq\beta_i$ k-szoros
+	gyöke K-nak (ha nem gyök $\Rightarrow k=0$).\br Tfh.: $b(t)=p(t)\cdot
+	e^{\lambda\cdot t}\cdot(A\cdot \cos(\beta\cdot t)+\beta\cdot\sin(\beta\cdot
+	t)).$\br Ekkor $\exists\varphi(t)=t^k\cdot Q(t)\cdot e^{\alpha\cdot t}
+	\cdot(C\cdot\cos(\beta\cdot t)+D\cdot\sin(\beta\cdot t)\in M_{ih}$,
+	\br ahol P és Q polinomok és Q foka $\leq$ P foka.
+	\newpage
+	\item\textbf{Függvénysorozat, függvénysor definíciója}
+	\begin{itemize}
+		\item Az $(f_n)$ sorozatot függvénysorozatnak nevezzük.
+		\item$\sum$ fv-t függvénysornak nevezzük, ahol $\sum fv_n=
+		(\sum\limits_{k=0}^n f_k, n\in\N)$
+	\end{itemize}
+	\item\textbf{Függvénysorozat határértéke, függvénysor összege (?)}\br
+	$KH(f_n)={x\in A:f_n(x)\text{ konvergens}}\br
+	KH(\sum f_n)={x\in A:\sum f_n(x)\text{ konvergens}}\br
+	\lim fn:KH(f_n)\rightarrow\R,x\mapsto lim f_n(x)\br
+	\sum\limits_{n=0}^\infty f_n:KH(\sum f_n)\rightarrow\R,x\mapsto
+	\sum\limits_{n=0}^\infty f_n(x)$
+	\item\textbf{Függvénysorozat egyenletes konvergenciájának definíciója}\br
+	Az $(f_n)$ fv.sorozat egyenletesen konvergens, ha\br$\exists f:A\rightarrow
+	\R,\forall\varepsilon>0,\exists n_0\in\N,\forall n\geq n_0,\forall x\in A:
+	\abs{f_n(x) - f(x)}< \varepsilon$\br
+	Jele: %$f_n \{e nyíl} f$
+	\item\textbf{$(f_n)$ egyenletes konvergenciája és $f_n,f$ kapcsolata}\br
+	%f_n \{e nyíl} f%
+	$\Rightarrow f_n\rightarrow f$ pontonként.
+	\item\textbf{Függvénysorozat apszolút konvergenciája}\br
+	$f_n$ egyenletesen konvergeny $\Leftrightarrow\forall\varepsilon>0,
+	\exists n_0\in\N,\forall n,m\geq n_0,\forall x\in A:\abs{f_n(x) - f_m(x)}< \varepsilon$
+	\item\textbf{Függvénysorozat határértékének folytonossága}\br
+	Ha \begin{itemize}
+		\item $f_n\in C(A)$
+		\item $(f_n)$ egyenletesen konvergens
+	\end{itemize}
+	akkor $\lim f_n\in C(A)$
+	\item\textbf{Weistras-tétel}\br
+	Tekintsük a $\sum f_n$ függvénysort és a $\sum a_n$ számsort. Tfh:
+	\begin{itemize}
+		\item $\forall x\in A:\abs{fn(x)}\leq a_n$
+		ii) $f_n$ egyenletesen konvergens.
+	\end{itemize}
+	Ekkor $f=\lim f_n\in R[a,b]$ és $\int\limits_a^b f=
+	\lim\limits_{n->\infty}\int\limits_a^b f_n$
+	\item\textbf{Függvénysor Reimann integrálhatósága}\br
+	Tfh: \begin{itemize}
+		\item $f_n:[a,b]\rightarrow\R,f_n\in R[a,b],n\in\N$
+		\item $\sum f_n$ egyenletesen konvergens.
+	\end{itemize}
+	Ekkor $f=\sum\limits_{n=0}^\infty f_n\in R[a,b]$ és $\int\limits_a^b f=
+	\sum\limits_{n=0}^\infty\int\limits_a^b f_n$
+	\newpage
+	\item\textbf{$Valami_2$}\br
+	Tfh: \begin{itemize}
+		\item $f_n(a,b)\rightarrow\R,f_n\in D(a,b), n\in\N$
+		\item $\exists x_0\in(a,b):(f_n(x_0))$ konv.
+		\item $(f_n')$ egyenletesen konvergens
+	\end{itemize}
+	Ekkor: \begin{itemize}
+		\item $(f_n)$ egyenletesen konvergens
+		\item $f=\lim f_n\in D(a,b)$
+		\item $f'=\lim f_n'$
+	\end{itemize}
 \end{enumerate}
 \end{document}
