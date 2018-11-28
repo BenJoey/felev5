@@ -26,10 +26,8 @@ sendAround([H|T], MainPid) ->
 
 worker()->
   receive
-    Pid -> worker(Pid)
-  end.
-
-worker(Pid) ->
+    Pid -> ok
+  end,
   receive
     Msg -> Pid ! Msg
   end.
