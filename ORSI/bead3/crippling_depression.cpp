@@ -2,9 +2,9 @@
 #include <thread>
 #include <fstream>
 #include <vector>
-#include <algorithm>
+#include <algorithm> //for std::find
 #include <sstream>
-#include <tuple>
+#include <tuple> //for std::tie
 #include "pipe.hpp"
 
 //Splits a string by the delimeter into the given vector
@@ -16,16 +16,14 @@ void LineToVec(const std::string Line, const char delimeter, std::vector<std::st
 
 class Candidate{
   public:
-    std::string _submitdate, _job, _email, _picfname, _cvfname;
-    std::vector<std::string> _skills;
+    std::string _submitdate, _job, _email, _picfname, _cvfname, _skills;
     int _picsize, _cvsize;
     bool Valid;
     Candidate(const std::string Line){
       std::vector<std::string> t;
       LineToVec(Line, '|', t); //Split the line into a vector by the '|' delimeter
       //Now use the vector to fill up the candidate's data
-      LineToVec(t[3], ';', _skills);
-      _submitdate = t[0]; _email = t[1]; _job = t[2];
+      _submitdate = t[0]; _email = t[1]; _job = t[2], _skills = t[3];
       _cvfname = t[4]; _cvsize = std::stoi(t[5]);
       _picfname = t[6]; _picsize = std::stoi(t[7]);
       Valid = true;
@@ -35,19 +33,14 @@ class Candidate{
 //Pipe functions
 
 void DateCompare(Pipe<Candidate>& source, Pipe<Candidate>& dest, const int data_count, const std::string FilterLine){
-  std::istringstream buffer(FilterLine);
-  int year, month, day;
-  if(buffer >> year) buffer.ignore();
-  if(buffer >> month) buffer.ignore();
-  buffer >> day;
+  std::vector<std::string> temp;
+  LineToVec(FilterLine, ' ', temp);
+  int year=std::stoi(temp[0]), month=std::stoi(temp[1]), day=std::stoi(temp[2]);
   auto deadline = std::tie(year, month, day);
   for(int i = 0; i < data_count; ++i){
     Candidate curr = source.pop();
-    int subm_year, subm_month, subm_day;
-    std::istringstream buffer2(curr._submitdate);
-    if(buffer2 >> subm_year) buffer.ignore();
-    if(buffer2 >> subm_month) buffer.ignore();
-    buffer2 >> subm_day;
+    temp.clear(); LineToVec(curr._submitdate, ' ', temp);
+    int subm_year=std::stoi(temp[0]), subm_month=std::stoi(temp[1]), subm_day=std::stoi(temp[2]);
     auto submdate = std::tie(subm_year, subm_month, subm_day);
     if(submdate > deadline) curr.Valid=false;
     dest.push(curr);
@@ -76,7 +69,9 @@ void SkillCheck(Pipe<Candidate>& source, Pipe<Candidate>& dest, const int data_c
     Candidate curr = source.pop();
     if(curr.Valid){
       int count = 0;
-      for(std::string curr_skill : curr._skills)
+      std::vector<std::string> cand_skills;
+      LineToVec(curr._skills, ';', cand_skills);
+      for(std::string curr_skill : cand_skills)
         if(std::find(reqSkills.begin(), reqSkills.end(), curr_skill) != reqSkills.end()) count++;
       if(count <= reqSkills.size()/2) curr.Valid=false;
     }
@@ -125,7 +120,7 @@ void FinalPipe(Pipe<Candidate>& source, const int data_count){
 int main()
 {
   std::vector<Pipe<Candidate>> pipes(9);
-  std::ifstream input("data.txt");
+  std::ifstream input("data1.txt");
   std::ifstream filters("filters.txt");
   std::string s;
   getline(input, s);
