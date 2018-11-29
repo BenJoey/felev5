@@ -120,7 +120,7 @@ void FinalPipe(Pipe<Candidate>& source, const int data_count){
 int main()
 {
   std::vector<Pipe<Candidate>> pipes(9);
-  std::ifstream input("data1.txt");
+  std::ifstream input("data.txt");
   std::ifstream filters("filters.txt");
   std::string s;
   getline(input, s);
