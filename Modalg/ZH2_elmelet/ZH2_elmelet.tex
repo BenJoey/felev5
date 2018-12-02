@@ -112,24 +112,24 @@
 	\item\textbf{Az inhomogén megoldása (?)}\br
 	Ha $c(t)$ kielégíti a $\Phi(t)\cdot c'(t) = \bar{b}(t)$ egyenletet, akkor
 	$c_1(t)\cdot\varphi_1(t)+...+c_n(t)\cdot\varphi_n(t)\in M_{ih}$
-	\item\textbf{Az inhomogén megoldása, csak hosszaban lol (?)}\br
+	\item\textbf{Inhomogén komplex megoldása}\br
 	Tekintsük az $y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_0\cdot y=b$ inhomogén
-	DE-t.\br Legyen $\alpha,\beta,A,B,C,D\in\R$ és $\alpha\neq\beta_i$ k-szoros
+	DE-t.\br Legyen $\alpha,\beta,A,B,C,D\in\R$ és $\alpha\neq\beta i$ k-szoros
 	gyöke K-nak (ha nem gyök $\Rightarrow k=0$).\br Tfh.: $b(t)=p(t)\cdot
-	e^{\lambda\cdot t}\cdot(A\cdot \cos(\beta\cdot t)+\beta\cdot\sin(\beta\cdot
-	t)).$\br Ekkor $\exists\varphi(t)=t^k\cdot Q(t)\cdot e^{\alpha\cdot t}
-	\cdot(C\cdot\cos(\beta\cdot t)+D\cdot\sin(\beta\cdot t)\in M_{ih}$,
+	e^{\lambda\cdot t}\cdot(A\cdot \cos(\beta)\cdot t+B\cdot\sin(\beta)
+	\cdot t).$\br Ekkor $\exists\varphi(t)=t^k\cdot Q(t)\cdot e^{\alpha\cdot t}
+	\cdot(C\cdot\cos(\beta)\cdot t+D\cdot\sin(\beta)\cdot t)\in M_{ih}$,
 	\br ahol P és Q polinomok és Q foka $\leq$ P foka.
 	\newpage
 	\item\textbf{Függvénysorozat, függvénysor definíciója}
 	\begin{itemize}
 		\item Az $(f_n)$ sorozatot függvénysorozatnak nevezzük.
-		\item$\sum$ fv-t függvénysornak nevezzük, ahol $\sum fv_n=
+		\item$\sum$ fv-t függvénysornak nevezzük, ahol $\sum f_n=
 		(\sum\limits_{k=0}^n f_k, n\in\N)$
 	\end{itemize}
 	\item\textbf{Függvénysorozat határértéke, függvénysor összege (?)}\br
-	$KH(f_n)={x\in A:f_n(x)\text{ konvergens}}\br
-	KH(\sum f_n)={x\in A:\sum f_n(x)\text{ konvergens}}\br
+	$KH(f_n)=\{x\in A:f_n(x)\text{ konvergens}\}\br
+	KH(\sum f_n)=\{x\in A:\sum f_n(x)\text{ konvergens}\}\br
 	\lim fn:KH(f_n)\rightarrow\R,x\mapsto lim f_n(x)\br
 	\sum\limits_{n=0}^\infty f_n:KH(\sum f_n)\rightarrow\R,x\mapsto
 	\sum\limits_{n=0}^\infty f_n(x)$
@@ -153,11 +153,18 @@
 	\item\textbf{Weistras-tétel}\br
 	Tekintsük a $\sum f_n$ függvénysort és a $\sum a_n$ számsort. Tfh:
 	\begin{itemize}
-		\item $\forall x\in A:\abs{fn(x)}\leq a_n$
-		ii) $f_n$ egyenletesen konvergens.
+		\item $\forall x\in A:\abs{f_n(x)}\leq a_n$
+		\item $\sum a_n$ sor.
 	\end{itemize}
-	Ekkor $f=\lim f_n\in R[a,b]$ és $\int\limits_a^b f=
-	\lim\limits_{n->\infty}\int\limits_a^b f_n$
+	Ekkor $\sum f_n$ egyenletesen konvergens.
+	\item\textbf{Egyenletesen konvergens függvény integráltja}\br
+	Tfh: \begin{itemize}
+		\item $f_n:[a,b]\rightarrow\R,f_n\in R[a,b],n\in\N$
+		\item $f_n$ egyenletesen konvergens.
+	\end{itemize}
+	Ekkor $f=\lim f_n\in R[a,b]$ és $\int\limits_a^b f=\lim\limits_{_n->\infty}
+	\int\limits_a^b f_n$
+	\newpage
 	\item\textbf{Függvénysor Reimann integrálhatósága}\br
 	Tfh: \begin{itemize}
 		\item $f_n:[a,b]\rightarrow\R,f_n\in R[a,b],n\in\N$
@@ -165,7 +172,6 @@
 	\end{itemize}
 	Ekkor $f=\sum\limits_{n=0}^\infty f_n\in R[a,b]$ és $\int\limits_a^b f=
 	\sum\limits_{n=0}^\infty\int\limits_a^b f_n$
-	\newpage
 	\item\textbf{$Valami_2$}\br
 	Tfh: \begin{itemize}
 		\item $f_n(a,b)\rightarrow\R,f_n\in D(a,b), n\in\N$
