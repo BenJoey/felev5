@@ -157,12 +157,12 @@ tartalmazza a kapott eredményt, ami az összes filternek megfelelő jelentkező
 	\item Variáns függvénynek tekintsük az $(|x_{0}|, |x_{1}|, \dots, |x_{n}|)$ számot úgy, hogy a rendezett n-es elemeit helyiértékkel súlyozzuk, ahol az egyes csatornákon lévő elemek száma rendre egy $m+1$ alapú számrendszerben felírt szám számjegyeinek felelnek meg.
 \end{itemize}
 
-A visszavezetésben az $n$ az $7$ mivel $7$ db filterünk van. Az adatcsatorna ($F(d)$) a
+A visszavezetésben az $n$ az $8$ mivel $8$ db filterünk van. Az adatcsatorna ($F(d)$) a
 teljes filterezési folyamat míg a csatorna feldolgozási pontjait egy-egy filter függyvénynek
 feleltetjük meg.\br
 $
 \begin{matrix}[l]
-n & \rightsquigarrow & 7 \\
+n & \rightsquigarrow & 8 \\
 F(d) & \rightsquigarrow & d\text{ jelentkező megfelel-e az összes filternek} \\
 f_i & \rightsquigarrow  & i\text{-edik filter függyvény}
 \end{matrix}
@@ -202,7 +202,7 @@ $f_4:\quad$ \textit{SkillCheck}: Ellenőrzi, hogy a jelentkező birtokolja-e az 
 $f_5:\quad$ \textit{CVformat}: Ellenőrzi, hogy a beadott CV megfelelő pdf formátumú-e.\br
 $f_6, f_8:\quad$ \textit{Size\_Check}: Ellenőrzi a beküldött CV illetve profilkép méretet melyeket az $f_2,f_3$ függvényekhez hasonlóan különböztetünk meg.\br
 $f_7:\quad$ \textit{PicFormat}: Ellenőrzi, hogy a feltöltött profilkép formátuma megfelelő-e.\br
-$f_8:\quad$ \textit{FinalPipe}: Amennyiben minden filternek megfelelt a jelentkező, úgy kiírja az email címet az \textit{output.txt} állományba.7
+$f_9:\quad$ \textit{FinalPipe}: Amennyiben minden filternek megfelelt a jelentkező, úgy kiírja az email címet az \textit{output.txt} állományba.
 
 \section{Fejlesztői dokumentáció}
 
