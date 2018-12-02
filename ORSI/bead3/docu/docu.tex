@@ -201,8 +201,7 @@ Mivel a 2 filter ellenőrzése azonosan működik, így egy függvényt tudunk h
 $f_4:\quad$ \textit{SkillCheck}: Ellenőrzi, hogy a jelentkező birtokolja-e az elvárt készségeknek legalalább a felét.\br
 $f_5:\quad$ \textit{CVformat}: Ellenőrzi, hogy a beadott CV megfelelő pdf formátumú-e.\br
 $f_6, f_8:\quad$ \textit{Size\_Check}: Ellenőrzi a beküldött CV illetve profilkép méretet melyeket az $f_2,f_3$ függvényekhez hasonlóan különböztetünk meg.\br
-$f_7:\quad$ \textit{PicFormat}: Ellenőrzi, hogy a feltöltött profilkép formátuma megfelelő-e.\br
-$f_9:\quad$ \textit{FinalPipe}: Amennyiben minden filternek megfelelt a jelentkező, úgy kiírja az email címet az \textit{output.txt} állományba.
+$f_7:\quad$ \textit{PicFormat}: Ellenőrzi, hogy a feltöltött profilkép formátuma megfelelő-e.
 
 \section{Fejlesztői dokumentáció}
 
@@ -210,7 +209,9 @@ $f_9:\quad$ \textit{FinalPipe}: Amennyiben minden filternek megfelelt a jelentke
 
 A kódot 2 részre lehet bontani, egy fő- és több alfolyamatra. A fő folyamat a \verb|main()|
 függvény, mely először beolvassa a filtereket és azokkal elindítja az adatcsatorna működését
-(alfolyamatok), majd beolvassa a jelentkezők adatait melyeket azután egyből felrak az első csatornára.\br
+(alfolyamatok), majd beolvassa a jelentkezők adatait melyeket azután egyből felrak az első csatornára. Majd várja az utolsó csatornán
+az adatokat és ha olyan adat érkezett mely minden filteren átment, akkor kiírja annak a
+jelentkezőnek az email címet az \textit{output.txt} kimeneti fájlba.\br
 Egy alfolyamat levesz a csatornáról egy jelentkezőt és, ha a jelentkező az előtte lévő
 csatornák filtereinek megfelelt akkor megvizsgálja a neki kiosztott filterre, amennyiben
 egy korábbi filteren megbukott úgy csak továbbküldi az adatot.
