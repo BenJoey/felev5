@@ -1,7 +1,7 @@
 \documentclass[12pt]{article}
 
 \usepackage[a4paper,
-inner = 15mm,
+inner = 10mm,
 outer = 15mm,
 top = 15mm,
 bottom = 15mm]{geometry}
@@ -13,7 +13,7 @@ bottom = 15mm]{geometry}
 \usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
 \usepackage{amssymb}
-\usepackage{amsmath}
+\usepackage{amsmath,tabu}
 \usepackage{xcolor}
 \usepackage{epstopdf}
 \usepackage{setspace}
@@ -68,7 +68,7 @@ bottom = 15mm]{geometry}
 	\vfill
 	
 	\vspace*{1cm}
-	2018. november 27.
+	2018. December 2.
 \end{titlepage}
 \thispagestyle{empty}
 \begin{center}
@@ -131,20 +131,83 @@ tartalmazza a kapott eredményt, ami az összes filternek megfelelő jelentkező
 	\colorbox{lightgray}{{\large JPSMA3} \hspace{4.3cm} {\large ORSI 3. beadandó} \hspace{5.7cm} \thepage}
 \end{center}
 
-\section{Fejlesztői dokumentáció}
+\section{Visszavezetés az adatcsatorna tételére}
 
-\subsection{Megoldási mód}
-A feladatot az adatcsatorna tételére visszavezetve oldjuk meg.\\
-A visszavezetésben az $n$ az input fájl első sorában lévő szám. Az adatcsatorna ($F(d)$) a
+\subsection{Az absztrakt tétel és a finomított specifikáció}
+\begin{center}
+	
+	\fontdimen8\textfont3=1pt %csatornaváltozók miatt
+	$
+	\begin{tabu}{ccccccccccc}
+	A & = & Ch(Candidate) & \times & Ch(Candidate) & \times & \dots &\times & Ch(Candidate) & \times & Ch(Candidate)\\
+	&   & x_{0} & & \overline{x_{0}} & & & & x_{n} &  & \overline{x_{n+1}} \\
+	B & = & Ch(Candidate) & \times & Ch(Candidate) & \times & \dots &\times & Ch(Candidate) & \times & Ch(Candidate)\\
+	&   & x_{0}' & & \overline{x_{0}}' & & & & x_{n}' &  & \overline{x_{n+1}}'
+	\end{tabu}
+	$
+	
+\end{center}
+\begin{itemize}
+	\item $Q ::= (x_{0} = \overline{x_{0}} = x_{0}' = \overline{x_{0}}' = D \land x_{n+1} = \overline{x_{n+1}} = x_{n+1}' = \overline{x_{n+1}}' = <> ) $
+	\item $Q \in INIT_{h}$, ahol $h = x_{0}' \overline{x_{0}}' x_{n}' \overline{x_{n}}'$
+	\item $FP_{h} \Rightarrow  \overline{x_{n}} = F(\overline{x_{0}}') = F(D)$
+	\item $FP_{h} \Rightarrow \forall i \in [0..n]: (f_{i}(\overline{x_{i}}-x_{i}) = \overline{x_{i+1}} ) \in inv_{h}$
+	\item $Q \in TERM_{h}$
+	\item $(\overline{x_{0}} = \overline{x_{0}}' = D) \in inv_{h}$
+	\item Variáns függvénynek tekintsük az $(|x_{0}|, |x_{1}|, \dots, |x_{n}|)$ számot úgy, hogy a rendezett n-es elemeit helyiértékkel súlyozzuk, ahol az egyes csatornákon lévő elemek száma rendre egy $m+1$ alapú számrendszerben felírt szám számjegyeinek felelnek meg.
+\end{itemize}
+
+A visszavezetésben az $n$ az $7$ mivel $7$ db filterünk van. Az adatcsatorna ($F(d)$) a
 teljes filterezési folyamat míg a csatorna feldolgozási pontjait egy-egy filter függyvénynek
 feleltetjük meg.\br
 $
 \begin{matrix}[l]
-	n & \rightsquigarrow & \textbf{N} \\
-	F(d) & \rightsquigarrow & d\text{ jelentkező megfelel-e az összes filternek} \\
-	f_i & \rightsquigarrow  & i\text{-edik filter függyvény}
+n & \rightsquigarrow & 7 \\
+F(d) & \rightsquigarrow & d\text{ jelentkező megfelel-e az összes filternek} \\
+f_i & \rightsquigarrow  & i\text{-edik filter függyvény}
 \end{matrix}
-$\br
+$
+
+\subsection{A csatornán áramló típusok leírása}
+
+\paragraph{}Az adatcsatornán az ábrázolt $Candidate$ típus megfelel egy rendezett 9-esnek az alábbi módon:
+
+$
+\tiny\begin{tabu}{ccccccccccccccccccc}
+Candidate & = & String & \times & String & \times  & String & \times & String &  
+\times  & String & \times & String & \times & \mathbb{N} & \times & \mathbb{N} & \times &
+\mathbb{L}\\
+&   & \_submitdate & & \_job & & \_email &  & \_picfname & & \_cvfname & & \_skills & & 
+\_picsize & & \_cvsize & & Valid
+\end{tabu}
+$
+\paragraph{}
+Az egyes komponensekre az állapottérnél megszokott változókkal lehet hivatkozni a típuson belül.
+
+\newpage
+\thispagestyle{empty}
+\begin{center}
+	\colorbox{lightgray}{{\large JPSMA3} \hspace{4.3cm} {\large ORSI 3. beadandó} \hspace{5.7cm} \thepage}
+\end{center}
+
+\subsection{Az egyes  függvénykomponensek működése}
+Általánosságban: minden függvény paraméterül kapja a hozzá tartozó sort a \textit{filters.txt}
+állományból, majd az alapján elkészíti a filterét és várja az első adatot a bemenő csatornán.
+
+Függvények:\br
+$f_1:\quad$ \textit{DateCompare}: Ellenőrzi, hogy a jelentkező határidő előtt adta-e be a jelentkezését.\br
+$f_2, f_3:\quad$ \textit{EmailAndJob}: Ellenőrzi, hogy megfelelő email szolgátónál van-e a jelentkező illetve, meg van-e hirdetve az általa kiválasztott állás. 
+Mivel a 2 filter ellenőrzése azonosan működik, így egy függvényt tudunk használni mind2 filterre, melyeket paraméterként átadott bináris értékkel különbözetünk meg.\br
+$f_4:\quad$ \textit{SkillCheck}: Ellenőrzi, hogy a jelentkező birtokolja-e az elvárt készségeknek legalalább a felét.\br
+$f_5:\quad$ \textit{CVformat}: Ellenőrzi, hogy a beadott CV megfelelő pdf formátumú-e.\br
+$f_6, f_8:\quad$ \textit{Size\_Check}: Ellenőrzi a beküldött CV illetve profilkép méretet melyeket az $f_2,f_3$ függvényekhez hasonlóan különböztetünk meg.\br
+$f_7:\quad$ \textit{PicFormat}: Ellenőrzi, hogy a feltöltött profilkép formátuma megfelelő-e.\br
+$f_8:\quad$ \textit{FinalPipe}: Amennyiben minden filternek megfelelt a jelentkező, úgy kiírja az email címet az \textit{output.txt} állományba.7
+
+\section{Fejlesztői dokumentáció}
+
+\subsection{Megoldási mód}
+
 A kódot 2 részre lehet bontani, egy fő- és több alfolyamatra. A fő folyamat a \verb|main()|
 függvény, mely először beolvassa a filtereket és azokkal elindítja az adatcsatorna működését
 (alfolyamatok), majd beolvassa a jelentkezők adatait melyeket azután egyből felrak az első csatornára.\br
@@ -166,6 +229,12 @@ jelentkezők száma (\textbf{N}). Egy alfolyamat terminál ha \textbf{N} darab a
 A \verb|Pipe<T>| típus reprezentációja a \verb|pipe.hpp| header fájlban van, míg a kód többi
 része a \verb|crippling_depression.cpp| forrásfájlban található.
 
+\newpage
+\thispagestyle{empty}
+\begin{center}
+	\colorbox{lightgray}{{\large JPSMA3} \hspace{4.3cm} {\large ORSI 3. beadandó} \hspace{5.7cm} \thepage}
+\end{center}
+
 \subsection{Fordítás menete}
 A programunk forráskódját a \verb|crippling_depression.cpp| fájl tartalmazza. A fordításhoz
 elengedhetetlen egy \verb|C++11| szabványt támogató fordítóprogram a rendszeren. Ehhez
@@ -174,12 +243,6 @@ használhatjuk az \textit{MSVC}, \textit{g++} és \textit{clang} bármelyikét. 
 . A speciális, \verb|-std=c++11| kapcsoló azért szükséges, mert alapértelmezés
 szerint ez a verziójú fordítóprogram még a régi, C++98-as szabványt követi, melyben a
 felhasznált nyelvi elemek még nem voltak jelen.
-
-\newpage
-\thispagestyle{empty}
-\begin{center}
-	\colorbox{lightgray}{{\large JPSMA3} \hspace{4.3cm} {\large ORSI 3. beadandó} \hspace{5.7cm} \thepage}
-\end{center}
 
 \subsection{Tesztelés}
 A program tesztelése során különböző méretű bemeneti fájlokat generáltam. Az így kapott
