@@ -82,7 +82,12 @@ void SkillCheck(Pipe<Candidate>& source, Pipe<Candidate>& dest, const int data_c
 void CVformat(Pipe<Candidate>& source, Pipe<Candidate>& dest, const int data_count){
   for(int i=0;i<data_count;++i){
     Candidate curr = source.pop();
-    if(curr.Valid && curr._cvfname.substr(curr._cvfname.size()-4) != ".pdf") curr.Valid=false;
+    if(curr.Valid){
+      //Get the extension of the CV and convert it to uppercase to be easier to check
+      std::string usr_ext = curr._cvfname.substr(curr._cvfname.find_last_of("."));
+      std::transform(usr_ext.begin(), usr_ext.end(), usr_ext.begin(), ::toupper);
+      if(usr_ext != ".PDF") curr.Valid=false;
+    }
     dest.push(curr);
   }
 }
