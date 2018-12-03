@@ -113,6 +113,13 @@ void Picformat(Pipe<Candidate>& source, Pipe<Candidate>& dest, const int data_co
   }
 }
 
+void FinalPipe(Pipe<Candidate>& source, const int data_count, std::ostream& output){
+  for(int i = 0;i<data_count;++i){
+    Candidate curr = source.pop();
+    if(curr.Valid) output << curr._email << std::endl;
+  }
+}
+
 int main()
 {
   std::ofstream output("output.txt");
@@ -120,9 +127,9 @@ int main()
   std::string s;
   getline(input, s);
   int N = std::stoi(s);
-  if( N != 0){
-    std::vector<Pipe<Candidate>> pipes(9);
+  if(N != 0){
     std::ifstream filters("filters.txt");
+    std::vector<Pipe<Candidate>> pipes(9);
     getline(filters, s); std::thread t1(DateCompare, std::ref(pipes[0]), std::ref(pipes[1]), N, s);
     getline(filters, s); std::thread t2(EmailAndJob, std::ref(pipes[1]), std::ref(pipes[2]), N, s, 0);
     getline(filters, s); std::thread t3(EmailAndJob, std::ref(pipes[2]), std::ref(pipes[3]), N, s, 1);
@@ -131,17 +138,14 @@ int main()
     getline(filters, s); std::thread t6(Size_Check, std::ref(pipes[5]), std::ref(pipes[6]), N, std::stoi(s), 0);
     getline(filters, s); std::thread t7(Picformat, std::ref(pipes[6]), std::ref(pipes[7]), N, s);
     getline(filters, s); std::thread t8(Size_Check, std::ref(pipes[7]), std::ref(pipes[8]), N, std::stoi(s), 1);
+    std::thread t9(FinalPipe, std::ref(pipes[8]), N, std::ref(output));
     filters.close();
     while(getline(input, s)){
-      Candidate start(s);
-      pipes[0].push(start);
-    }
-    for(int i = 0;i<N;++i){
-      Candidate curr = pipes[8].pop();
-      if(curr.Valid) output << curr._email << std::endl;
+      Candidate test(s);
+      pipes[0].push(test);
     }
     t1.join();t2.join();t3.join();t4.join();
-    t5.join();t6.join();t7.join();t8.join();
+    t5.join();t6.join();t7.join();t8.join();t9.join();
   }
   input.close();
   output.close();
