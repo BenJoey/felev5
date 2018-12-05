@@ -183,5 +183,54 @@
 		\item $f=\lim f_n\in D(a,b)$
 		\item $f'=\lim f_n'$
 	\end{itemize}
+	\item\textbf{Trigonometrikus polinom és sor definíciója}\br
+	A $\sum\limits_{k=0}^n a_k\cdot cos(k\cdot x)+b_k\cdot sin(k\cdot x)$
+	függvényt trigonometrikus polinomnak,\br a $\sum\limits_{k=0} a_k\cdot
+	cos(k\cdot x)+b_s\cdot sin(k\cdot x)$ sort trigonometrikus sornak nevezzük.
+	\item\textbf{$Valami_3$}\br
+	$R_{2\cdot\pi}=\{f:\R->\R,f\quad 2\cdot\pi\text{ szerint periódikus és}f\in R[0,2\cdot\pi] \}\br
+	C_{2\cdot\pi}=\{f:\R->\R,f\quad 2\cdot\pi\text{ szerint periódikus},f\in C\}$
+	\item\textbf{Ortogonláis definíciója}\br
+	$f,g\in\R_\pi$ ortogonális (merőleges), ha $\int\limits_0^{2\cdot\pi}f\cdot g=0$
+	\item\textbf{Redundáns ortogonális definíciója}\br
+	A $\{\varphi_n , n\in\N \}$ redundáns ortogonális, ha 
+	$\int\limits_0^{2\cdot\pi}\varphi_n\cdot\varphi_m=
+	\left\{
+	\begin{gathered}
+	\quad 0\quad:\quad n\neq m\hspace{5.7cm} \\
+	\quad \neq0\quad:\quad n=m\hspace{5.7cm}
+	\end{gathered}\right.$
+	\item\textbf{Ortonormált definíciója}\br
+	A $\{\varphi_n , n\in\N\}\subset R_{2\cdot\pi}$ ortonormált, ha 
+	$\int\limits_0^{2\cdot\pi}\varphi_n\cdot\varphi_m=
+	\left\{
+	\begin{gathered}
+	\quad 0\quad:\quad n\neq m\hspace{5.7cm} \\
+	\quad 1\quad:\quad n=m\hspace{5.7cm}
+	\end{gathered}\right.$
+	\item\textbf{Trigonometrikus rendszer definíciója}\br
+	Az $\{ 1, \cos x, \sin x, \cos 2x, \sin 2x, ... \}$ rendszer ortogonális.\br
+	Ezt trigonometrikus rendszernek nevezzük.
+	\item\textbf{Teljes trigonometrikus rendszer}\br
+	A trigonometrikus rendszer teljes a $C_{2\cdot\pi}$-n, azaz ha\br$h\in
+	C_{2\cdot\pi}$ és $\int\limits_0^{2\cdot\pi}h(x)\cdot\cos(kx)dx=
+	\int\limits_0^{2\cdot\pi}h(x)\cdot\sin(kx)dx=0\quad\forall k\in\N,\quad
+	\text{akkor }h=0$
+	\item\textbf{$Valami_4$}\br
+	Ha a $\sum\limits_{k=0} a_k\cdot\cos(k*x)+b_k\cdot\sin(k\cdot x)$ sor
+	egyenletesen konvergens, és\br$f(x)=\sum\limits_{k=0}^\infty
+	a_k\cdot\cos(k\cdot x)+b_k\cdot\sin(k\cdot x)$,\br akkor
+	$a_n=\frac{1}{2\cdot\pi}\cdot
+	\int\limits_0^{2\cdot\pi}f\cdot1,a_k=\frac{1}{\pi}\int\limits_0^{2\cdot\pi}
+	f(x)\cdot\cos(k\cdot x)dx,b_k=\frac{1}{\pi}\cdot\int\limits_0^{2\cdot\pi}
+	f(x)\cdot\sin(k\cdot x)dx,\quad k\geq1$
+	\item\textbf{Fourier-együtthatók és Fourier-sor definíciója}\br
+	Ha $f\in R_{2\cdot\pi}$, akkor az $a_n = \frac{1}{2\cdot\pi}\int k,a_k=
+	\frac{1}{\pi}\int\limits_0^{2\cdot\pi}f(x)\cdot\cos(k\cdot x)dx, b_s:=
+	\int\limits_0^{2\cdot\pi}f(x)\cdot\sin(k\cdot x)dx,\br(k\geq1)$
+	számokat $f$ Fourier-együtthatóinak nevezzük.\br A $\sum\limits_{k=0}a_k
+	\cos(k\cdot x)+b_s\cdot\sin(k\cdot x)$ sort $f$ Fourier-soraként nevezzük.
+	\item\textbf{Fejér tétel}\br
+	$\exists f\in C_{2\cdot \pi}$, hogy $f$ Fourer-sora divergál egy adott pontba.
 \end{enumerate}
 \end{document}
