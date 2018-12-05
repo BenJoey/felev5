@@ -104,15 +104,15 @@
 	\item\textbf{DE karakterisztikus polinomjának alaprendszere}\br
 	Ha K-nak $\exists n$ db különböző $\lambda_1, ... , \lambda_n$ gyöke, akkor
 	$\varphi_{j}(t)=e^{\lambda_j\cdot t},j=1,...,n$ alaprendszer.
-	\item\textbf{$Valami_1$}\br
+	\item\textbf{Alaprendszer}\br
 	Tfh. $K(z)=(z-\lambda_1)^{m_1}\cdot...\cdot(z-\lambda_r)^{m_r},\lambda_1,
 	... ,\lambda_r$ különböző gyök, $m_1 + ... + m_r = n$.\br Ekkor
 	$\varphi_{i,j}(t)=e^{\lambda_j\cdot t}\cdot t^i,j=1,..,r,i=0,..,m-1$
 	alaprendszer.
-	\item\textbf{Az inhomogén megoldása (?)}\br
+	\item\textbf{Az inhomogén megoldás}\br
 	Ha $c(t)$ kielégíti a $\Phi(t)\cdot c'(t) = \bar{b}(t)$ egyenletet, akkor
 	$c_1(t)\cdot\varphi_1(t)+...+c_n(t)\cdot\varphi_n(t)\in M_{ih}$
-	\item\textbf{Inhomogén komplex megoldása}\br
+	\item\textbf{Inhomogén komplex megoldás}\br
 	Tekintsük az $y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_0\cdot y=b$ inhomogén
 	DE-t.\br Legyen $\alpha,\beta,A,B,C,D\in\R$ és $\alpha\neq\beta i$ k-szoros
 	gyöke K-nak (ha nem gyök $\Rightarrow k=0$).\br Tfh.: $b(t)=p(t)\cdot
@@ -172,7 +172,7 @@
 	\end{itemize}
 	Ekkor $f=\sum\limits_{n=0}^\infty f_n\in R[a,b]$ és $\int\limits_a^b f=
 	\sum\limits_{n=0}^\infty\int\limits_a^b f_n$
-	\item\textbf{$Valami_2$}\br
+	\item\textbf{Deriválható függvénysorozat egyenletes konvergenciája}\br
 	Tfh: \begin{itemize}
 		\item $f_n(a,b)\rightarrow\R,f_n\in D(a,b), n\in\N$
 		\item $\exists x_0\in(a,b):(f_n(x_0))$ konv.
@@ -187,7 +187,7 @@
 	A $\sum\limits_{k=0}^n a_k\cdot cos(k\cdot x)+b_k\cdot sin(k\cdot x)$
 	függvényt trigonometrikus polinomnak,\br a $\sum\limits_{k=0} a_k\cdot
 	cos(k\cdot x)+b_s\cdot sin(k\cdot x)$ sort trigonometrikus sornak nevezzük.
-	\item\textbf{$Valami_3$}\br
+	\item\textbf{$R_{2\cdot\pi}\text{ és }C_{2\cdot\pi}$}\br
 	$R_{2\cdot\pi}=\{f:\R->\R,f\quad 2\cdot\pi\text{ szerint periódikus és}f\in R[0,2\cdot\pi] \}\br
 	C_{2\cdot\pi}=\{f:\R->\R,f\quad 2\cdot\pi\text{ szerint periódikus},f\in C\}$
 	\item\textbf{Ortogonláis definíciója}\br
@@ -216,13 +216,13 @@
 	C_{2\cdot\pi}$ és $\int\limits_0^{2\cdot\pi}h(x)\cdot\cos(kx)dx=
 	\int\limits_0^{2\cdot\pi}h(x)\cdot\sin(kx)dx=0\quad\forall k\in\N,\quad
 	\text{akkor }h=0$
-	\item\textbf{$Valami_4$}\br
+	\item\textbf{Fourier-sor felírása}\br
 	Ha a $\sum\limits_{k=0} a_k\cdot\cos(k*x)+b_k\cdot\sin(k\cdot x)$ sor
 	egyenletesen konvergens, és\br$f(x)=\sum\limits_{k=0}^\infty
 	a_k\cdot\cos(k\cdot x)+b_k\cdot\sin(k\cdot x)$,\br akkor
 	$a_n=\frac{1}{2\cdot\pi}\cdot
 	\int\limits_0^{2\cdot\pi}f\cdot1,a_k=\frac{1}{\pi}\int\limits_0^{2\cdot\pi}
-	f(x)\cdot\cos(k\cdot x)dx,b_k=\frac{1}{\pi}\cdot\int\limits_0^{2\cdot\pi}
+	f(x)\cdot\cos(k\cdot x)dx\text{ és}\br b_k=\frac{1}{\pi}\cdot\int\limits_0^{2\cdot\pi}
 	f(x)\cdot\sin(k\cdot x)dx,\quad k\geq1$
 	\item\textbf{Fourier-együtthatók és Fourier-sor definíciója}\br
 	Ha $f\in R_{2\cdot\pi}$, akkor az $a_n = \frac{1}{2\cdot\pi}\int k,a_k=
