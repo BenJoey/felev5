@@ -216,7 +216,7 @@ int main(){
     }
     if(count == 0) quit = 1;
     free(Model.full_log);
-    kill(pid, SIGKILL);
+    kill(pid, SIGTERM);
   }
   return 0;
 }
