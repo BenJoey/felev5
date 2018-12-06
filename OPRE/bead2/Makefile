@@ -1,10 +1,10 @@
 default: run
 
 compile:
-	gcc bead2.c -o bead2
+	gcc bead2.c -lrt -o bead2
 
 run:
-	gcc bead2.c -o bead2
+	gcc bead2.c -lrt -o bead2
 	./bead2
 
 gen:

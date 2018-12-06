@@ -154,6 +154,7 @@ int main(){
       kill(getppid(), SIGUSR1);
       child_input_t input;
       read(pipefd[0], &input, sizeof(child_input_t));
+      printf("Child: Munka erkezett\n");
       child_output_t output;
       output.NumOfOrd = input.NumOfOrd;
       int i;
@@ -162,9 +163,11 @@ int main(){
       strncpy(output.msg, "InProgress", 15);
       close(pipefd[0]);
       write(pipefd[1], &output, sizeof(child_output_t));
+      printf("Child: Munka elkezdve\n");
       sleep(3);
       strncpy(output.msg, "Done", 15);
       write(pipefd[1], &output, sizeof(child_output_t));
+      printf("Child: Munka befejezve\n");
       kill(getppid(), SIGUSR1);
       exit(0);
     } else{ //parent process
@@ -182,11 +185,13 @@ int main(){
         toSend.Orders[1] = temp.second;
       }
       if(weekold != -1 || temp.first != -1){
+        printf("Parent: Munka elkuldve gyereknek\n");
         write(pipefd[1], &toSend, sizeof(child_input_t));
         close(pipefd[1]);
         pause();
         child_output_t res;
         read(pipefd[0], &res, sizeof(child_output_t));
+        printf("Parent: Gyerek dolgozik rajta\n");
         for(i=0;i<res.NumOfOrd;++i){
           order_t* curr = &(Model.full_log[res.Orders[i]]);
           strncpy(curr->state, res.msg, 15);
@@ -198,9 +203,11 @@ int main(){
           order_t* curr = &(Model.full_log[res.Orders[i]]);
           strncpy(curr->state, res.msg, 15);
         }
+        printf("Parent: Gyerek befejezte a munkat\n");
         save_data(&Model);
         close(pipefd[0]);
       }
+      else quit = 1;
     }
     int count = 0;
     for(i=0;i<Model.length;++i){
@@ -209,6 +216,7 @@ int main(){
     }
     if(count == 0) quit = 1;
     free(Model.full_log);
+    kill(pid, SIGKILL);
   }
   return 0;
 }
