@@ -65,13 +65,13 @@
 		\item Az $x'=A\cdot x+b$ összes megoldása: $\psi(t)=\Phi(t)\cdot c+\Phi(t)\cdot
 		\int\limits_{\tau}^t \Phi(s)^{-1}b(s)ds$
 		\item Az $x'=A\cdot x+b, x(\tau)=\xi$ KÉP globálisan egyértelmű megoldható:\br
-		$\psi(t)=\Phi(t)\cdot\Phi(t)^{-1}\cdot\xi+\Phi(t)\cdot\int\limits_{\tau}^t
+		$\psi(t)=\Phi(t)\cdot\Phi(\tau)^{-1}\cdot\xi+\Phi(t)\cdot\int\limits_{\tau}^t
 		\Phi(s)^{-1}b(s)ds$
 	\end{itemize}
 	\newpage
 	\item\textbf{n-edrendű DE}\br
 	$D\subset\R^{n+1}$ tartomány, $h:I\rightarrow\R$ folytonos függvény.\br
-	Az $y^{(y)}(t)=b(t,y(t),y'(t),..,y^{(n-1)}(t))$ feladatot n-edrendű DE-nek nevezzük, ahol\br
+	Az $y^{(n)}(t)=h(t,y(t),y'(t),..,y^{(n-1)}(t))$ feladatot n-edrendű DE-nek nevezzük, ahol\br
 	$y:I\rightarrow\R,y\in C^n,I\subset\R$ nyílt intervallum.
 	\item\textbf{Átviteli elv (n-edrendű DE-re)}\br
 	$\varphi$ kielégíti az $y^{(n)}=h\circ(id,y,...,y^{(n-1)})$ DE-t $\Leftrightarrow\psi$
@@ -154,7 +154,7 @@
 	Tekintsük a $\sum f_n$ függvénysort és a $\sum a_n$ számsort. Tfh:
 	\begin{itemize}
 		\item $\forall x\in A:\abs{f_n(x)}\leq a_n$
-		\item $\sum a_n$ sor.
+		\item $\sum a_n$ sor konvergens
 	\end{itemize}
 	Ekkor $\sum f_n$ egyenletesen konvergens.
 	\item\textbf{Egyenletesen konvergens függvény integráltja}\br
@@ -220,8 +220,8 @@
 	Ha a $\sum\limits_{k=0} a_k\cdot\cos(k*x)+b_k\cdot\sin(k\cdot x)$ sor
 	egyenletesen konvergens, és\br$f(x)=\sum\limits_{k=0}^\infty
 	a_k\cdot\cos(k\cdot x)+b_k\cdot\sin(k\cdot x)$,\br akkor
-	$a_n=\frac{1}{2\cdot\pi}\cdot
-	\int\limits_0^{2\cdot\pi}f\cdot1,a_k=\frac{1}{\pi}\int\limits_0^{2\cdot\pi}
+	$a_0=\frac{1}{2\cdot\pi}\cdot\int\limits_0^{2\cdot\pi}f\cdot1,\quad
+	a_k=\frac{1}{\pi}\int\limits_0^{2\cdot\pi}
 	f(x)\cdot\cos(k\cdot x)dx\text{ és}\br b_k=\frac{1}{\pi}\cdot\int\limits_0^{2\cdot\pi}
 	f(x)\cdot\sin(k\cdot x)dx,\quad k\geq1$
 	\item\textbf{Fourier-együtthatók és Fourier-sor definíciója}\br
