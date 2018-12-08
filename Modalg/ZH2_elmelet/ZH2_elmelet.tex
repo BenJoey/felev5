@@ -70,7 +70,7 @@
 	\end{itemize}
 	\newpage
 	\item\textbf{n-edrendű DE}\br
-	$D\subset\R^{n+1}$ tartomány, $h:I\rightarrow\R$ folytonos függvény.\br
+	$D\subset\R^{n+1}$ tartomány, $h:D\rightarrow\R$ folytonos függvény.\br
 	Az $y^{(n)}(t)=h(t,y(t),y'(t),..,y^{(n-1)}(t))$ feladatot n-edrendű DE-nek nevezzük, ahol\br
 	$y:I\rightarrow\R,y\in C^n,I\subset\R$ nyílt intervallum.
 	\item\textbf{Átviteli elv (n-edrendű DE-re)}\br
@@ -109,13 +109,13 @@
 	... ,\lambda_r$ különböző gyök, $m_1 + ... + m_r = n$.\br Ekkor
 	$\varphi_{i,j}(t)=e^{\lambda_j\cdot t}\cdot t^i,j=1,..,r,i=0,..,m-1$
 	alaprendszer.
-	\item\textbf{Az inhomogén megoldás}\br
+	\item\textbf{Inhomogén megoldás}\br
 	Ha $c(t)$ kielégíti a $\Phi(t)\cdot c'(t) = \bar{b}(t)$ egyenletet, akkor
 	$c_1(t)\cdot\varphi_1(t)+...+c_n(t)\cdot\varphi_n(t)\in M_{ih}$
 	\item\textbf{Inhomogén komplex megoldás}\br
 	Tekintsük az $y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_0\cdot y=b$ inhomogén
-	DE-t.\br Legyen $\alpha,\beta,A,B,C,D\in\R$ és $\alpha\neq\beta i$ k-szoros
-	gyöke K-nak (ha nem gyök $\Rightarrow k=0$).\br Tfh.: $b(t)=p(t)\cdot
+	DE-t.\br Legyen $\alpha,\beta,A,B,C,D\in\R$ és $\alpha+\beta i$ k-szoros
+	gyöke K-nak (ha nem gyök $\Rightarrow k=0$).\br Tfh.: $b(t)=P(t)\cdot
 	e^{\lambda\cdot t}\cdot(A\cdot \cos(\beta)\cdot t+B\cdot\sin(\beta)
 	\cdot t).$\br Ekkor $\exists\varphi(t)=t^k\cdot Q(t)\cdot e^{\alpha\cdot t}
 	\cdot(C\cdot\cos(\beta)\cdot t+D\cdot\sin(\beta)\cdot t)\in M_{ih}$,
@@ -124,10 +124,10 @@
 	\item\textbf{Függvénysorozat, függvénysor definíciója}
 	\begin{itemize}
 		\item Az $(f_n)$ sorozatot függvénysorozatnak nevezzük.
-		\item$\sum$ fv-t függvénysornak nevezzük, ahol $\sum f_n=
+		\item$\sum f_n$-t függvénysornak nevezzük, ahol $\sum f_n=
 		(\sum\limits_{k=0}^n f_k, n\in\N)$
 	\end{itemize}
-	\item\textbf{Függvénysorozat határértéke, függvénysor összege (?)}\br
+	\item\textbf{Függvénysorozat határértéke, függvénysor összege}\br
 	$KH(f_n)=\{x\in A:f_n(x)\text{ konvergens}\}\br
 	KH(\sum f_n)=\{x\in A:\sum f_n(x)\text{ konvergens}\}\br
 	\lim fn:KH(f_n)\rightarrow\R,x\mapsto lim f_n(x)\br
@@ -217,7 +217,7 @@
 	\int\limits_0^{2\cdot\pi}h(x)\cdot\sin(kx)dx=0\quad\forall k\in\N,\quad
 	\text{akkor }h=0$
 	\item\textbf{Fourier-sor felírása}\br
-	Ha a $\sum\limits_{k=0} a_k\cdot\cos(k*x)+b_k\cdot\sin(k\cdot x)$ sor
+	Ha a $\sum\limits_{k=0} a_k\cdot\cos(k\cdot x)+b_k\cdot\sin(k\cdot x)$ sor
 	egyenletesen konvergens, és\br$f(x)=\sum\limits_{k=0}^\infty
 	a_k\cdot\cos(k\cdot x)+b_k\cdot\sin(k\cdot x)$,\br akkor
 	$a_0=\frac{1}{2\cdot\pi}\cdot\int\limits_0^{2\cdot\pi}f\cdot1,\quad
@@ -225,8 +225,8 @@
 	f(x)\cdot\cos(k\cdot x)dx\text{ és}\br b_k=\frac{1}{\pi}\cdot\int\limits_0^{2\cdot\pi}
 	f(x)\cdot\sin(k\cdot x)dx,\quad k\geq1$
 	\item\textbf{Fourier-együtthatók és Fourier-sor definíciója}\br
-	Ha $f\in R_{2\cdot\pi}$, akkor az $a_n = \frac{1}{2\cdot\pi}\int k,a_k=
-	\frac{1}{\pi}\int\limits_0^{2\cdot\pi}f(x)\cdot\cos(k\cdot x)dx, b_s:=
+	Ha $f\in R_{2\cdot\pi}$, akkor az $a_0=\frac{1}{2\cdot\pi}\int f,\quad a_k=
+	\frac{1}{\pi}\int\limits_0^{2\cdot\pi}f(x)\cdot\cos(k\cdot x)dx,\quad b_k:=
 	\int\limits_0^{2\cdot\pi}f(x)\cdot\sin(k\cdot x)dx,\br(k\geq1)$
 	számokat $f$ Fourier-együtthatóinak nevezzük.\br A $\sum\limits_{k=0}a_k
 	\cos(k\cdot x)+b_s\cdot\sin(k\cdot x)$ sort $f$ Fourier-soraként nevezzük.
