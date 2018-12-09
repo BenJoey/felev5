@@ -57,7 +57,7 @@
 	Tekintsük az $x'=A\cdot x$ lin DER-t. Tfh. $A$ állandó mátrix és $A$-nak $\exists$ $n$
 	db lineárisan független saját vektora $s_1,...,s_n$, a hozzájuk tartozó
 	$\lambda_1,...,\lambda_n$ sajátértékekkel.\br
-	Ekkor $\varphi^{(n)}_{(t)}=s_i\cdot e^{\lambda_i\cdot t}\quad i=1,..,n$ egy alaprendszer.
+	Ekkor $\varphi^{(i)}_{(t)}=s_i\cdot e^{\lambda_i\cdot t}\quad i=1,..,n$ egy alaprendszer.
 	\item\textbf{Homogén és inhomogén megoldás kapcsolata}\br
 	Ha $\psi_0\in M_{ih}$, akkor $M_{ih}=\{\psi_0+M_h\}=\{\psi_0+\varphi:\varphi\in M_h\}$
 	\item\textbf{Inhomogén megoldás felírása}
@@ -186,7 +186,7 @@
 	\item\textbf{Trigonometrikus polinom és sor definíciója}\br
 	A $\sum\limits_{k=0}^n a_k\cdot cos(k\cdot x)+b_k\cdot sin(k\cdot x)$
 	függvényt trigonometrikus polinomnak,\br a $\sum\limits_{k=0} a_k\cdot
-	cos(k\cdot x)+b_s\cdot sin(k\cdot x)$ sort trigonometrikus sornak nevezzük.
+	cos(k\cdot x)+b_k\cdot sin(k\cdot x)$ sort trigonometrikus sornak nevezzük.
 	\item\textbf{$R_{2\cdot\pi}\text{ és }C_{2\cdot\pi}$}\br
 	$R_{2\cdot\pi}=\{f:\R->\R,f\quad 2\cdot\pi\text{ szerint periódikus és}f\in R[0,2\cdot\pi] \}\br
 	C_{2\cdot\pi}=\{f:\R->\R,f\quad 2\cdot\pi\text{ szerint periódikus},f\in C\}$
@@ -229,8 +229,8 @@
 	\frac{1}{\pi}\int\limits_0^{2\cdot\pi}f(x)\cdot\cos(k\cdot x)dx,\quad b_k:=
 	\int\limits_0^{2\cdot\pi}f(x)\cdot\sin(k\cdot x)dx,\br(k\geq1)$
 	számokat $f$ Fourier-együtthatóinak nevezzük.\br A $\sum\limits_{k=0}a_k
-	\cos(k\cdot x)+b_s\cdot\sin(k\cdot x)$ sort $f$ Fourier-soraként nevezzük.
+	\cos(k\cdot x)+b_k\cdot\sin(k\cdot x)$ sort $f$ Fourier-soraként nevezzük.
 	\item\textbf{Fejér tétel}\br
-	$\exists f\in C_{2\cdot \pi}$, hogy $f$ Fourer-sora divergál egy adott pontba.
+	$\exists f\in C_{2\cdot \pi}$, hogy $f$ Fourier-sora divergál egy adott pontba.
 \end{enumerate}
 \end{document}
