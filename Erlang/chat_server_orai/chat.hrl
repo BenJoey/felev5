@@ -1,0 +1,2 @@
+-define(Chat, chat_iface).
+-define(texttag, text).
