@@ -116,9 +116,9 @@
 	Tekintsük az $y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_0\cdot y=b$ inhomogén
 	DE-t.\br Legyen $\alpha,\beta,A,B,C,D\in\R$ és $\alpha+\beta i$ k-szoros
 	gyöke K-nak (ha nem gyök $\Rightarrow k=0$).\br Tfh.: $b(t)=P(t)\cdot
-	e^{\lambda\cdot t}\cdot(A\cdot \cos(\beta)\cdot t+B\cdot\sin(\beta)
-	\cdot t).$\br Ekkor $\exists\varphi(t)=t^k\cdot Q(t)\cdot e^{\alpha\cdot t}
-	\cdot(C\cdot\cos(\beta)\cdot t+D\cdot\sin(\beta)\cdot t)\in M_{ih}$,
+	e^{\lambda\cdot t}\cdot(A\cdot \cos(\beta\cdot t)+B\cdot\sin(\beta\cdot t)).$
+	\br Ekkor $\exists\varphi(t)=t^k\cdot Q(t)\cdot e^{\alpha\cdot t}
+	\cdot(C\cdot\cos(\beta\cdot t)+D\cdot\sin(\beta\cdot t))\in M_{ih}$,
 	\br ahol P és Q polinomok és Q foka $\leq$ P foka.
 	\newpage
 	\item\textbf{Függvénysorozat, függvénysor definíciója}
@@ -141,8 +141,8 @@
 	\item\textbf{$(f_n)$ egyenletes konvergenciája és $f_n,f$ kapcsolata}\br
 	$f_n\egorbenyil f
 	\Rightarrow f_n\rightarrow f$ pontonként.
-	\item\textbf{Függvénysorozat abszolút konvergenciája}\br
-	$f_n$ egyenletesen konvergeny $\Leftrightarrow\forall\varepsilon>0,
+	\item\textbf{Egyenletes konvergencia szükséges feltétele}\br
+	$f_n$ egyenletesen konvergens $\Leftrightarrow\forall\varepsilon>0,
 	\exists n_0\in\N,\forall n,m\geq n_0,\forall x\in A:\abs{f_n(x) - f_m(x)}< \varepsilon$
 	\item\textbf{Függvénysorozat határértékének folytonossága}\br
 	Ha \begin{itemize}
@@ -191,7 +191,7 @@
 	$R_{2\cdot\pi}=\{f:\R->\R,f\quad 2\cdot\pi\text{ szerint periódikus és}f\in R[0,2\cdot\pi] \}\br
 	C_{2\cdot\pi}=\{f:\R->\R,f\quad 2\cdot\pi\text{ szerint periódikus},f\in C\}$
 	\item\textbf{Ortogonláis definíciója}\br
-	$f,g\in\R_\pi$ ortogonális (merőleges), ha $\int\limits_0^{2\cdot\pi}f\cdot g=0$
+	$f,g\in\R_{2\cdot\pi}$ ortogonális (merőleges), ha $\int\limits_0^{2\cdot\pi}f\cdot g=0$
 	\item\textbf{Redundáns ortogonális definíciója}\br
 	A $\{\varphi_n , n\in\N \}$ redundáns ortogonális, ha 
 	$\int\limits_0^{2\cdot\pi}\varphi_n\cdot\varphi_m=
@@ -227,7 +227,7 @@
 	\item\textbf{Fourier-együtthatók és Fourier-sor definíciója}\br
 	Ha $f\in R_{2\cdot\pi}$, akkor az $a_0=\frac{1}{2\cdot\pi}\int f,\quad a_k=
 	\frac{1}{\pi}\int\limits_0^{2\cdot\pi}f(x)\cdot\cos(k\cdot x)dx,\quad b_k:=
-	\int\limits_0^{2\cdot\pi}f(x)\cdot\sin(k\cdot x)dx,\br(k\geq1)$
+	\frac{1}{\pi}\int\limits_0^{2\cdot\pi}f(x)\cdot\sin(k\cdot x)dx,\br(k\geq1)$
 	számokat $f$ Fourier-együtthatóinak nevezzük.\br A $\sum\limits_{k=0}a_k
 	\cos(k\cdot x)+b_k\cdot\sin(k\cdot x)$ sort $f$ Fourier-soraként nevezzük.
 	\item\textbf{Fejér tétel}\br
