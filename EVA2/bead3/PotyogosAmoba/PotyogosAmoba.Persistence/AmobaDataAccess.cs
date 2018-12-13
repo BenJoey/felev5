@@ -1,6 +1,7 @@
 ﻿using System;
-using PotyogosAmoba.Model;
 using System.Threading.Tasks;
+
+public enum Player { NoPlayer, PlayerX, Player0 }
 
 namespace PotyogosAmoba.Persistence
 {

@@ -1,6 +1,5 @@
 ﻿using System;
 using PotyogosAmoba.Persistence;
-using PotyogosAmoba.Model;
 using System.Threading.Tasks;
 
 namespace PotyogosAmoba.Test

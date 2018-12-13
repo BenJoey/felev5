@@ -75,9 +75,6 @@
   <ItemGroup>
     <Compile Include="Model\AmobaEvent.cs" />
     <Compile Include="Model\PAmobaModel.cs" />
-    <Compile Include="Persistence\AmobaDataAccess.cs" />
-    <Compile Include="Persistence\AmobaException.cs" />
-    <Compile Include="Persistence\AmobaFileDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -103,6 +100,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\PotyogosAmoba.Persistence.File\PotyogosAmoba.Persistence.File.csproj">
+      <Project>{883a223b-ebd7-49bf-bd14-fa627ef2fcec}</Project>
+      <Name>PotyogosAmoba.Persistence.File</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PotyogosAmoba.Persistence\PotyogosAmoba.Persistence.csproj">
+      <Project>{ec25a9ca-8555-48cb-9080-63077030d55f}</Project>
+      <Name>PotyogosAmoba.Persistence</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

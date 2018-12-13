@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace PotyogosAmoba.Model
 {
-    public enum Player { NoPlayer, PlayerX, Player0}
+    //public enum Player { NoPlayer, PlayerX, Player0}
 
     public class PAmobaModel
     {

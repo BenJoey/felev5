@@ -57,8 +57,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PotyogosAmoba.Persistence\PotyogosAmoba.Persistence.csproj">
+      <Project>{ec25a9ca-8555-48cb-9080-63077030d55f}</Project>
+      <Name>PotyogosAmoba.Persistence</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PotyogosAmoba\PotyogosAmoba.csproj">
-      <Project>{f5f5f252-b5ab-4557-87b3-4a3e4033b347}</Project>
+      <Project>{23020616-fcc0-4e6f-84ce-145df88f5b24}</Project>
       <Name>PotyogosAmoba</Name>
     </ProjectReference>
   </ItemGroup>

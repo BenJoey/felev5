@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PotyogosAmoba", "PotyogosAm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PotyogosAmobaTest", "PotyogosAmobaTest\PotyogosAmobaTest.csproj", "{662B5938-5694-49FE-825D-EDFEA5DC2E60}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PotyogosAmoba.Persistence", "PotyogosAmoba.Persistence\PotyogosAmoba.Persistence.csproj", "{EC25A9CA-8555-48CB-9080-63077030D55F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PotyogosAmoba.Persistence.File", "PotyogosAmoba.Persistence.File\PotyogosAmoba.Persistence.File.csproj", "{883A223B-EBD7-49BF-BD14-FA627EF2FCEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{662B5938-5694-49FE-825D-EDFEA5DC2E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{662B5938-5694-49FE-825D-EDFEA5DC2E60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{662B5938-5694-49FE-825D-EDFEA5DC2E60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC25A9CA-8555-48CB-9080-63077030D55F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC25A9CA-8555-48CB-9080-63077030D55F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC25A9CA-8555-48CB-9080-63077030D55F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC25A9CA-8555-48CB-9080-63077030D55F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{883A223B-EBD7-49BF-BD14-FA627EF2FCEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{883A223B-EBD7-49BF-BD14-FA627EF2FCEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{883A223B-EBD7-49BF-BD14-FA627EF2FCEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{883A223B-EBD7-49BF-BD14-FA627EF2FCEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
