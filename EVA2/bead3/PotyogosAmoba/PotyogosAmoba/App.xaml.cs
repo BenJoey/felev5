@@ -49,8 +49,8 @@ namespace PotyogosAmoba
             _viewModel = new AmobaViewModel(_model);
             _viewModel.NewGame += new EventHandler<Int32>(ViewModel_NewGame);
             _viewModel.ExitGame += new EventHandler(ViewModel_ExitGame);
-            _viewModel.LoadGame += new EventHandler(ViewModel_LoadGame);
-            _viewModel.SaveGame += new EventHandler(ViewModel_SaveGame);
+            _viewModel.LoadGameOpen += new EventHandler(ViewModel_LoadGame);
+            _viewModel.SaveGameOpen += new EventHandler(ViewModel_SaveGame);
             _viewModel.GamePause += new EventHandler(ViewModel_GamePause);
 
             // nézet létrehozása

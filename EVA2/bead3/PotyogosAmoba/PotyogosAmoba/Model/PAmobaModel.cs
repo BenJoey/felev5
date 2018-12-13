@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using PotyogosAmoba.Persistence;
 using System.Threading.Tasks;
 
@@ -150,13 +151,13 @@ namespace PotyogosAmoba.Model
         /// <summary>
         /// Játék betöltése.
         /// </summary>
-        /// <param name="path">Elérési útvonal.</param>
-        public async Task LoadGame(String path)
+        /// <param name="name">Elérési útvonal.</param>
+        public async Task LoadGame(String name)
         {
             if (_dataAccess == null)
                 throw new InvalidOperationException("No data access is provided.");
 
-            Tuple<Int32, Int32, Int32, Player, Player[,]> Loaded_data = await _dataAccess.LoadAsync(path);
+            Tuple<Int32, Int32, Int32, Player, Player[,]> Loaded_data = await _dataAccess.LoadAsync(name);
             gameSize = Loaded_data.Item1;
             playerXTime = Loaded_data.Item2;
             player0Time = Loaded_data.Item3;
@@ -175,6 +176,17 @@ namespace PotyogosAmoba.Model
                 throw new InvalidOperationException("No data access is provided.");
 
             await _dataAccess.SaveAsync(path, Tuple.Create(gameSize, playerXTime, player0Time, _currentPlayer, gameTable));
+        }
+
+        /// <summary>
+        /// Játék mentések lekérése.
+        /// </summary>
+        public async Task<ICollection<SaveEntry>> ListGamesAsync()
+        {
+            if (_dataAccess == null)
+                throw new InvalidOperationException("No data access is provided.");
+
+            return await _dataAccess.ListAsync();
         }
 
         #endregion

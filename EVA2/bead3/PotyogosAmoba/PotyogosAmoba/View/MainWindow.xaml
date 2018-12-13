@@ -15,8 +15,8 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="Fájl">
-                <MenuItem Header="Játék betöltése..." Command="{Binding LoadGameCommand}" />
-                <MenuItem Header="Játék mentése..." Command="{Binding SaveGameCommand}" />
+                <MenuItem Header="Játék betöltése..." Command="{Binding LoadGameOpenCommand}" />
+                <MenuItem Header="Játék mentése..." Command="{Binding SaveGameOpenCommand}" />
                 <Separator />
                 <MenuItem Header="Kilépés" Command="{Binding ExitCommand}" />
             </MenuItem>

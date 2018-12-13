@@ -1,5 +1,6 @@
 ﻿using System;
 using PotyogosAmoba.Model;
+using PotyogosAmoba.Persistence;
 using System.Collections.ObjectModel;
 
 namespace PotyogosAmoba.ViewModel
@@ -12,6 +13,8 @@ namespace PotyogosAmoba.ViewModel
         #region Fields
 
         private PAmobaModel _model; //játékmodell
+        private SaveEntry _selectedgame;
+        private String _newName = String.Empty;
         Boolean isPaused;
 
         #endregion
@@ -26,12 +29,22 @@ namespace PotyogosAmoba.ViewModel
         /// <summary>
         /// Játék betöltése parancs lekérdezése.
         /// </summary>
-        public DelegateCommand LoadGameCommand { get; private set; }
+        public DelegateCommand LoadGameOpenCommand { get; private set; }
+
+        /// <summary>
+        /// Játék betöltése parancs lekérdezése.
+        /// </summary>
+        public DelegateCommand LoadGameCloseCommand { get; private set; }
 
         /// <summary>
         /// Játék mentése parancs lekérdezése.
         /// </summary>
-        public DelegateCommand SaveGameCommand { get; private set; }
+        public DelegateCommand SaveGameOpenCommand { get; private set; }
+
+        /// <summary>
+        /// Játék mentése parancs lekérdezése.
+        /// </summary>
+        public DelegateCommand SaveGameCloseCommand { get; private set; }
 
         /// <summary>
         /// Kilépés parancs lekérdezése.
@@ -81,6 +94,44 @@ namespace PotyogosAmoba.ViewModel
         /// </summary>
         public String CurrPlay { get { return _model.CurrentPlayer == Player.PlayerX ? "X" : "O"; } }
 
+        /// <summary>
+        /// Perzisztens játékállapot mentések lekérdezése.
+        /// </summary>
+        public ObservableCollection<SaveEntry> Games { get; set; }
+
+        /// <summary>
+        /// Kiválasztott játékállapot mentés lekérdezése.
+        /// </summary>
+        public SaveEntry SelectedGame
+        {
+            get { return _selectedgame; }
+            set
+            {
+                _selectedgame = value;
+                if (_selectedgame != null)
+                    NewName = String.Copy(_selectedgame.Name);
+
+                OnPropertyChanged();
+                LoadGameCloseCommand.RaiseCanExecuteChanged();
+                SaveGameCloseCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        /// <summary>
+        /// Új játék mentés nevének lekérdezése.
+        /// </summary>
+        public String NewName
+        {
+            get { return _newName; }
+            set
+            {
+                _newName = value;
+
+                OnPropertyChanged();
+                SaveGameCloseCommand.RaiseCanExecuteChanged();
+            }
+        }
+
         #endregion
 
         #region Events
@@ -93,12 +144,22 @@ namespace PotyogosAmoba.ViewModel
         /// <summary>
         /// Játék betöltésének eseménye.
         /// </summary>
-        public event EventHandler LoadGame;
+        public event EventHandler LoadGameOpen;
+
+        /// <summary>
+        /// Játék betöltésének eseménye.
+        /// </summary>
+        public event EventHandler<String> LoadGameClose;
 
         /// <summary>
         /// Játék mentésének eseménye.
         /// </summary>
-        public event EventHandler SaveGame;
+        public event EventHandler SaveGameOpen;
+
+        /// <summary>
+        /// Játék mentésének eseménye.
+        /// </summary>
+        public event EventHandler<String> SaveGameClose;
 
         /// <summary>
         /// Játékból való kilépés eseménye.
@@ -126,8 +187,22 @@ namespace PotyogosAmoba.ViewModel
             _model.Reset += new EventHandler(Model_Reset);
 
             NewGameCommand = new DelegateCommand(param => OnNewGame(Convert.ToInt32(param)));
-            LoadGameCommand = new DelegateCommand(param => OnLoadGame());
-            SaveGameCommand = new DelegateCommand(param => OnSaveGame());
+            LoadGameOpenCommand = new DelegateCommand(async param =>
+            {
+                Games = new ObservableCollection<SaveEntry>(await _model.ListGamesAsync());
+                OnLoadGameOpen();
+            });
+            LoadGameCloseCommand = new DelegateCommand(
+                param => SelectedGame != null, // parancs végrehajthatóságának feltétele
+                param => { OnLoadGameClose(SelectedGame.Name); });
+            SaveGameOpenCommand = new DelegateCommand(async param =>
+            {
+                Games = new ObservableCollection<SaveEntry>(await _model.ListGamesAsync());
+                OnSaveGameOpen();
+            });
+            SaveGameCloseCommand = new DelegateCommand(
+                param => NewName.Length > 0, // parancs végrehajthatóságának feltétele
+                param => { OnSaveGameClose(NewName); });
             ExitCommand = new DelegateCommand(param => OnExitGame());
             PauseCommand = new DelegateCommand(param => OnGamePause());
 
@@ -249,24 +324,40 @@ namespace PotyogosAmoba.ViewModel
                 NewGame(this, newSize);
         }
 
-
-
         /// <summary>
-        /// Játék betöltése eseménykiváltása.
+        /// Játék betöltés választásának eseménykiváltása.
         /// </summary>
-        private void OnLoadGame()
+        private void OnLoadGameOpen()
         {
-            if (LoadGame != null)
-                LoadGame(this, EventArgs.Empty);
+            if (LoadGameOpen != null)
+                LoadGameOpen(this, EventArgs.Empty);
         }
 
         /// <summary>
-        /// Játék mentése eseménykiváltása.
+        /// Játék betöltésének eseménykiváltása.
         /// </summary>
-        private void OnSaveGame()
+        private void OnLoadGameClose(String name)
         {
-            if (SaveGame != null)
-                SaveGame(this, EventArgs.Empty);
+            if (LoadGameClose != null)
+                LoadGameClose(this, name);
+        }
+
+        /// <summary>
+        /// Játék mentés választásának eseménykiváltása.
+        /// </summary>
+        private void OnSaveGameOpen()
+        {
+            if (SaveGameOpen != null)
+                SaveGameOpen(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Játék mentésének eseménykiváltása.
+        /// </summary>
+        private void OnSaveGameClose(String name)
+        {
+            if (SaveGameClose != null)
+                SaveGameClose(this, name);
         }
 
         /// <summary>
