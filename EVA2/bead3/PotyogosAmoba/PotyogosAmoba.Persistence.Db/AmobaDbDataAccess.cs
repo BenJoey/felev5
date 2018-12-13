@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PotyogosAmoba.Persistence
 {
     /// <summary>
-    /// Sudoku perzisztencia adatbáziskezelő típusa.
+    /// PotyogosAmoba perzisztencia adatbáziskezelő típusa.
     /// </summary>
 	public class AmobaDbDataAccess : IAmobaDataAccess
     {
