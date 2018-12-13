@@ -25,7 +25,7 @@ namespace PotyogosAmoba.Persistence
         /// <summary>
         /// Fájl betöltése.
         /// </summary>
-        /// <param name="path">Elérési útvonal.</param>
+        /// <param name="name">Elérési útvonal.</param>
         /// <returns>A fájlból beolvasott játékadatok.</returns>
         public async Task<Tuple<Int32, Int32, Int32, Player, Player[,]>> LoadAsync(String name)
         {
@@ -63,13 +63,13 @@ namespace PotyogosAmoba.Persistence
         /// <summary>
         /// Fájl mentése.
         /// </summary>
-        /// <param name="path">Elérési útvonal.</param>
+        /// <param name="name">Elérési útvonal.</param>
         /// <param name="OutPut">A fájlba kiírandó játékadatok.</param>
-        public async Task SaveAsync(String path, Tuple<Int32, Int32, Int32, Player, Player[,]> OutPut)
+        public async Task SaveAsync(String name, Tuple<Int32, Int32, Int32, Player, Player[,]> OutPut)
         {
             try
             {
-                using (StreamWriter writer = new StreamWriter(path)) // fájl megnyitása
+                using (StreamWriter writer = new StreamWriter(name)) // fájl megnyitása
                 {
                     //A mentés fájl első sorába rakjuk a pályamérete, a két játékos idejét valamint az éppen soron lévő játékost
                     writer.Write(OutPut.Item1); // kiírjuk a méreteket

@@ -6,7 +6,7 @@ namespace PotyogosAmoba.Persistence
     /// <summary>
     /// Adatbázis kontextus típusa.
     /// </summary>
-    /// <seealso cref="System.Data.Entity.DbContext" />
+    /// <seealso cref="DbContext" />
 	class AmobaContext : DbContext
 	{
 		public AmobaContext(String connection)

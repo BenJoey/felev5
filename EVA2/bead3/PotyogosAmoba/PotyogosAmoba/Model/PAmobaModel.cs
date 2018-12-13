@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 
 namespace PotyogosAmoba.Model
 {
-    //public enum Player { NoPlayer, PlayerX, Player0}
-
     public class PAmobaModel
     {
         #region Fields
@@ -151,7 +149,7 @@ namespace PotyogosAmoba.Model
         /// <summary>
         /// Játék betöltése.
         /// </summary>
-        /// <param name="name">Elérési útvonal.</param>
+        /// <param name="name">Mentés neve.</param>
         public async Task LoadGame(String name)
         {
             if (_dataAccess == null)
@@ -169,7 +167,7 @@ namespace PotyogosAmoba.Model
         /// <summary>
         /// Játék mentése.
         /// </summary>
-        /// <param name="path">Elérési útvonal.</param>
+        /// <param name="name">Mentés neve.</param>
         public async Task SaveGame(String name)
         {
             if (_dataAccess == null)
@@ -179,7 +177,7 @@ namespace PotyogosAmoba.Model
         }
 
         /// <summary>
-        /// Játék mentések lekérése.
+        /// Játék mentéseinek lekérése.
         /// </summary>
         public async Task<ICollection<SaveEntry>> ListGamesAsync()
         {

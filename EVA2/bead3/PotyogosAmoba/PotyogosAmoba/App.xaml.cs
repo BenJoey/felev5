@@ -148,6 +148,8 @@ namespace PotyogosAmoba
         /// <summary>
         /// Játék betöltésének eseménykezelője.
         /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="name">Betöltendő mentés neve</param>
         private async void ViewModel_LoadGameClose(object sender, String name)
         {
             if (name != null)
@@ -186,6 +188,8 @@ namespace PotyogosAmoba
         /// <summary>
         /// Játék mentésének eseménykezelője.
         /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="name">Új mentés neve</param>
         private async void ViewModel_SaveGameClose(object sender, String name)
         {
             if (name != null)

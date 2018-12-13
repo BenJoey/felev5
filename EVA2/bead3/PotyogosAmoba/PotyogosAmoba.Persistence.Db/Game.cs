@@ -22,19 +22,19 @@ namespace PotyogosAmoba.Persistence
 		public Int32 TableSize { get; set; }
 
 	    /// <summary>
-	    /// Házak mérete.
+	    /// Soron lévő játékos
 	    /// </summary>
 		public Player CurrentPlayer { get; set; }
         
         /// <summary>
-	    /// Tábla mérete.
+	    /// X játékos ideje
 	    /// </summary>
 		public Int32 plXTime { get; set; }
-        
+
         /// <summary>
-	    /// Tábla mérete.
-	    /// </summary>
-		public Int32 pl0Time { get; set; }
+        /// 0 játékos ideje
+        /// </summary>
+        public Int32 pl0Time { get; set; }
 
 
         /// <summary>
