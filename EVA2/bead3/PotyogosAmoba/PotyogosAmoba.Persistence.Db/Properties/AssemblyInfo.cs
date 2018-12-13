@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Sudoku.Persistence.Db")]
+[assembly: AssemblyTitle("PotyogosAmoba.Persistence.Db")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Eötvös Loránd University (ELTE)")]
-[assembly: AssemblyProduct("Sudoku.Persistence.Db")]
+[assembly: AssemblyProduct("PotyogosAmoba.Persistence.Db")]
 [assembly: AssemblyCopyright("Copyright © Eötvös Loránd University (ELTE) 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
