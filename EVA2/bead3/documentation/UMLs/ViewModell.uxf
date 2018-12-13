@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>9</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>819</x>
+      <y>54</y>
+      <w>297</w>
+      <h>639</h>
+    </coordinates>
+    <panel_attributes>AmobaViewModel
+--
+- _model :PAmobaModel
+- _selectedgame :SaveEntry
+- _newName :String=String.Empty
+- isPaused :Boolean
+--
++ AmobaViewModel(PAmobaModel)
+- RefreshTable() :void
+- ResetFields() :void
+- StepGame(Int32) :void
+- Model_GameOver(object, AmobaEvent) :void
+- Model_GameAdvanced(object, EventArgs) :void
+- Model_Reset(object, EventArgs) :void
+- OnNewGame() :void
+- OnLoadGameOpen() :void
+- OnLoadGameClose(String) :void
+- OnSaveGameOpen() :void
+- OnSaveGameClose(String) :void
+- OnExitGame() :void
+- OnGamePause() :void
+&lt;&lt;property&gt;&gt;
++ NewGameCommand() :DelegateCommand
++ LoadGameOpenCommand() :DelegateCommand
++ LoadGameCloseCommand() :DelegateCommand
++ SaveGameOpenCommand() :DelegateCommand
++ SaveGameCloseCommand() :DelegateCommand
++ ExitCommand() :DelegateCommand
++ PauseCommand() :DelegateCommand
++ Fields() :ObservableCollection&lt;AmobaField&gt;
++ XTime() :String
++ OTime() :String
++ gameSize() :Int32
++ CurrPlay() :String
++ Games() :ObservableCollection&lt;SaveEntry&gt;
++ SelectedGame() :SaveEntry
++ NewName() :String
+&lt;&lt;event&gt;&gt;
++ NewGame() :EventHandler
++ LoadGameOpen() :EventHandler
++ LoadGameClose() :EventHandler&lt;String&gt;
++ SaveGameOpen() :EventHandler
++ SaveGameClose() :EventHandler&lt;String&gt;
++ ExitGame() :EventHandler
++ GamePause() :EventHandler</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>432</x>
+      <y>234</y>
+      <w>324</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>
+
+/ViewModelBase/
+--
+# ViewModelBase()
+# OnPropertyChanged(String) :void
+&lt;&lt;event&gt;&gt;
++ PropertyChanged() :PropertyChangedEventHandler</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>612</x>
+      <y>234</y>
+      <w>144</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>/INotifyPropertyChanged/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>747</x>
+      <y>270</y>
+      <w>90</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>477</x>
+      <y>405</y>
+      <w>243</w>
+      <h>234</h>
+    </coordinates>
+    <panel_attributes>AmobaField
+--
+- isClickable :Boolean
+- _text :String
+- winField :Boolean
+- _ButtonSize :Int32
+--
+&lt;&lt;property&gt;&gt;
++ ButtonSize() :Int32
++ Clickable() :Boolean
++ isWinField() :Boolean
++ Text() :String
++ X() :Int32
++ Y() :Int32
++ Number() :Int32
++ StepCommand() :DelegateCommand</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>639</x>
+      <y>342</y>
+      <w>27</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>711</x>
+      <y>441</y>
+      <w>126</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>603</x>
+      <y>747</y>
+      <w>369</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>
+
+DelegateCommand
+--
+- _execute :Action&lt;Object&gt; {readOnly}
+- _canExecute :Func&lt;Object, Boolean&gt; {readOnly}
+--
++ DelegateCommand(Action&lt;Object&gt;)
++ DelegateCommand(Func&lt;Object, Boolean&gt;, Action&lt;Object&gt;)
++ CanExecute(Object) :Boolean
++ Execute(Object) :void
++ RaiseCanExecuteChanged() :void
+&lt;&lt;event&gt;&gt;
++ CanExecuteChanged() :EventHandler</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>828</x>
+      <y>747</y>
+      <w>144</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>/ICommand/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>657</x>
+      <y>630</y>
+      <w>27</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>963</x>
+      <y>684</y>
+      <w>81</w>
+      <h>171</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;70.0;170.0;10.0;170.0</additional_attributes>
+  </element>
+</diagram>
