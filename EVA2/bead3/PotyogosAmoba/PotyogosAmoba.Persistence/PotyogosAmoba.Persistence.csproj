@@ -41,9 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AmobaDataAccess.cs" />
+    <Compile Include="IAmobaDataAccess.cs" />
     <Compile Include="AmobaException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaveEntry.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

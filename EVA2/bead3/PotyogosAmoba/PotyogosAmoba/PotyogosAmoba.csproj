@@ -59,6 +59,13 @@
     <Compile Include="ViewModel\AmobaViewModel.cs" />
     <Compile Include="ViewModel\DelegateCommand.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\SaveWindow.xaml.cs">
+      <DependentUpon>SaveWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\LoadWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -67,10 +74,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="View\LoadWindow.xaml.cs">
+      <DependentUpon>LoadWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\SaveWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\AmobaEvent.cs" />
@@ -101,6 +115,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PotyogosAmoba.Persistence.Db\PotyogosAmoba.Persistence.Db.csproj">
+      <Project>{7cea4333-436a-4b18-a99a-3cc2ac8307cd}</Project>
+      <Name>PotyogosAmoba.Persistence.Db</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PotyogosAmoba.Persistence.File\PotyogosAmoba.Persistence.File.csproj">
       <Project>{883a223b-ebd7-49bf-bd14-fa627ef2fcec}</Project>
       <Name>PotyogosAmoba.Persistence.File</Name>

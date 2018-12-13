@@ -1,5 +1,6 @@
 ﻿using System;
 using PotyogosAmoba.Persistence;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PotyogosAmoba.Test
@@ -19,5 +20,10 @@ namespace PotyogosAmoba.Test
         }
 
         public async Task SaveAsync(String path, Tuple<Int32, Int32, Int32, Player, Player[,]> input) { }
+
+        /// <summary>
+	    /// Játékállapot mentések lekérdezése.
+	    /// </summary>
+		public async Task<ICollection<SaveEntry>> ListAsync() { return new List<SaveEntry>(); }
     }
 }

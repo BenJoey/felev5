@@ -170,12 +170,12 @@ namespace PotyogosAmoba.Model
         /// Játék mentése.
         /// </summary>
         /// <param name="path">Elérési útvonal.</param>
-        public async Task SaveGame(String path)
+        public async Task SaveGame(String name)
         {
             if (_dataAccess == null)
                 throw new InvalidOperationException("No data access is provided.");
 
-            await _dataAccess.SaveAsync(path, Tuple.Create(gameSize, playerXTime, player0Time, _currentPlayer, gameTable));
+            await _dataAccess.SaveAsync(name, Tuple.Create(gameSize, playerXTime, player0Time, _currentPlayer, gameTable));
         }
 
         /// <summary>

@@ -5,6 +5,7 @@ using PotyogosAmoba.View;
 using Microsoft.Win32;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -20,6 +21,8 @@ namespace PotyogosAmoba
         private PAmobaModel _model;
         private AmobaViewModel _viewModel;
         private MainWindow _view;
+        private LoadWindow _loadWindow;
+        private SaveWindow _saveWindow;
         private DispatcherTimer _timer;
 
         #endregion
@@ -41,7 +44,11 @@ namespace PotyogosAmoba
         private void App_Startup(object sender, StartupEventArgs e)
         {
             // modell létrehozása
-            _model = new PAmobaModel(new AmobaFileDataAccess());
+            IAmobaDataAccess dataAccess;
+            //dataAccess = new AmobaFileDataAccess(AppDomain.CurrentDomain.BaseDirectory); // fájl alapú mentés
+            dataAccess = new AmobaDbDataAccess("name=AmobaMdoel"); //adatbázis alapú mentés
+
+            _model = new PAmobaModel(dataAccess);
             _model.GameOver += new EventHandler<AmobaEvent>(Model_GameOver);
             _model.NewGame(10);
 
@@ -49,8 +56,10 @@ namespace PotyogosAmoba
             _viewModel = new AmobaViewModel(_model);
             _viewModel.NewGame += new EventHandler<Int32>(ViewModel_NewGame);
             _viewModel.ExitGame += new EventHandler(ViewModel_ExitGame);
-            _viewModel.LoadGameOpen += new EventHandler(ViewModel_LoadGame);
-            _viewModel.SaveGameOpen += new EventHandler(ViewModel_SaveGame);
+            _viewModel.LoadGameOpen += new EventHandler(ViewModel_LoadGameOpen);
+            _viewModel.LoadGameClose += new EventHandler<String>(ViewModel_LoadGameClose);
+            _viewModel.SaveGameOpen += new EventHandler(ViewModel_SaveGameOpen);
+            _viewModel.SaveGameClose += new EventHandler<String>(ViewModel_SaveGameClose);
             _viewModel.GamePause += new EventHandler(ViewModel_GamePause);
 
             // nézet létrehozása
@@ -125,26 +134,35 @@ namespace PotyogosAmoba
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ViewModel_LoadGame(Object sender, EventArgs e)
+        private void ViewModel_LoadGameOpen(Object sender, EventArgs e)
         {
             _timer.Stop();
-            try
+            _viewModel.SelectedGame = null; // kezdetben nincsen kiválasztott elem
+
+            _loadWindow = new LoadWindow(); // létrehozzuk a játék állapot betöltő ablakot
+            _loadWindow.DataContext = _viewModel;
+            _loadWindow.ShowDialog(); // megjelenítjük dialógusként
+            _timer.Start();
+        }
+
+        /// <summary>
+        /// Játék betöltésének eseménykezelője.
+        /// </summary>
+        private async void ViewModel_LoadGameClose(object sender, String name)
+        {
+            if (name != null)
             {
-                OpenFileDialog _openFileDialog = new OpenFileDialog(); // dialógusablak
-                _openFileDialog.Title = "Amőba játék betöltése";
-                _openFileDialog.Filter = "Amőba Save File|*.sav";
-                if (_openFileDialog.ShowDialog() == true)
+                try
                 {
-                    await _model.LoadGame(_openFileDialog.FileName);
+                    await _model.LoadGame(name);
+                }
+                catch
+                {
+                    MessageBox.Show("Játék betöltése sikertelen!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            catch (AmobaDataException)
-            {
-                MessageBox.Show("A fájl betöltése sikertelen!", "PotyogosAmoba", MessageBoxButton.OK, MessageBoxImage.Error);
 
-                _model.NewGame(10);
-            }
-            _timer.Start();
+            _loadWindow.Close(); // játékállapot betöltőtő ablak bezárása
         }
 
         /// <summary>
@@ -152,32 +170,44 @@ namespace PotyogosAmoba
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ViewModel_SaveGame(Object sender, EventArgs e)
+        private void ViewModel_SaveGameOpen(Object sender, EventArgs e)
         {
             _timer.Stop();
-            try
+            _viewModel.SelectedGame = null; // kezdetben nincsen kiválasztott elem
+            _viewModel.NewName = String.Empty;
+
+            _saveWindow = new SaveWindow(); // létrehozzuk a játék állapot mentő ablakot
+            _saveWindow.DataContext = _viewModel;
+            _saveWindow.ShowDialog(); // megjelenítjük dialógusként
+
+            _timer.Start();
+        }
+
+        /// <summary>
+        /// Játék mentésének eseménykezelője.
+        /// </summary>
+        private async void ViewModel_SaveGameClose(object sender, String name)
+        {
+            if (name != null)
             {
-                SaveFileDialog _saveFileDialog = new SaveFileDialog();
-                _saveFileDialog.Title = "Amőba játék mentése";
-                _saveFileDialog.Filter = "Amőba Save File|*.sav";
-                if (_saveFileDialog.ShowDialog() == true)
+                try
                 {
-                    try
+                    // felülírás ellenőrzése
+                    var games = await _model.ListGamesAsync();
+                    if (games.All(g => g.Name != name) ||
+                        MessageBox.Show("Biztos, hogy felülírja a meglévő mentést?", "PotyogosAmoba",
+                            MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                     {
-                        // játéktábla mentése
-                        await _model.SaveGame(_saveFileDialog.FileName);
-                    }
-                    catch (AmobaDataException)
-                    {
-                        MessageBox.Show("Játék mentése sikertelen!" + Environment.NewLine + "Hibás az elérési út, vagy a könyvtár nem írható.", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        await _model.SaveGame(name);
                     }
                 }
+                catch
+                {
+                    MessageBox.Show("Játék mentése sikertelen!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            catch (AmobaDataException)
-            {
-                MessageBox.Show("A fájl mentése sikertelen!", "PotyogosAmoba", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            _timer.Start();
+
+            _saveWindow.Close(); // játékállapot mentő ablak bezárása
         }
 
         /// <summary>

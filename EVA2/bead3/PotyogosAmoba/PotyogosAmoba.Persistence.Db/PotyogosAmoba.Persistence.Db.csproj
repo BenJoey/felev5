@@ -49,19 +49,19 @@
   <ItemGroup>
     <Compile Include="Field.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SudokuContext.cs" />
-    <Compile Include="SudokuDbDataAccess.cs" />
+    <Compile Include="AmobaContext.cs" />
+    <Compile Include="AmobaDbDataAccess.cs" />
     <Compile Include="Game.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Sudoku.Persistence\Sudoku.Persistence.csproj">
-      <Project>{d3c03c6f-426d-435d-a788-a6d364398c13}</Project>
-      <Name>Sudoku.Persistence</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PotyogosAmoba.Persistence\PotyogosAmoba.Persistence.csproj">
+      <Project>{ec25a9ca-8555-48cb-9080-63077030d55f}</Project>
+      <Name>PotyogosAmoba.Persistence</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
