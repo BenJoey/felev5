@@ -46,7 +46,7 @@ namespace PotyogosAmoba
             // modell létrehozása
             IAmobaDataAccess dataAccess;
             //dataAccess = new AmobaFileDataAccess(AppDomain.CurrentDomain.BaseDirectory); // fájl alapú mentés
-            dataAccess = new AmobaDbDataAccess("name=AmobaMdoel"); //adatbázis alapú mentés
+            dataAccess = new AmobaDbDataAccess("name=AmobaModel"); //adatbázis alapú mentés
 
             _model = new PAmobaModel(dataAccess);
             _model.GameOver += new EventHandler<AmobaEvent>(Model_GameOver);
