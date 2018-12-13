@@ -11,13 +11,25 @@ namespace PotyogosAmoba.Persistence
     /// </summary>
     public class AmobaFileDataAccess : IAmobaDataAccess
     {
+        private String _saveDirectory;
+
+        /// <summary>
+        /// Konstruktor.
+        /// </summary>
+        /// <param name="saveDirectory">Mentések útvonala.</param>
+        public AmobaFileDataAccess(String saveDirectory)
+        {
+            _saveDirectory = saveDirectory;
+        }
+
         /// <summary>
         /// Fájl betöltése.
         /// </summary>
         /// <param name="path">Elérési útvonal.</param>
         /// <returns>A fájlból beolvasott játékadatok.</returns>
-        public async Task<Tuple<Int32, Int32, Int32, Player, Player[,]>> LoadAsync(String path)
+        public async Task<Tuple<Int32, Int32, Int32, Player, Player[,]>> LoadAsync(String name)
         {
+            String path = Path.Combine(_saveDirectory, name + ".sav"); // útvonal előállítása
             try
             {
                 using (StreamReader reader = new StreamReader(path))
@@ -73,6 +85,27 @@ namespace PotyogosAmoba.Persistence
                         await writer.WriteLineAsync();
                     }
                 }
+            }
+            catch
+            {
+                throw new AmobaDataException();
+            }
+        }
+
+        /// <summary>
+	    /// Játékállapot mentések lekérdezése.
+	    /// </summary>
+		public async Task<ICollection<SaveEntry>> ListAsync()
+        {
+            try
+            {
+                return Directory.GetFiles(_saveDirectory, "*.sav")
+                    .Select(path => new SaveEntry
+                    {
+                        Name = Path.GetFileNameWithoutExtension(path),
+                        Time = File.GetCreationTime(path)
+                    })
+                    .ToList();
             }
             catch
             {

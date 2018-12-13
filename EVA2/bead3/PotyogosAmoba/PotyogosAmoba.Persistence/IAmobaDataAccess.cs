@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public enum Player { NoPlayer, PlayerX, Player0 }
@@ -20,5 +21,10 @@ namespace PotyogosAmoba.Persistence
         /// <param name="path">Elérési útvonal.</param>
         /// <param name="input">A fájlba kiírandó játékadatok.</param>
         Task SaveAsync(String path, Tuple<Int32, Int32, Int32, Player, Player[,]> input);
+
+        /// <summary>
+        /// Játékállapot mentések lekérdezése.
+        /// </summary>
+	    Task<ICollection<SaveEntry>> ListAsync();
     }
 }
