@@ -23,29 +23,44 @@
 {\footnotesize Külön köszönet \textsc{Korponai Károlynak} a jegyzetekért.}
 
 \begin{enumerate}
+	%% 1.
 	\item\textbf{KÉP és Lineáris DER}\br
 	Az $x'+f\cdot x=g,\quad x(\tau)=\xi$ KÉP globálisan egyértelműen megoldható lineáris\br
 	differenciálegyenlet rendszer.
+	
+	%% 2.
 	\item\textbf{Lineáris differenciálegyenlet rendszer}\br
 	$I\subset\R$ nyílt intervallum, $A:I\rightarrow\R^{n\times n}$ folytonos és korlátos,
 	azaz $A(t)=[a_{i,j}(t)]\quad i,j=1,...,n$\br
 	és $a_{i,j}$ folytonos és korlátos, továbbá $b:I\rightarrow\R^n$ folytonos és korlátos.\br
 	Ekkor az $x'=A\cdot x+b$ feladatot linerás DER-nek nevezzük.
+	
+	%% 3.
 	\item\textbf{KÉP globálisan egyértelműen megoldhatósága}\br
 	Az $x'=A\cdot x+b, x(\tau)=\xi$ KÉP globálisan egyértelműen megoldható
 	$\forall(\tau, \xi)$ esetén.
+	
+	%% 4.
 	\item\textbf{Homogén-inhomogén megoldás jelölése}\br
 	Jelölje $M_h$ az $x'=A\cdot x$ homogén DER összes teljes megoldását\br
-	jelölje $M_{ih}$ az $x'=A_i\cdot x+b$ inhomogén DER összes teljes megoldását
+	jelölje $M_{ih}$ az $x'=A_i\cdot x+b$ inhomogén DER összes teljes megoldását.
+	
+	%% 5.
 	\item\textbf{Homogén megoldás dimenziója}\br
 	Tekintsük az $x'=A\cdot x$ lineáris DER-t.\br
 	Ekkor $M_h\subset C^1(I, \R^n)=\{\varphi:I\rightarrow\R^n,\varphi\in C^1\}$ altér és
 	$dim(M_h)=n$
+	
+	%% 6.
 	\item\textbf{Homogén megoldás bázisa}\br
 	Az $M_h$ egy bázisát a DER alaprendszerének nevezzük.
+	
+	%% 7.
 	\item\textbf{Alapmátrix definíciója}\br
 	Ha $\varphi^{(1)},...,\varphi^{(n)}$ alaprendszer, akkor $\Phi=
 	(\varphi^{(1)},...,\varphi^{(n)})$ alapmátrix.
+	
+	%% 8.
 	\item\textbf{Alapmátrix és megoldhatóság kapcsolata}\br
 	Ha $\Phi\text{ az }x'=A\cdot x$ alapmátrixa, akkor $M_h=\{\Phi\cdot c : c\in\R^n\}$,
 	azaz $\forall$megoldás felírható\br
@@ -53,13 +68,19 @@
 	\begin{bmatrix}
 	c_1 \\ . \\ . \\ c_n
 	\end{bmatrix}$
+	
+	%% 9.
 	\item\textbf{Alaprendszer tétel}\br
 	Tekintsük az $x'=A\cdot x$ lin DER-t. Tfh. $A$ állandó mátrix és $A$-nak $\exists$ $n$
 	db lineárisan független saját vektora $s_1,...,s_n$, a hozzájuk tartozó
 	$\lambda_1,...,\lambda_n$ sajátértékekkel.\br
 	Ekkor $\varphi^{(i)}_{(t)}=s_i\cdot e^{\lambda_i\cdot t}\quad i=1,..,n$ egy alaprendszer.
+	
+	%% 10.
 	\item\textbf{Homogén és inhomogén megoldás kapcsolata}\br
 	Ha $\psi_0\in M_{ih}$, akkor $M_{ih}=\{\psi_0+M_h\}=\{\psi_0+\varphi:\varphi\in M_h\}$
+	
+	%% 11.
 	\item\textbf{Inhomogén megoldás felírása}
 	\begin{itemize}
 		\item Az $x'=A\cdot x+b$ összes megoldása: $\psi(t)=\Phi(t)\cdot c+\Phi(t)\cdot
@@ -69,49 +90,79 @@
 		\Phi(s)^{-1}b(s)ds$
 	\end{itemize}
 	\newpage
+	
+	%% 12.
 	\item\textbf{n-edrendű DE}\br
 	$D\subset\R^{n+1}$ tartomány, $h:D\rightarrow\R$ folytonos függvény.\br
 	Az $y^{(n)}(t)=h(t,y(t),y'(t),..,y^{(n-1)}(t))$ feladatot n-edrendű DE-nek nevezzük, ahol\br
 	$y:I\rightarrow\R,y\in C^n,I\subset\R$ nyílt intervallum.
+	
+	%% 13.
 	\item\textbf{Átviteli elv (n-edrendű DE-re)}\br
 	$\varphi$ kielégíti az $y^{(n)}=h\circ(id,y,...,y^{(n-1)})$ DE-t $\Leftrightarrow\psi$
 	kielégíti az $x'=f\circ(id,x)$ DER-t.
+	
+	%% 14.
 	\item\textbf{Magasabb rendű KÉP}\br
 	Az $y^{(n)}=h\circ(id,y,...,y^{(n-1)}), y(t)=\xi_1,...,y^{(n-1)}(t)=\xi_n$
 	feladatot KÉP-nek nevezzük.
+	
+	%% 15.
 	\item\textbf{Peano és Picard-Lindelöf tételek n-edrendű DER-en}\br
 	A DER-re tanult Peano és Picard-Lindelöf tételek most is igazak.
+	
+	%% 16.
 	\item\textbf{n-edrendű lineáris DE}\br
 	$a_0,...,a_{n-1}, b:I\rightarrow\R$ folytonos függvény, $I\subset\R$ nyílt.\br
 	Az $y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_1\cdot y'+a_0\cdot y=b$ feladatot
 	n-edrendű lineráis DE-nek nevezzük.
+	
+	%% 17.
 	\item\textbf{Átviteli elv (n-edrendű lineáris DE-re)}\br
 	$\varphi$ kielégíti az $y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_1\cdot y'+a_0\cdot y=b$
 	lin. DE-t $\Leftrightarrow\psi$ kielégíti az\br$x'=A\cdot x+\bar{b}$ lin. DER-t.
+	
+	%% 18.
 	\item\textbf{Homogén, inhomogén n-edrendű lineáris DE definíciója}\br
 	$y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_1\cdot y'+a_0\cdot y = b$ lineáris DE
 	homogén, ha $b=0$, inhomogén különben.
+	
+	%% 19.
 	\item\textbf{n-edrendű lineáris DE folytonossága és dimenziója}\br
 	Tekintsük: $y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_0\cdot y=0$
 	homogén DE-t.\br Ekkor $M_h\subset C^n (I, \R)$ altér és $\dim M_h=n$
+	
+	%% 20.
 	\item\textbf{Inhomogén megoldás felírása homogén megoldással}\br
 	Ha $\psi_0\in M_{ih}$, akkor $M_{ih}=\psi_0+M_h$
+	
+	%% 21.
 	\item\textbf{DE karakterisztikus polinomja}\br
 	A DE karakterisztikus polinomja: $K(z)=z^n+a_{n-1}\cdot z^{n-1}+...+a_1
 	\cdot z+a_0$
+	
+	%% 22.
 	\item\textbf{Homogén megoldás és karakterisztikus polinom kapcsolata}\br
 	$\varphi(t)=e^{\lambda\cdot t}\in M_h \Leftrightarrow\lambda$ gyöke K-nak
+	
+	%% 23.
 	\item\textbf{DE karakterisztikus polinomjának alaprendszere}\br
 	Ha K-nak $\exists n$ db különböző $\lambda_1, ... , \lambda_n$ gyöke, akkor
 	$\varphi_{j}(t)=e^{\lambda_j\cdot t},j=1,...,n$ alaprendszer.
+	
+	%% 24.
 	\item\textbf{Alaprendszer}\br
 	Tfh. $K(z)=(z-\lambda_1)^{m_1}\cdot...\cdot(z-\lambda_r)^{m_r},\lambda_1,
 	... ,\lambda_r$ különböző gyök, $m_1 + ... + m_r = n$.\br Ekkor
 	$\varphi_{i,j}(t)=e^{\lambda_j\cdot t}\cdot t^i,j=1,..,r,i=0,..,m-1$
 	alaprendszer.
+	
+	%% 25.
 	\item\textbf{Inhomogén megoldás}\br
 	Ha $c(t)$ kielégíti a $\Phi(t)\cdot c'(t) = \bar{b}(t)$ egyenletet, akkor
 	$c_1(t)\cdot\varphi_1(t)+...+c_n(t)\cdot\varphi_n(t)\in M_{ih}$
+	
+	%% 26.
 	\item\textbf{Inhomogén komplex megoldás}\br
 	Tekintsük az $y^{(n)}+a_{n-1}\cdot y^{(n-1)}+...+a_0\cdot y=b$ inhomogén
 	DE-t.\br Legyen $\alpha,\beta,A,B,C,D\in\R$ és $\alpha+\beta i$ k-szoros
@@ -121,35 +172,49 @@
 	\cdot(C\cdot\cos(\beta\cdot t)+D\cdot\sin(\beta\cdot t))\in M_{ih}$,
 	\br ahol P és Q polinomok és Q foka $\leq$ P foka.
 	\newpage
+	
+	%% 27.
 	\item\textbf{Függvénysorozat, függvénysor definíciója}
 	\begin{itemize}
 		\item Az $(f_n)$ sorozatot függvénysorozatnak nevezzük.
 		\item$\sum f_n$-t függvénysornak nevezzük, ahol $\sum f_n=
 		(\sum\limits_{k=0}^n f_k, n\in\N)$
 	\end{itemize}
+
+	%% 28.
 	\item\textbf{Függvénysorozat konvergenciahalmaza, határértéke, függvénysor összege}\br
 	$KH(f_n)=\{x\in A:f_n(x)\text{ konvergens}\}\br
 	KH(\sum f_n)=\{x\in A:\sum f_n(x)\text{ konvergens}\}\br
 	\lim fn:KH(f_n)\rightarrow\R,x\mapsto lim f_n(x)\br
 	\sum\limits_{n=0}^\infty f_n:KH(\sum f_n)\rightarrow\R,x\mapsto
 	\sum\limits_{n=0}^\infty f_n(x)$
+	
+	%% 29.
 	\item\textbf{Függvénysorozat egyenletes konvergenciájának definíciója}\br
 	Az $(f_n)$ függvénysorozat egyenletesen konvergens, ha\br$\exists f:A\rightarrow
 	\R,\forall\varepsilon>0,\exists n_0\in\N,\forall n\geq n_0,\forall x\in A:
 	\abs{f_n(x) - f(x)}< \varepsilon$\br
 	Jele: $f_n \egorbenyil f$
+	
+	%% 30.
 	\item\textbf{$(f_n)$ egyenletes konvergenciája és $f_n,f$ kapcsolata}\br
 	$f_n\egorbenyil f
 	\Rightarrow f_n\rightarrow f$ pontonként.
+	
+	%% 31.
 	\item\textbf{Egyenletes konvergencia szükséges feltétele}\br
 	$f_n$ egyenletesen konvergens $\Leftrightarrow\forall\varepsilon>0,
 	\exists n_0\in\N,\forall n,m\geq n_0,\forall x\in A:\abs{f_n(x) - f_m(x)}< \varepsilon$
+	
+	%% 32.
 	\item\textbf{Függvénysorozat határértékének folytonossága}\br
 	Ha \begin{itemize}
 		\item $f_n\in C(A)$
 		\item $(f_n)$ egyenletesen konvergens
 	\end{itemize}
 	akkor $\lim f_n\in C(A)$
+	
+	%% 33.
 	\item\textbf{Weistras-tétel}\br
 	Tekintsük a $\sum f_n$ függvénysort és a $\sum a_n$ számsort. Tfh:
 	\begin{itemize}
@@ -157,6 +222,8 @@
 		\item $\sum a_n$ sor konvergens
 	\end{itemize}
 	Ekkor $\sum f_n$ egyenletesen konvergens.
+	
+	%% 34.
 	\item\textbf{Egyenletesen konvergens függvény integráltja}\br
 	Tfh: \begin{itemize}
 		\item $f_n:[a,b]\rightarrow\R,f_n\in R[a,b],n\in\N$
@@ -165,6 +232,8 @@
 	Ekkor $f=\lim f_n\in R[a,b]$ és $\int\limits_a^b f=\lim\limits_{_n->\infty}
 	\int\limits_a^b f_n$
 	\newpage
+	
+	%% 35.
 	\item\textbf{Függvénysor Reimann integrálhatósága}\br
 	Tfh: \begin{itemize}
 		\item $f_n:[a,b]\rightarrow\R,f_n\in R[a,b],n\in\N$
@@ -172,6 +241,8 @@
 	\end{itemize}
 	Ekkor $f=\sum\limits_{n=0}^\infty f_n\in R[a,b]$ és $\int\limits_a^b f=
 	\sum\limits_{n=0}^\infty\int\limits_a^b f_n$
+	
+	%% 36.
 	\item\textbf{Deriválható függvénysorozat egyenletes konvergenciája}\br
 	Tfh: \begin{itemize}
 		\item $f_n(a,b)\rightarrow\R,f_n\in D(a,b), n\in\N$
@@ -183,54 +254,129 @@
 		\item $f=\lim f_n\in D(a,b)$
 		\item $f'=\lim f_n'$
 	\end{itemize}
+
+	%% 37.
 	\item\textbf{Trigonometrikus polinom és sor definíciója}\br
 	A $\sum\limits_{k=0}^n a_k\cdot cos(k\cdot x)+b_k\cdot sin(k\cdot x)$
 	függvényt trigonometrikus polinomnak,\br a $\sum\limits_{k=0} a_k\cdot
 	cos(k\cdot x)+b_k\cdot sin(k\cdot x)$ sort trigonometrikus sornak nevezzük.
-	\item\textbf{$R_{2\cdot\pi}\text{ és }C_{2\cdot\pi}$}\br
-	$R_{2\cdot\pi}=\{f:\R->\R,f\quad 2\cdot\pi\text{ szerint periódikus és}f\in R[0,2\cdot\pi] \}\br
-	C_{2\cdot\pi}=\{f:\R->\R,f\quad 2\cdot\pi\text{ szerint periódikus},f\in C\}$
+	
+	%% 38.
+	\item\textbf{$R_{2\pi}\text{ és }C_{2\pi}$}\br
+	$R_{2\pi}=\{f:\R->\R,f\quad 2\cdot\pi\text{ szerint periódikus és }f\in R[0,2\cdot\pi] \}\br
+	C_{2\pi}=\{f:\R->\R,f\quad 2\cdot\pi\text{ szerint periódikus és }f\in C\}$
+	
+	%% 39.
 	\item\textbf{Ortogonláis definíciója}\br
-	$f,g\in\R_{2\cdot\pi}$ ortogonális (merőleges), ha $\int\limits_0^{2\cdot\pi}f\cdot g=0$
+	$f,g\in\R_{2\pi}$ ortogonális (merőleges), ha $\int\limits_0^{2\pi}f\cdot g=0$
+	
+	%% 40.
 	\item\textbf{Redundáns ortogonális definíciója}\br
 	A $\{\varphi_n , n\in\N \}$ redundáns ortogonális, ha 
-	$\int\limits_0^{2\cdot\pi}\varphi_n\cdot\varphi_m=
+	$\int\limits_0^{2\pi}\varphi_n\cdot\varphi_m=
 	\left\{
 	\begin{gathered}
 	\quad 0\quad:\quad n\neq m\hspace{5.7cm} \\
 	\quad \neq0\quad:\quad n=m\hspace{5.7cm}
 	\end{gathered}\right.$
+	
+	%% 41.
 	\item\textbf{Ortonormált definíciója}\br
 	A $\{\varphi_n , n\in\N\}\subset R_{2\cdot\pi}$ ortonormált, ha 
-	$\int\limits_0^{2\cdot\pi}\varphi_n\cdot\varphi_m=
+	$\int\limits_0^{2\pi}\varphi_n\cdot\varphi_m=
 	\left\{
 	\begin{gathered}
 	\quad 0\quad:\quad n\neq m\hspace{5.7cm} \\
 	\quad 1\quad:\quad n=m\hspace{5.7cm}
 	\end{gathered}\right.$
+	
+	%% 42.
 	\item\textbf{Trigonometrikus rendszer definíciója}\br
 	Az $\{ 1, \cos x, \sin x, \cos 2x, \sin 2x, ... \}$ rendszer ortogonális.\br
 	Ezt trigonometrikus rendszernek nevezzük.
+	
+	%% 43.
 	\item\textbf{Teljes trigonometrikus rendszer}\br
-	A trigonometrikus rendszer teljes a $C_{2\cdot\pi}$-n, azaz ha\br$h\in
-	C_{2\cdot\pi}$ és $\int\limits_0^{2\cdot\pi}h(x)\cdot\cos(kx)dx=
-	\int\limits_0^{2\cdot\pi}h(x)\cdot\sin(kx)dx=0\quad\forall k\in\N,\quad
+	A trigonometrikus rendszer teljes a $C_{2\pi}$-n, azaz ha\br$h\in
+	C_{2\pi}$ és $\int\limits_0^{2\pi}h(x)\cdot\cos(kx)dx=
+	\int\limits_0^{2\pi}h(x)\cdot\sin(kx)dx=0\quad\forall k\in\N,\quad
 	\text{akkor }h=0$
+	
+	%% 44.
 	\item\textbf{Fourier-sor felírása}\br
 	Ha a $\sum\limits_{k=0} a_k\cdot\cos(k\cdot x)+b_k\cdot\sin(k\cdot x)$ sor
 	egyenletesen konvergens, és\br$f(x)=\sum\limits_{k=0}^\infty
 	a_k\cdot\cos(k\cdot x)+b_k\cdot\sin(k\cdot x)$,\br akkor
-	$a_0=\frac{1}{2\cdot\pi}\cdot\int\limits_0^{2\cdot\pi}f\cdot1,\quad
-	a_k=\frac{1}{\pi}\int\limits_0^{2\cdot\pi}
-	f(x)\cdot\cos(k\cdot x)dx\text{ és}\br b_k=\frac{1}{\pi}\cdot\int\limits_0^{2\cdot\pi}
+	$a_0=\frac{1}{2\pi}\cdot\int\limits_0^{2\pi}f\cdot1,\quad
+	a_k=\frac{1}{\pi}\int\limits_0^{2\pi}
+	f(x)\cdot\cos(k\cdot x)dx\text{ és}\br b_k=\frac{1}{\pi}\cdot\int\limits_0^{2\pi}
 	f(x)\cdot\sin(k\cdot x)dx,\quad k\geq1$
+	
+	%% 45.
 	\item\textbf{Fourier-együtthatók és Fourier-sor definíciója}\br
-	Ha $f\in R_{2\cdot\pi}$, akkor az $a_0=\frac{1}{2\cdot\pi}\int f,\quad a_k=
-	\frac{1}{\pi}\int\limits_0^{2\cdot\pi}f(x)\cdot\cos(k\cdot x)dx,\quad b_k:=
-	\frac{1}{\pi}\int\limits_0^{2\cdot\pi}f(x)\cdot\sin(k\cdot x)dx,\br(k\geq1)$
+	Ha $f\in R_{2\pi}$, akkor az $a_0=\frac{1}{2\pi}\int f,\quad a_k=
+	\frac{1}{\pi}\int\limits_0^{2\pi}f(x)\cdot\cos(k\cdot x)dx,\quad b_k:=
+	\frac{1}{\pi}\int\limits_0^{2\pi}f(x)\cdot\sin(k\cdot x)dx,\br(k\geq1)$
 	számokat $f$ Fourier-együtthatóinak nevezzük.\br A $\sum\limits_{k=0}a_k
 	\cos(k\cdot x)+b_k\cdot\sin(k\cdot x)$ sort $f$ Fourier-soraként nevezzük.
+	
+	%% 46.
 	\item\textbf{Fejér tétel}\br
-	$\exists f\in C_{2\cdot \pi}$, hogy $f$ Fourier-sora divergál egy adott pontban.
+	$\exists f\in C_{2\pi}$, hogy $f$ Fourier-sora divergál egy adott pontban.
+	
+	%% 47.
+	\item\textbf{Fourier-sor egyenletes konvergenciája}\br
+	Ha az $f\in C_{2\pi}$ függvény Fourier-sora egyenletesen konvergens, akkor\br$f(x)=\lim S_n
+	f(x)$, ahol $S_n f(x)=\sum\limits_{k=0}^{n}a_k\cdot\cos(k\cdot x)+b_k\cdot\sin(k\cdot x)$
+	
+	%% 48.
+	\item\textbf{f deriváltja periódikus folytonosságának egyenletes konvergenciája}\br
+	Ha $f\in C_{2\pi}^2$, akkor f Fourier-sora egyenletesen konvergens és $f(x)=\lim S_nf(x)$ egyenletes.
+	
+	%% 49.
+	\item\textbf{f szakaszonkénti folytonossága}\br
+	f szakaszonként folytonos, ha $\exists 0=t_0<t_1<...<t_n=2\pi$, hogy
+	$f|_{(t_{i-1}, t_i)}$ folytonos, $\forall i=1,..,n$ és $\exists f(x+0)\text{ és }f(x-0)
+	\quad\forall x\in[0,2\pi]$
+	
+	%% 50.
+	\item\textbf{f határértéke a bal és jobb határértékek függvényében}\br
+	Tfh: \begin{itemize}
+		\item f $2\pi$ szerint periódikus
+		\item f szakaszonként folytonos
+		\item $\exists f'$ egy adott $x\in[0,2\pi]$-ben, $\exists f'(x+0)=\lim\limits_{t->x+0}
+		\frac{f(t)-f(x+0)}{t-x}$\br és $\exists f'(x-0)=\lim\limits_{t->x-0}
+		\frac{f(t)-f(x-0)}{t-x}$
+	\end{itemize}
+	Ekkor $lim S_n f(x)=\frac{f(x+0) + f(x-0)}{2}$
+	
+	%% 51.
+	\item\textbf{Carleson tétel}\br
+	Ha $f\in R_{2\pi}$, akkor $lim S_nf(x)=f(x)$ majdnem minden x-re.
+	
+	%% 52.
+	\item\textbf{Bessel-egyenlőség}\br
+	Ha $f\in R_{2\pi}$, akkor $\min\{||f(x)-\sum\limits_{k=0}^{n} (a'_k\cdot\cos(k\cdot x)+
+	b'_k\cdot\sin(k\cdot x))||_2 : a'_k, b'_k\in\R \} =\br= ||f(x)-\sum\limits_{k=0}^{n}
+	(a_k\cdot\cos(k\cdot x)+b_k\cdot\sin(k\cdot x))||_2$
+	\newpage
+	
+	%% 53.
+	\item\textbf{$||\quad||_2$ definíciója}\br
+	$||f||_2 = \sqrt{(\int\limits_0^{2\pi} |f|^2)}$%^{\frac{1}{2}}$
+	
+	%% 54.
+	\item\textbf{Bessel-egyenlőtlenség}\br
+	Ha $f\in R_{2\pi}$, akkor $\int |f|^2\geq2\pi\cdot a_0^2+\pi\cdot
+	\sum\limits_{k=1}^{\infty}(a_k^2+b_k^2)$
+	
+	%% 55.
+	\item\textbf{Parsenal-egyenlőség}\br
+	Ha $f\in R_{2\pi}$, akkor $\int\limits_0^{2\pi}|f|^2=2\pi\cdot a_0^2+\pi\cdot
+	\sum\limits_{k=1}^{\infty}(a_k^2 + b_k^2)$
+	
+	%% 56.
+	\item\textbf{f határértéke ha f periódikusan integrálható}\br
+	Ha $f\in R_{2\pi}$, akkor $\lim||S_n f - f||_2=0$
 \end{enumerate}
 \end{document}
