@@ -48,7 +48,7 @@ mafioso(Pw) ->
             io:format("I'm running away ~p~n", [Pid]),
             exit(normal);
         'come_in' ->
-            io:format("I'm in the warehaouse ~p~n", [Pid])
+            io:format("I'm in the warehouse ~p~n", [Pid])
     end,
     receive
         run ->
@@ -75,6 +75,6 @@ agent() ->
                                 io:format("I arrested ~p~n", [L])
                         after
                             3000 ->
-                                io:format("~p run away ~n", [L])
+                                io:format("~p ran away ~n", [L])
                         end
               end, BadGuys).
